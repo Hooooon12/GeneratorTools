@@ -1,5 +1,5 @@
 (run){
-  OL_PREFIX=/cvmfs/cms.cern.ch/slc7_amd64_gcc700/external/openloops/2.0.0
+OL_PREFIX=/data4/Users/hsseo/GeneratorTools/OpenLoops-2.1.0
   % general setting
 
   % scales, tags for scale variations
