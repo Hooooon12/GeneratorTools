@@ -19,4 +19,4 @@ define mu = mu+ mu-
 import model SM_HeavyN_NLO
 generate p a > n1 mu j [QCD]
 add process a p > n1 mu j [QCD]
-output HeavyMajoranaNeutrino_SSDiLepton_Tchannel_NLO_ptcut10_MuMu_M1000 --nojpeg
+output HeavyMajoranaNeutrino_SSDiLepton_Tchannel_NLO_ptl10_ptj30_MuMu_M1000 --nojpeg
