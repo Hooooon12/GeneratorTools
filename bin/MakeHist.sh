@@ -45,7 +45,7 @@ do
     echo 'echo -e ".L '$ROOTSCRIPT'+\n loop(\"'$REALPATH'\",\"'$DIRNAME'/hists.root\");\n .q"|root -l -b' >>$SCRIPT
     chmod +x $SCRIPT
     
-    if [[ $GENERATORTOOLS_USECONDOR ]]
+    if [[ $GENERATORTOOLS_USECONDOR = 1 ]] #JH
     then
 	condor_submit -batch-name $SCRIPT <<EOF > /dev/null
 executable = $SCRIPT
@@ -66,10 +66,12 @@ echo ""
 echo -n "Waiting jobs"
 for WAITTARGET in "${WAITLIST[@]}"
 do 
-    if [[ $GENERATORTOOLS_USECONDOR ]]
+    if [[ $GENERATORTOOLS_USECONDOR = 1 ]] #JH
     then
 	condor_wait $WAITTARGET >/dev/null
     else
+    echo $WAITTARGET
+    echo ${WAITLIST[@]}
 	wait ${WAITLIST[@]}
     fi
     echo -n '.'
