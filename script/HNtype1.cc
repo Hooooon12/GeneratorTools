@@ -210,8 +210,8 @@ void loop(TString infile,TString outfile){
       //FillHist("WW_pt",vec_WW.Pt(),weights[0],50,0,100);
       //FillHist("WW_rap",vec_WW.Rapidity(),weights[0],50,-5,5);
 
-      FillHist("hard_W_m",vec_hard_W.M(),1,50,50,100);
-      FillHist("last_W_m",vec_last_W.M(),1,50,50,100);
+      FillHist("hard_W_m",vec_hard_W.M(),1,70,50,120);
+      FillHist("last_W_m",vec_last_W.M(),1,70,50,120);
       FillHist("hard_HN_m",vec_hard_HN.M(),1,20,990,1010);
       FillHist("last_HN_m",vec_last_HN.M(),1,20,990,1010);
 
@@ -230,8 +230,8 @@ void loop(TString infile,TString outfile){
       //FillHist("IsSameCharge",IsSameCharge,1,3,-1,2);
 
       FillHist("nlep",leptons.size(),1,5,0,5);
-      FillHist("njet",jets.size(),1,20,0,20);
-      FillHist("nfatjet",fatjets.size(),1,20,0,20);
+      FillHist("njet",jets.size(),1,50,0,50);
+      FillHist("nfatjet",fatjets.size(),1,50,0,50);
 
       //for(int i=0; i<leptons.size(); i++){
       //  FillHist("lepton_pt",leptons.at(i)->pt(),1,1000,0,1000);
