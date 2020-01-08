@@ -23,8 +23,8 @@ echo "TEMPLATE=$TEMPLATE"
 
 if [ "$GENERATOR" = MG ]
 then
-    [ -e $GENERATORTOOLS_BASE/$GENERATOR/Card/$TARGET_PROCESSNAME ] && { echo WARNING::Be aware, target process card already exist!!; }
-    [ -e $GENERATORTOOLS_BASE/$GENERATOR/Gridpack/$TARGET_PROCESSNAME ] && { echo WARNING::Be aware, target process gridpack already exist!!; }
+    [ -e $GENERATORTOOLS_BASE/$GENERATOR/Card/$TARGET_PROCESSNAME ] && { echo target process card already exist; echo removing...; rm -r $GENERATORTOOLS_BASE/$GENERATOR/Card/$TARGET_PROCESSNAME; }
+    [ -e $GENERATORTOOLS_BASE/$GENERATOR/Gridpack/$TARGET_PROCESSNAME ] && { echo target process gridpack already exist; echo removing...; rm -r $GENERATORTOOLS_BASE/$GENERATOR/Gridpack/$TARGET_PROCESSNAME; }
     #[ -e $GENERATORTOOLS_BASE/$GENERATOR/Card/$TARGET_PROCESSNAME ] && { echo target process card already exist; exit 1; }
     #[ -e $GENERATORTOOLS_BASE/$GENERATOR/Gridpack/$TARGET_PROCESSNAME ] && { echo target process gridpack already exist; exit 1; }
     echo "Copying Card"
