@@ -2,7 +2,7 @@ import os
 
 ptcuts = ["ptcut5","ptcut10","ptcut15","ptcut20","ptl10_ptj30","ptl20_ptj30"]
 channels = ["MuMu"]
-masses = ["1000"]
+masses = ["500"]
 
 for ptcut in ptcuts:
   for channel in channels:

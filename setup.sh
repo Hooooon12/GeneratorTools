@@ -22,6 +22,9 @@ then
 	git cms-addpkg GeneratorInterface/SherpaInterface;
 	echo "[GeneratorTools] PATCH: chmod +x $CMSSW_BASE/src/GeneratorInterface/SherpaInterface/data/MakeSherpaLibs.sh";
 	chmod +x $CMSSW_BASE/src/GeneratorInterface/SherpaInterface/data/MakeSherpaLibs.sh; )
+	echo "[GeneratorTools] also set DiLepChargeFilter for HNtype1";
+	git cms-addpkg GeneratorInterface/GenFilters;
+  cp $GENERATORTOOLS_BASE/DiLepChargeFilter.cc $CMSSW_BASE/src/GeneratorInterface/GenFilters/src/
     cd $GENERATORTOOLS_BASE 
 fi
 

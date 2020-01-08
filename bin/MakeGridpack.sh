@@ -42,9 +42,10 @@ fi
 
 if [ -e $GENERATORTOOLS_BASE/$GENERATOR/Gridpack/$PROCESSNAME ]
 then
-    echo "Gridpack already exist... Remove existing gridpack or change processname"
-    echo "rm -r $GENERATORTOOLS_BASE/$GENERATOR/Gridpack/$PROCESSNAME"
-    exit 1
+    echo "WARNING::Be aware, the gridpack already exist"
+    #echo "Gridpack already exist... Remove existing gridpack or change processname"
+    #echo "rm -r $GENERATORTOOLS_BASE/$GENERATOR/Gridpack/$PROCESSNAME"
+    #exit 1
 fi
 
 CARDPATH=$(realpath $CARDPATH)
