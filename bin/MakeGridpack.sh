@@ -42,7 +42,7 @@ fi
 
 if [ -e $GENERATORTOOLS_BASE/$GENERATOR/Gridpack/$PROCESSNAME ]
 then
-    echo "WARNING::Be aware, the gridpack already exist"
+    echo "WARNING::Be aware, the gridpack already exist!!"
     #echo "Gridpack already exist... Remove existing gridpack or change processname"
     #echo "rm -r $GENERATORTOOLS_BASE/$GENERATOR/Gridpack/$PROCESSNAME"
     #exit 1
