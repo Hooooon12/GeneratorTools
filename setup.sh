@@ -19,9 +19,12 @@ then
     cmsrel $GENERATORTOOLS_CMSSW_VERSION
     cd $GENERATORTOOLS_CMSSW_VERSION/src/
     ( eval `scramv1 runtime -sh`;
-  git cms-addpkg GeneratorInterface/SherpaInterface;
-  echo "[GeneratorTools] PATCH: chmod +x $CMSSW_BASE/src/GeneratorInterface/SherpaInterface/data/MakeSherpaLibs.sh";
-  chmod +x $CMSSW_BASE/src/GeneratorInterface/SherpaInterface/data/MakeSherpaLibs.sh; )
+    git cms-addpkg GeneratorInterface/SherpaInterface;
+    echo "[GeneratorTools] PATCH: chmod +x $CMSSW_BASE/src/GeneratorInterface/SherpaInterface/data/MakeSherpaLibs.sh";
+    chmod +x $CMSSW_BASE/src/GeneratorInterface/SherpaInterface/data/MakeSherpaLibs.sh;
+    echo "[GeneratorTools] also set DiLepChargeFilter for HNtype1";
+    git cms-addpkg GeneratorInterface/GenFilters;
+    cp $GENERATORTOOLS_BASE/DiLepChargeFilter.cc $CMSSW_BASE/src/GeneratorInterface/GenFilters/src/; )
     cd $GENERATORTOOLS_BASE 
 fi
 
@@ -51,9 +54,6 @@ then
     echo "[GeneratorTools] setup cmsenv"
     cd $GENERATORTOOLS_BASE/external/$GENERATORTOOLS_CMSSW_VERSION/src
     eval `scramv1 runtime -sh`
-    echo "[GeneratorTools] also set DiLepChargeFilter for HNtype1";
-    git cms-addpkg GeneratorInterface/GenFilters;
-    cp $GENERATORTOOLS_BASE/DiLepChargeFilter.cc $CMSSW_BASE/src/GeneratorInterface/GenFilters/src/
     cd $GENERATORTOOLS_BASE
 fi
 export ROOT_INCLUDE_PATH=$GENERATORTOOLS_BASE:$ROOT_INCLUDE_PATH
