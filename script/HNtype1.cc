@@ -182,7 +182,7 @@ void loop(TString infile,TString outfile){
     if(!gamma_l){
       cout << "No gamma_l..." << endl;
       PrintGens(gens);
-      exit(1);
+      //exit(1);
     }
     if(!HN_l){
       cout << "No HN_l..." << endl;
