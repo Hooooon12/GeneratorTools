@@ -19,12 +19,9 @@ then
     cmsrel $GENERATORTOOLS_CMSSW_VERSION
     cd $GENERATORTOOLS_CMSSW_VERSION/src/
     ( eval `scramv1 runtime -sh`;
-	git cms-addpkg GeneratorInterface/SherpaInterface;
-	echo "[GeneratorTools] PATCH: chmod +x $CMSSW_BASE/src/GeneratorInterface/SherpaInterface/data/MakeSherpaLibs.sh";
-	chmod +x $CMSSW_BASE/src/GeneratorInterface/SherpaInterface/data/MakeSherpaLibs.sh; )
-	echo "[GeneratorTools] also set DiLepChargeFilter for HNtype1";
-	git cms-addpkg GeneratorInterface/GenFilters;
-  cp $GENERATORTOOLS_BASE/DiLepChargeFilter.cc $CMSSW_BASE/src/GeneratorInterface/GenFilters/src/
+  git cms-addpkg GeneratorInterface/SherpaInterface;
+  echo "[GeneratorTools] PATCH: chmod +x $CMSSW_BASE/src/GeneratorInterface/SherpaInterface/data/MakeSherpaLibs.sh";
+  chmod +x $CMSSW_BASE/src/GeneratorInterface/SherpaInterface/data/MakeSherpaLibs.sh; )
     cd $GENERATORTOOLS_BASE 
 fi
 
@@ -42,9 +39,9 @@ then
     sed -i '/set run_mode 2/a \          echo "set nb_core \${NB_CORE:=8}" >> mgconfigscript' $EXECUTABLE
     if cat /etc/*release|grep ^VERSION_ID|grep 7
     then
-	echo "[GeneratorTools] PATCH: change to slc7"
-	echo [GeneratorTools] sed -i 's/slc6_amd64_gcc630/slc7_amd64_gcc630/' $EXECUTABLE
-	sed -i 's/slc6_amd64_gcc630/slc7_amd64_gcc630/' $EXECUTABLE
+  echo "[GeneratorTools] PATCH: change to slc7"
+  echo [GeneratorTools] sed -i 's/slc6_amd64_gcc630/slc7_amd64_gcc630/' $EXECUTABLE
+  sed -i 's/slc6_amd64_gcc630/slc7_amd64_gcc630/' $EXECUTABLE
     fi
     cd $GENERATORTOOLS_BASE
 fi
@@ -54,6 +51,9 @@ then
     echo "[GeneratorTools] setup cmsenv"
     cd $GENERATORTOOLS_BASE/external/$GENERATORTOOLS_CMSSW_VERSION/src
     eval `scramv1 runtime -sh`
+    echo "[GeneratorTools] also set DiLepChargeFilter for HNtype1";
+    git cms-addpkg GeneratorInterface/GenFilters;
+    cp $GENERATORTOOLS_BASE/DiLepChargeFilter.cc $CMSSW_BASE/src/GeneratorInterface/GenFilters/src/
     cd $GENERATORTOOLS_BASE
 fi
 export ROOT_INCLUDE_PATH=$GENERATORTOOLS_BASE:$ROOT_INCLUDE_PATH
