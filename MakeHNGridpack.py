@@ -3,7 +3,8 @@ import subprocess as ps
 import os
 
 NCORE = "4"
-TUNE = "python/MG_NLO_CP5_DiLepChargeFilter_cff.py"
+#TUNE = "python/MG_NLO_CP5_DiLepChargeFilter_cff.py"
+TUNE = "python/MG_LO_CP5_cff.py"
 
 #Change HN mass and generate
 
@@ -35,7 +36,7 @@ masses = ["1000"]
 for ptcut in ptcuts:
   for channel in channels:
     for mass in masses:
-      os.system("bin/MakeGridpack.sh MG"+" "+"HeavyMajoranaNeutrino_SSDiLepton_Tchannel_NLO_Vanderbilt_{0}_{1}_M{2}".format(ptcut, channel, mass)+" "+NCORE+" "+TUNE)
+      os.system("bin/MakeGridpack.sh MG"+" "+"HeavyMajoranaNeutrino_SSDiLepton_Tchannel_LO_Vanderbilt_{0}_{1}_M{2}".format(ptcut, channel, mass)+" "+NCORE+" "+TUNE)
 
 #for channel in channels:
 #  for mass in masses:
