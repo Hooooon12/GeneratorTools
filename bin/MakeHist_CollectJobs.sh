@@ -50,7 +50,7 @@ do
   DIRNAMELIST+=,$(dirname $i)
 done
 
-SCRIPT=${GENERATOR}_MakeHists_${PROCESSNAME}.sh
+SCRIPT=${GENERATOR}_MakeHist_${PROCESSNAME}.sh
 
 cd $EVENT_DIR
 
@@ -83,8 +83,8 @@ echo ""
 
 for i in $(seq 1 ${#FILES[@]})
 do
-  mv ${EVENT_DIR}/run$(($i-1)).out ${DIRNAME[$(($i-1))]}/${SCRIPT/%.sh/.out}
-  mv ${EVENT_DIR}/run$(($i-1)).err ${DIRNAME[$(($i-1))]}/${SCRIPT/%.sh/.err}
+  mv ${EVENT_DIR}/run$(($i-1)).out ${DIRNAME[$(($i-1))]}/$(basename ${ROOTSCRIPT%.*})_${SCRIPT/%.sh/.out}
+  mv ${EVENT_DIR}/run$(($i-1)).err ${DIRNAME[$(($i-1))]}/$(basename ${ROOTSCRIPT%.*})_${SCRIPT/%.sh/.err}
 done
 
 hadd -f $GENERATORTOOLS_BASE/Hist/$(basename ${ROOTSCRIPT%.*})_${GENERATOR}_${PROCESSNAME}.root $EVENT_DIR/run*/hists.root

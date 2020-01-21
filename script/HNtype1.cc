@@ -3,6 +3,7 @@
 #include "TFile.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/JetReco/interface/GenJet.h"
+#include "DataFormats/Math/interface/deltaR.h"
 #include "DataFormats/FWLite/interface/Handle.h"
 #include "DataFormats/FWLite/interface/Event.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
@@ -142,28 +143,21 @@ void loop(TString infile,TString outfile){
 
     const reco::GenParticle *hard_W=NULL,*hard_HN=NULL,*hard_photon=NULL;
     const reco::GenParticle *last_W=NULL,*last_HN=NULL;
-    const reco::GenParticle *gamma_l=NULL,*HN_l=NULL,*hard_l=NULL;
+    const reco::GenParticle *gamma_l=NULL,*HN_l=NULL;
     vector<const reco::GenParticle*> leptons,hard_partons,forward_partons;
     for(int i=0;i<gens.size();i++){
       cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << endl;
       if(gens[i].isHardProcess()){
         if(abs(gens[i].pdgId())==24) hard_W=&gens[i];
-        else if(abs(gens[i].pdgId())<=6){
-          hard_partons.push_back(&gens[i]);
-          if(gens[i].isPromptFinalState()) forward_partons.push_back(&gens[i]);
-        }
+        else if(abs(gens[i].pdgId())<=6) hard_partons.push_back(&gens[i]);
         else if(gens[i].pdgId()==9900012) hard_HN=&gens[i]; 
         else if(gens[i].pdgId()==22) hard_photon=&gens[i]; 
       }
-      //if(abs(gens[i].pdgId())==24) last_W=&gens[i];
+      if(abs(gens[i].pdgId())==24) last_W=&gens[i];
       if(gens[i].pdgId()==9900012) last_HN=&gens[i];
-      //if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother(0)==hard_photon||gens[i].mother(1)==hard_photon)){
-      //  gamma_l=&gens[i]; //JH : XXX If gamma_l is just reco::GenParticle*, then it doesn't get &gens[i]
-      //  cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the gamma_l : " << gamma_l << endl;
-      //}
-      if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==hard_partons.at(0)||gens[i].mother()==hard_partons.at(1))){
-        hard_l=&gens[i]; 
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the hard_l : " << hard_l << endl;
+      if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother(0)==hard_photon||gens[i].mother(1)==hard_photon)){
+        gamma_l=&gens[i]; //JH : XXX If gamma_l is just reco::GenParticle*, then it doesn't get &gens[i]
+        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the gamma_l : " << gamma_l << endl;
       }
       else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother(0)==last_HN||gens[i].mother(1)==last_HN)){
         HN_l=&gens[i];
@@ -174,20 +168,81 @@ void loop(TString infile,TString outfile){
         if(abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13) leptons.push_back(&gens[i]);
       }
     }
+    //forward_partons.push_back(hard_partons.at(2));
+    //forward_partons.push_back(hard_partons.at(3));
 
     //gamma_l = FindLastCopy(gens,gamma_l); HN_l = FindLastCopy(gens,HN_l); 
-    //cout << "detected gamma_l : " << gamma_l << endl;
-    //cout << "detected gamma_l : " << gamma_l << endl;
-    cout << "detected hard_l : " << hard_l << endl;
+    cout << "detected gamma_l : " << gamma_l << endl;
     cout << "detected HN_l : " << HN_l << endl;
-    //cout << "!!!!!!!!!!!!!gamma_l charge : " << GetCharge(gamma_l) << "!!!!!!!!!!!!!" << endl;
-    cout << "!!!!!!!!!!!!!hard_l charge : " << GetCharge(hard_l) << "!!!!!!!!!!!!!" << endl;
+    cout << "!!!!!!!!!!!!!gamma_l charge : " << GetCharge(gamma_l) << "!!!!!!!!!!!!!" << endl;
     cout << "!!!!!!!!!!!!!HN_l charge : " << GetCharge(HN_l) << "!!!!!!!!!!!!!" << endl;
     cout << "detected hard_partons : " << endl;
     for(int i=0;i<hard_partons.size();i++) cout << hard_partons.at(i) << endl;
-    cout << "detected forward_partons : " << endl;
-    for(int i=0;i<forward_partons.size();i++) cout << forward_partons.at(i) << endl;
     PrintGens(gens);
+
+    //clean the jets
+
+    vector<reco::GenJet*> jets_lepveto;
+    
+    for(int i=0;i<jets.size();i++){
+      bool HasLepton = false;
+      for(int j=0;j<leptons.size();j++){
+        if(deltaR(*jets.at(i),*leptons.at(j))<0.5){
+          HasLepton = true;
+          break;
+        }
+      }
+      if(HasLepton) continue;
+
+      jets_lepveto.push_back(jets.at(i));
+    }
+
+    vector<reco::GenJet*> fatjets_lepveto;
+    
+    for(int i=0;i<fatjets.size();i++){
+      bool HasLepton = false;
+      for(int j=0;j<leptons.size();j++){
+        if(deltaR(*fatjets.at(i),*leptons.at(j))<0.8){
+          HasLepton = true;
+          break;
+        }
+      }
+      if(HasLepton) continue;
+
+      fatjets_lepveto.push_back(fatjets.at(i));
+    }
+
+    //collect the forward jets
+
+    //vector<reco::GenJet*> jets_forward;
+    //
+    //for(int i=0;i<jets_lepveto.size();i++){
+    //  bool HasForwardparton = false;
+    //  for(int j=0;j<forward_partons.size();j++){
+    //    if(deltaR(*jets_lepveto.at(i),*forward_partons.at(j))<0.15){
+    //      HasForwardparton = true;
+    //      break;
+    //    }
+    //  }
+
+    //  if(HasForwardparton) jets_forward.push_back(jets_lepveto.at(i));
+    //  else continue;
+    //}
+
+    cout << "N of jets : " << jets.size() << endl;
+    cout << "N of lepton vetoed jets : " << jets_lepveto.size() << endl;
+    cout << "N of fatjets : " << fatjets.size() << endl;
+    cout << "N of lepton vetoed fatjets : " << fatjets_lepveto.size() << endl;
+    
+    //cout << "N of forward partons : " << forward_partons.size() << endl;
+    //cout << "N of forward jets : " << jets_forward.size() << endl;
+    //if(jets_forward.size()!=2) cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! N(forward jets) != 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+    //cout << "forward jet info" << endl;
+    //for(int i=0; i<jets_forward.size(); i++) cout << "pt : " << jets_forward.at(i)->pt() << ", eta : " << jets_forward.at(i)->eta() << endl;
+    //cout << "forward parton info" << endl;
+    //for(int i=0; i<forward_partons.size(); i++) cout << "id : " << forward_partons.at(i)->pdgId() << ", pt : " << forward_partons.at(i)->pt() << ", eta : " << forward_partons.at(i)->eta() << endl;
+    //cout << "Check the forward jets constituents..." << endl;
+    //for(int i=0; i<jets_forward.size(); i++) cout << i << "th jet" << endl << jets_forward.at(i)->print() << endl;
 
     //if(leptons.size()!=2){
     //  cout << "@@@@@@@@detected lepton number : " << leptons.size() << "@@@@@@@@" << endl;
@@ -219,24 +274,25 @@ void loop(TString infile,TString outfile){
     //  }
     //}
 
-    //if(gamma_l||HN_l){ 
-    if(hard_l||HN_l){ 
+    if(gamma_l||HN_l){ 
       
       //sort(leptons.begin(),leptons.end(),PtCompare);
       //sort(jets.begin(),jets.end(),PtCompare);
       //sort(fatjets.begin(),fatjets.end(),PtCompare); //JH : XXX These - sorting vector<reco::GenParticles*> don't work!
 
       TLorentzVector* arr_leptons=MakeTLorentzVectorArray(leptons);
-      TLorentzVector* arr_jets=MakeTLorentzVectorArray(jets); 
-      TLorentzVector* arr_fatjets=MakeTLorentzVectorArray(fatjets); 
+      TLorentzVector* arr_jets=MakeTLorentzVectorArray(jets_lepveto); 
+      //TLorentzVector* arr_forwardjets=MakeTLorentzVectorArray(jets_forward); 
+      TLorentzVector* arr_fatjets=MakeTLorentzVectorArray(fatjets_lepveto); 
 
       for(int i=0;i<leptons.size();i++){
         cout << "array leptons pt : " << arr_leptons[i].Pt() << endl;
       }
 
       sort(arr_leptons,arr_leptons+leptons.size(),PtCompare);
-      sort(arr_jets,arr_jets+jets.size(),PtCompare);
-      sort(arr_fatjets,arr_fatjets+fatjets.size(),PtCompare);
+      sort(arr_jets,arr_jets+jets_lepveto.size(),PtCompare);
+      //sort(arr_forwardjets,arr_forwardjets+jets_forward.size(),PtCompare);
+      sort(arr_fatjets,arr_fatjets+fatjets_lepveto.size(),PtCompare);
       
       for(int i=0;i<leptons.size();i++){
         cout << "vector leptons pt : " << leptons.at(i)->pt() << endl;
@@ -244,22 +300,32 @@ void loop(TString infile,TString outfile){
       for(int i=0;i<leptons.size();i++){
         cout << "sorted array leptons pt : " << arr_leptons[i].Pt() << endl;
       }
+      for(int i=0;i<jets_lepveto.size();i++){
+        cout << "sorted array lepton vetoed jets pt : " << arr_jets[i].Pt() << endl;
+      }
 
-      //TLorentzVector vec_hard_W=MakeTLorentzVector(hard_W);
-      //TLorentzVector vec_last_W=MakeTLorentzVector(last_W);
+      TLorentzVector vec_hard_W=MakeTLorentzVector(hard_W);
+      TLorentzVector vec_last_W=MakeTLorentzVector(last_W);
       TLorentzVector vec_hard_HN=MakeTLorentzVector(hard_HN);
       TLorentzVector vec_last_HN=MakeTLorentzVector(last_HN);
 
-      //TLorentzVector vec_gamma_l=MakeTLorentzVector(gamma_l);
-      TLorentzVector vec_hard_l=MakeTLorentzVector(hard_l);
+      TLorentzVector vec_gamma_l=MakeTLorentzVector(gamma_l);
       TLorentzVector vec_HN_l=MakeTLorentzVector(HN_l);
       TLorentzVector vec_l0=arr_leptons[0];
       TLorentzVector vec_l1=arr_leptons[1];
       TLorentzVector vec_j0=arr_jets[0];
       TLorentzVector vec_j1=arr_jets[1];
       TLorentzVector vec_fatjet=arr_fatjets[0];
-      TLorentzVector vec_q0=MakeTLorentzVector(hard_partons.at(2));
-      TLorentzVector vec_q1=MakeTLorentzVector(hard_partons.at(3));
+      //TLorentzVector vec_q0=MakeTLorentzVector(forward_partons.at(0));
+      //TLorentzVector vec_q1=MakeTLorentzVector(forward_partons.at(1));
+
+      //TLorentzVector vec_forward_j0;
+      //TLorentzVector vec_forward_j1;
+      //if(jets_forward.size()==1) vec_forward_j0=arr_forwardjets[0];
+      //if(jets_forward.size()>1){
+      //  vec_forward_j0=arr_forwardjets[0];
+      //  vec_forward_j1=arr_forwardjets[1];
+      //}
       
       TLorentzVector vec_dijet=vec_j0+vec_j1;
       TLorentzVector vec_l0_fatjet=vec_l0+vec_fatjet;
@@ -272,10 +338,10 @@ void loop(TString infile,TString outfile){
       //FillHist("hard_W_m",vec_hard_W.M(),1,70,50,120);
       //FillHist("hard_W_pt",vec_hard_W.Pt(),1,1000,0,1000);
       //FillHist("hard_W_eta",vec_hard_W.Eta(),1,50,-5,5); // same with last_W
-      //FillHist("last_W_m",vec_last_W.M(),1,70,50,120);
-      //FillHist("last_W_pt",vec_last_W.Pt(),1,2000,0,2000);
-      //FillHist("last_W_E",vec_last_W.E(),1,2000,0,2000);
-      //FillHist("last_W_eta",vec_last_W.Eta(),1,50,-5,5);
+      FillHist("last_W_m",vec_last_W.M(),1,70,50,120);
+      FillHist("last_W_pt",vec_last_W.Pt(),1,2000,0,2000);
+      FillHist("last_W_E",vec_last_W.E(),1,2000,0,2000);
+      FillHist("last_W_eta",vec_last_W.Eta(),1,50,-5,5);
       FillHist("dijet_m",vec_dijet.M(),1,2500,0,2500);
       FillHist("dijet_pt",vec_dijet.Pt(),1,1000,0,1000);
       FillHist("dijet_E",vec_dijet.E(),1,3000,0,3000);
@@ -316,14 +382,10 @@ void loop(TString infile,TString outfile){
       FillHist("(SS2l+dijet)_E",vec_SS2l_dijet.E(),1,3000,0,3000);
       FillHist("(SS2l+dijet)_eta",vec_SS2l_dijet.Eta(),1,50,-5,5);
 
-      //FillHist("gamma_l_pt",vec_gamma_l.Pt(),1,1000,0,1000);
-      //FillHist("gamma_l_E",vec_gamma_l.E(),1,1000,0,1000);
-      //FillHist("gamma_l_eta",vec_gamma_l.Eta(),1,50,-5,5);
-      //FillHist("gamma_l_charge",GetCharge(gamma_l),1,3,-1,2);
-      FillHist("hard_l_pt",vec_hard_l.Pt(),1,1000,0,1000);
-      FillHist("hard_l_E",vec_hard_l.E(),1,1000,0,1000);
-      FillHist("hard_l_eta",vec_hard_l.Eta(),1,50,-5,5);
-      FillHist("hard_l_charge",GetCharge(hard_l),1,3,-1,2);
+      FillHist("gamma_l_pt",vec_gamma_l.Pt(),1,1000,0,1000);
+      FillHist("gamma_l_E",vec_gamma_l.E(),1,1000,0,1000);
+      FillHist("gamma_l_eta",vec_gamma_l.Eta(),1,50,-5,5);
+      FillHist("gamma_l_charge",GetCharge(gamma_l),1,3,-1,2);
       FillHist("HN_l_pt",vec_HN_l.Pt(),1,2000,0,2000);
       FillHist("HN_l_E",vec_HN_l.E(),1,2000,0,2000);
       FillHist("HN_l_eta",vec_HN_l.Eta(),1,50,-5,5);
@@ -342,18 +404,38 @@ void loop(TString infile,TString outfile){
       FillHist("j1_pt",vec_j1.Pt(),1,2000,0,2000);
       FillHist("j1_E",vec_j1.E(),1,2000,0,2000);
       FillHist("j1_eta",vec_j1.Eta(),1,50,-5,5);
-      FillHist("q0_m",vec_q0.M(),1,2000,0,2000);
-      FillHist("q0_pt",vec_q0.Pt(),1,2000,0,2000);
-      FillHist("q0_E",vec_q0.E(),1,2000,0,2000);
-      FillHist("q0_eta",vec_q0.Eta(),1,50,-5,5);
-      FillHist("q1_m",vec_q1.M(),1,2000,0,2000);
-      FillHist("q1_pt",vec_q1.Pt(),1,2000,0,2000);
-      FillHist("q1_E",vec_q1.E(),1,2000,0,2000);
-      FillHist("q1_eta",vec_q1.Eta(),1,50,-5,5);
-      FillHist("\Delta\eta(qq)",vec_q0.Eta()-vec_q1.Eta(),1,80,-8,8);
+      //if(jets_forward.size()==1){
+      //  FillHist("forward_j0_m",vec_forward_j0.M(),1,2000,0,2000);
+      //  FillHist("forward_j0_pt",vec_forward_j0.Pt(),1,2000,0,2000);
+      //  FillHist("forward_j0_E",vec_forward_j0.E(),1,2000,0,2000);
+      //  FillHist("forward_j0_eta",vec_forward_j0.Eta(),1,50,-5,5);
+      //}
+      //if(jets_forward.size()>1){
+      //  FillHist("forward_j0_m",vec_forward_j0.M(),1,2000,0,2000);
+      //  FillHist("forward_j0_pt",vec_forward_j0.Pt(),1,2000,0,2000);
+      //  FillHist("forward_j0_E",vec_forward_j0.E(),1,2000,0,2000);
+      //  FillHist("forward_j0_eta",vec_forward_j0.Eta(),1,50,-5,5);
+      //  FillHist("forward_j1_m",vec_forward_j1.M(),1,2000,0,2000);
+      //  FillHist("forward_j1_pt",vec_forward_j1.Pt(),1,2000,0,2000);
+      //  FillHist("forward_j1_E",vec_forward_j1.E(),1,2000,0,2000);
+      //  FillHist("forward_j1_eta",vec_forward_j1.Eta(),1,50,-5,5);
+      //}
+      //FillHist("q0_m",vec_q0.M(),1,2000,0,2000);
+      //FillHist("q0_pt",vec_q0.Pt(),1,2000,0,2000);
+      //FillHist("q0_E",vec_q0.E(),1,2000,0,2000);
+      //FillHist("q0_eta",vec_q0.Eta(),1,50,-5,5);
+      //FillHist("q1_m",vec_q1.M(),1,2000,0,2000);
+      //FillHist("q1_pt",vec_q1.Pt(),1,2000,0,2000);
+      //FillHist("q1_E",vec_q1.E(),1,2000,0,2000);
+      //FillHist("q1_eta",vec_q1.Eta(),1,50,-5,5);
+      //FillHist("delta eta(qq)",vec_q0.Eta()-vec_q1.Eta(),1,80,-8,8);
+      //FillHist("delta eta(jj)",vec_j0.Eta()-vec_j1.Eta(),1,80,-8,8);
+      //if(jets_forward.size()>1){
+      //  FillHist("delta eta(forward jj)",vec_forward_j0.Eta()-vec_forward_j1.Eta(),1,80,-8,8);
+      //  if(abs(vec_forward_j0.Eta()-vec_forward_j1.Eta())<3.) cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! dEta(forward jets) < 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+      //}
 
-      //int IsSameCharge = GetCharge(gamma_l)*GetCharge(HN_l);
-      int IsSameCharge = GetCharge(hard_l)*GetCharge(HN_l);
+      int IsSameCharge = GetCharge(gamma_l)*GetCharge(HN_l);
       FillHist("IsSameChargeLepton",IsSameCharge,1,3,-1,2);
 
       FillHist("nlep",leptons.size(),1,5,0,5);

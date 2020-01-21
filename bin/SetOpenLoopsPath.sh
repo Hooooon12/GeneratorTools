@@ -3,7 +3,7 @@ test -z "$GENERATORTOOLS_BASE" && { echo "Please source setup.sh";exit 1; }
 if [ -z "$1" ]
 then
     echo "usage: $0 OPENLOOPSPATH"
-    echo "example: $0 /data4/Users/hsseo/GeneratorTools/external/OpenLoops-2.1.0"
+    echo "example: $0 /data6/Users/hsseo/GeneratorTools/external/OpenLoops-2.1.0"
     exit 1
 fi
 

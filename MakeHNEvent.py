@@ -1,11 +1,11 @@
 import os
 
 #ptcuts = ["ptcut5","ptcut10","ptcut15","ptcut20","ptl10_ptj30","ptl20_ptj30"]
-ptcuts = ["ptcut5","ptcut10","ptcut15","ptcut20"]
+ptcuts = ["ptcut5","ptcut10","ptcut20"]
 channels = ["MuMu"]
 #masses = ["50","500","1000"]
 masses = ["1000"]
-NEVENT = "1000"
+NEVENT = "2000"
 NCORE = "10"
 
 #for ptcut in ptcuts:

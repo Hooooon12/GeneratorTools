@@ -23,7 +23,7 @@ TUNE = "python/MG_LO_CP5_cff.py"
 #Just generate
 
 #ptcuts = ["ptcut5","ptcut10","ptcut15","ptcut20","ptl10_ptj30","ptl20_ptj30"]
-ptcuts = ["ptcut5","ptcut10","ptcut15","ptcut20"]
+ptcuts = ["ptcut5","ptcut10","ptcut20"]
 channels = ["MuMu"]
 #masses = ["50","500","1000"]
 masses = ["1000"]
