@@ -204,24 +204,28 @@ void loop(TString infile,TString outfile){
       jets_lepveto.push_back(jets.at(i));
     }
 
+    cout << "N of lepton vetoed jets :" << jets_lepveto.size() << endl;
+
     //extract high mass dijets
 
     vector<reco::GenJet*> dijet_highmass;
 
     TLorentzVector jet_i;
     TLorentzVector jet_j;
-    int index_i;
-    int index_j;
+    int index_i = 0;
+    int index_j = 0;
     double dijet_mass = 0;
     
-    for(int i=0;i<jets_lepveto.size();i++){
-      for(int j=i+1;j<jets_lepveto.size();j++){
-        jet_i = MakeTLorentzVector(jets_lepveto.at(i));
-        jet_j = MakeTLorentzVector(jets_lepveto.at(j));
-        if((jet_i+jet_j).M()>dijet_mass){
-          dijet_mass = (jet_i+jet_j).M();
-          index_i = i;
-          index_j = j;
+    if(jets_lepveto.size()>1){
+      for(int i=0;i<jets_lepveto.size();i++){
+        for(int j=i+1;j<jets_lepveto.size();j++){
+          jet_i = MakeTLorentzVector(jets_lepveto.at(i));
+          jet_j = MakeTLorentzVector(jets_lepveto.at(j));
+          if((jet_i+jet_j).M()>dijet_mass){
+            dijet_mass = (jet_i+jet_j).M();
+            index_i = i;
+            index_j = j;
+          }
         }
       }
     }
@@ -335,13 +339,15 @@ void loop(TString infile,TString outfile){
       TLorentzVector vec_l0=arr_leptons[0];
       //TLorentzVector vec_l1=arr_leptons[1];
       TLorentzVector vec_j0=arr_jets[0];
-      TLorentzVector vec_j1=arr_jets[1];
+      TLorentzVector vec_j1;
+      if(jets_lepveto.size()>1) vec_j1=arr_jets[1];
       TLorentzVector vec_fatjet=arr_fatjets[0];
       TLorentzVector vec_q0=MakeTLorentzVector(forward_partons.at(0));
       TLorentzVector vec_q1=MakeTLorentzVector(forward_partons.at(1));
 
       TLorentzVector vec_highmass_j0=arr_highmassdijet[0];
-      TLorentzVector vec_highmass_j1=arr_highmassdijet[1];
+      TLorentzVector vec_highmass_j1;
+      if(jets_lepveto.size()>1) vec_highmass_j1=arr_highmassdijet[1];
 
       TLorentzVector vec_forward_j0;
       TLorentzVector vec_forward_j1;
@@ -351,10 +357,12 @@ void loop(TString infile,TString outfile){
         vec_forward_j1=arr_forwardjets[1];
       }
       
-      TLorentzVector vec_dijet=vec_j0+vec_j1;
+      TLorentzVector vec_dijet;
+      if(jets_lepveto.size()>1) vec_dijet=vec_j0+vec_j1;
       TLorentzVector vec_l0_fatjet=vec_l0+vec_fatjet;
       //TLorentzVector vec_l1_fatjet=vec_l1+vec_fatjet;
-      TLorentzVector vec_l0_dijet=vec_l0+vec_dijet;
+      TLorentzVector vec_l0_dijet;
+      if(jets_lepveto.size()>1) vec_l0_dijet=vec_l0+vec_dijet;
       //TLorentzVector vec_l1_dijet=vec_l1+vec_dijet;
       //TLorentzVector vec_SS2l_fatjet=vec_l0+vec_l1+vec_fatjet;
       //TLorentzVector vec_SS2l_dijet=vec_l0+vec_l1+vec_dijet;
@@ -366,10 +374,12 @@ void loop(TString infile,TString outfile){
       //FillHist("last_W_pt",vec_last_W.Pt(),1,2000,0,2000);
       //FillHist("last_W_E",vec_last_W.E(),1,2000,0,2000);
       //FillHist("last_W_eta",vec_last_W.Eta(),1,50,-5,5);
-      FillHist("dijet_m",vec_dijet.M(),1,2500,0,2500);
-      FillHist("dijet_pt",vec_dijet.Pt(),1,1000,0,1000);
-      FillHist("dijet_E",vec_dijet.E(),1,3000,0,3000);
-      FillHist("dijet_eta",vec_dijet.Eta(),1,50,-5,5);
+      if(jets_lepveto.size()>1){
+        FillHist("dijet_m",vec_dijet.M(),1,2500,0,2500);
+        FillHist("dijet_pt",vec_dijet.Pt(),1,1000,0,1000);
+        FillHist("dijet_E",vec_dijet.E(),1,3000,0,3000);
+        FillHist("dijet_eta",vec_dijet.Eta(),1,50,-5,5);
+      }
       FillHist("fatjet_m",vec_fatjet.M(),1,2000,0,2000);
       FillHist("fatjet_pt",vec_fatjet.Pt(),1,2000,0,2000);
       FillHist("fatjet_E",vec_fatjet.E(),1,3000,0,3000);
@@ -389,10 +399,12 @@ void loop(TString infile,TString outfile){
       //FillHist("(l1+fatjet)_pt",vec_l1_fatjet.Pt(),1,1000,0,1000);
       //FillHist("(l1+fatjet)_E",vec_l1_fatjet.E(),1,3000,0,3000);
       //FillHist("(l1+fatjet)_eta",vec_l1_fatjet.Eta(),1,50,-5,5);
-      FillHist("(l0+dijet)_m",vec_l0_dijet.M(),1,3500,0,3500);
-      FillHist("(l0+dijet)_pt",vec_l0_dijet.Pt(),1,2000,0,2000);
-      FillHist("(l0+dijet)_E",vec_l0_dijet.E(),1,3000,0,3000);
-      FillHist("(l0+dijet)_eta",vec_l0_dijet.Eta(),1,50,-5,5);
+      if(jets_lepveto.size()>1){
+        FillHist("(l0+dijet)_m",vec_l0_dijet.M(),1,3500,0,3500);
+        FillHist("(l0+dijet)_pt",vec_l0_dijet.Pt(),1,2000,0,2000);
+        FillHist("(l0+dijet)_E",vec_l0_dijet.E(),1,3000,0,3000);
+        FillHist("(l0+dijet)_eta",vec_l0_dijet.Eta(),1,50,-5,5);
+      }
       //FillHist("(l1+dijet)_m",vec_l1_dijet.M(),1,3000,0,3000);
       //FillHist("(l1+dijet)_pt",vec_l1_dijet.Pt(),1,1000,0,1000);
       //FillHist("(l1+dijet)_E",vec_l1_dijet.E(),1,3000,0,3000);
@@ -428,18 +440,22 @@ void loop(TString infile,TString outfile){
       FillHist("j0_pt",vec_j0.Pt(),1,2000,0,2000);
       FillHist("j0_E",vec_j0.E(),1,2000,0,2000);
       FillHist("j0_eta",vec_j0.Eta(),1,50,-5,5);
-      FillHist("j1_m",vec_j1.M(),1,2000,0,2000);
-      FillHist("j1_pt",vec_j1.Pt(),1,2000,0,2000);
-      FillHist("j1_E",vec_j1.E(),1,2000,0,2000);
-      FillHist("j1_eta",vec_j1.Eta(),1,50,-5,5);
+      if(jets_lepveto.size()>1){
+        FillHist("j1_m",vec_j1.M(),1,2000,0,2000);
+        FillHist("j1_pt",vec_j1.Pt(),1,2000,0,2000);
+        FillHist("j1_E",vec_j1.E(),1,2000,0,2000);
+        FillHist("j1_eta",vec_j1.Eta(),1,50,-5,5);
+      }
       FillHist("highmass_j0_m",vec_highmass_j0.M(),1,2000,0,2000);
       FillHist("highmass_j0_pt",vec_highmass_j0.Pt(),1,2000,0,2000);
       FillHist("highmass_j0_E",vec_highmass_j0.E(),1,2000,0,2000);
       FillHist("highmass_j0_eta",vec_highmass_j0.Eta(),1,50,-5,5);
-      FillHist("highmass_j1_m",vec_highmass_j1.M(),1,2000,0,2000);
-      FillHist("highmass_j1_pt",vec_highmass_j1.Pt(),1,2000,0,2000);
-      FillHist("highmass_j1_E",vec_highmass_j1.E(),1,2000,0,2000);
-      FillHist("highmass_j1_eta",vec_highmass_j1.Eta(),1,50,-5,5);
+      if(jets_lepveto.size()>1){
+        FillHist("highmass_j1_m",vec_highmass_j1.M(),1,2000,0,2000);
+        FillHist("highmass_j1_pt",vec_highmass_j1.Pt(),1,2000,0,2000);
+        FillHist("highmass_j1_E",vec_highmass_j1.E(),1,2000,0,2000);
+        FillHist("highmass_j1_eta",vec_highmass_j1.Eta(),1,50,-5,5);
+      }
       if(jets_forward.size()==1){
         FillHist("forward_j0_m",vec_forward_j0.M(),1,2000,0,2000);
         FillHist("forward_j0_pt",vec_forward_j0.Pt(),1,2000,0,2000);
@@ -465,8 +481,8 @@ void loop(TString infile,TString outfile){
       FillHist("q1_E",vec_q1.E(),1,2000,0,2000);
       FillHist("q1_eta",vec_q1.Eta(),1,50,-5,5);
       FillHist("delta eta(qq)",vec_q0.Eta()-vec_q1.Eta(),1,80,-8,8);
-      FillHist("delta eta(jj)",vec_j0.Eta()-vec_j1.Eta(),1,80,-8,8);
-      FillHist("delta eta(highmass jj)",vec_highmass_j0.Eta()-vec_highmass_j1.Eta(),1,80,-8,8);
+      if(jets_lepveto.size()>1) FillHist("delta eta(jj)",vec_j0.Eta()-vec_j1.Eta(),1,80,-8,8);
+      if(jets_lepveto.size()>1) FillHist("delta eta(highmass jj)",vec_highmass_j0.Eta()-vec_highmass_j1.Eta(),1,80,-8,8);
       if(jets_forward.size()>1){
         FillHist("delta eta(forward jj)",vec_forward_j0.Eta()-vec_forward_j1.Eta(),1,80,-8,8);
         if(abs(vec_forward_j0.Eta()-vec_forward_j1.Eta())<3.) cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! dEta(forward jets) < 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
