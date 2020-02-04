@@ -141,23 +141,22 @@ void loop(TString infile,TString outfile){
       FillHist("sumw",i,weights[i],200,0,200);
     }
 
-    const reco::GenParticle *hard_W=NULL,*hard_HN=NULL,*hard_photon=NULL;
+    const reco::GenParticle *hard_W=NULL,*hard_HN=NULL;
     const reco::GenParticle *last_W=NULL,*last_HN=NULL;
-    const reco::GenParticle *gamma_l=NULL,*HN_l=NULL;
-    vector<const reco::GenParticle*> leptons,hard_partons,forward_partons;
+    const reco::GenParticle *hard_l=NULL,*HN_l=NULL;
+    vector<const reco::GenParticle*> leptons,hard_partons;
     for(int i=0;i<gens.size();i++){
       cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << endl;
       if(gens[i].isHardProcess()){
         if(abs(gens[i].pdgId())==24) hard_W=&gens[i];
         else if(abs(gens[i].pdgId())<=6) hard_partons.push_back(&gens[i]);
         else if(gens[i].pdgId()==9900012) hard_HN=&gens[i]; 
-        else if(gens[i].pdgId()==22) hard_photon=&gens[i]; 
       }
       if(abs(gens[i].pdgId())==24) last_W=&gens[i];
       if(gens[i].pdgId()==9900012) last_HN=&gens[i];
-      if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother(0)==hard_photon||gens[i].mother(1)==hard_photon)){
-        gamma_l=&gens[i]; //JH : XXX If gamma_l is just reco::GenParticle*, then it doesn't get &gens[i]
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the gamma_l : " << gamma_l << endl;
+      if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother(0)==hard_partons.at(0)||gens[i].mother(1)==hard_partons.at(0))){
+        hard_l=&gens[i]; //JH : XXX If gamma_l is just reco::GenParticle*, then it doesn't get &gens[i]
+        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the hard_l : " << hard_l << endl;
       }
       else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother(0)==last_HN||gens[i].mother(1)==last_HN)){
         HN_l=&gens[i];
@@ -168,13 +167,11 @@ void loop(TString infile,TString outfile){
         if(abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13) leptons.push_back(&gens[i]);
       }
     }
-    //forward_partons.push_back(hard_partons.at(2));
-    //forward_partons.push_back(hard_partons.at(3));
 
-    //gamma_l = FindLastCopy(gens,gamma_l); HN_l = FindLastCopy(gens,HN_l); 
-    cout << "detected gamma_l : " << gamma_l << endl;
+    //hard_l = FindLastCopy(gens,hard_l); HN_l = FindLastCopy(gens,HN_l); 
+    cout << "detected hard_l : " << hard_l << endl;
     cout << "detected HN_l : " << HN_l << endl;
-    cout << "!!!!!!!!!!!!!gamma_l charge : " << GetCharge(gamma_l) << "!!!!!!!!!!!!!" << endl;
+    cout << "!!!!!!!!!!!!!hard_l charge : " << GetCharge(hard_l) << "!!!!!!!!!!!!!" << endl;
     cout << "!!!!!!!!!!!!!HN_l charge : " << GetCharge(HN_l) << "!!!!!!!!!!!!!" << endl;
     cout << "detected hard_partons : " << endl;
     for(int i=0;i<hard_partons.size();i++) cout << hard_partons.at(i) << endl;
@@ -187,7 +184,7 @@ void loop(TString infile,TString outfile){
     for(int i=0;i<jets.size();i++){
       bool HasLepton = false;
       for(int j=0;j<leptons.size();j++){
-        if(deltaR(*jets.at(i),*leptons.at(j))<0.5){
+        if(deltaR(*jets.at(i),*leptons.at(j))<0.4){
           HasLepton = true;
           break;
         }
@@ -197,12 +194,15 @@ void loop(TString infile,TString outfile){
       jets_lepveto.push_back(jets.at(i));
     }
 
+    cout << "N of jets : " << jets.size() << endl;
+    cout << "N of lepton vetoed jets : " << jets_lepveto.size() << endl;
+
     vector<reco::GenJet*> fatjets_lepveto;
     
     for(int i=0;i<fatjets.size();i++){
       bool HasLepton = false;
       for(int j=0;j<leptons.size();j++){
-        if(deltaR(*fatjets.at(i),*leptons.at(j))<0.8){
+        if(deltaR(*fatjets.at(i),*leptons.at(j))<1.){
           HasLepton = true;
           break;
         }
@@ -212,69 +212,48 @@ void loop(TString infile,TString outfile){
       fatjets_lepveto.push_back(fatjets.at(i));
     }
 
-    //collect the forward jets
-
-    //vector<reco::GenJet*> jets_forward;
-    //
-    //for(int i=0;i<jets_lepveto.size();i++){
-    //  bool HasForwardparton = false;
-    //  for(int j=0;j<forward_partons.size();j++){
-    //    if(deltaR(*jets_lepveto.at(i),*forward_partons.at(j))<0.15){
-    //      HasForwardparton = true;
-    //      break;
-    //    }
-    //  }
-
-    //  if(HasForwardparton) jets_forward.push_back(jets_lepveto.at(i));
-    //  else continue;
-    //}
-
-    cout << "N of jets : " << jets.size() << endl;
-    cout << "N of lepton vetoed jets : " << jets_lepveto.size() << endl;
     cout << "N of fatjets : " << fatjets.size() << endl;
     cout << "N of lepton vetoed fatjets : " << fatjets_lepveto.size() << endl;
+
+    //pick up the (sub)leading jet
     
-    //cout << "N of forward partons : " << forward_partons.size() << endl;
-    //cout << "N of forward jets : " << jets_forward.size() << endl;
-    //if(jets_forward.size()!=2) cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! N(forward jets) != 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
-    //cout << "forward jet info" << endl;
-    //for(int i=0; i<jets_forward.size(); i++) cout << "pt : " << jets_forward.at(i)->pt() << ", eta : " << jets_forward.at(i)->eta() << endl;
-    //cout << "forward parton info" << endl;
-    //for(int i=0; i<forward_partons.size(); i++) cout << "id : " << forward_partons.at(i)->pdgId() << ", pt : " << forward_partons.at(i)->pt() << ", eta : " << forward_partons.at(i)->eta() << endl;
-    //cout << "Check the forward jets constituents..." << endl;
-    //for(int i=0; i<jets_forward.size(); i++) cout << i << "th jet" << endl << jets_forward.at(i)->print() << endl;
+    reco::GenJet* leading_jet;
+    reco::GenJet* subleading_jet;
 
-    //if(leptons.size()!=2){
-    //  cout << "@@@@@@@@detected lepton number : " << leptons.size() << "@@@@@@@@" << endl;
-    //  for(int i=0; i<leptons.size(); i++) PrintGen(leptons.at(i));
-    //  PrintGens(gens);
-    //}
-    //if(!gamma_l){
-    //  cout << "No gamma_l..." << endl;
-    //  PrintGens(gens);
-    //  //exit(1);
-    //}
-    //if(!HN_l){
-    //  cout << "No HN_l..." << endl;
-    //  PrintGens(gens);
-    //  exit(1);
-    //}
-    //if(gamma_l==HN_l){
-    //  cout << "gamma_l = HN_l..." << endl;
-    //  PrintGens(gens);
-    //  exit(1);
-    //}
+    if(jets_lepveto.size()>0){
 
-    //if(0){
-    //  PrintGen(hard_W);
-    //  PrintGen(gamma_l);
-    //  PrintGen(HN_l);
-    //  for(int i=0;i<leptons.size();i++){
-    //    PrintGen(leptons.at(i));
-    //  }
-    //}
+      leading_jet = jets_lepveto.at(0);
+  
+      for(int i=0; i<jets_lepveto.size(); i++){
+        if(jets_lepveto.at(i)->pt()>leading_jet->pt()) leading_jet = jets_lepveto.at(i);
+      }
+      
+      subleading_jet = jets_lepveto.at(0);
+  
+      if(jets_lepveto.size()>1){
+        if(subleading_jet->pt()==leading_jet->pt()) subleading_jet = jets_lepveto.at(1);
+        for(int i=0; i<jets_lepveto.size(); i++){
+          if(jets_lepveto.at(i)->pt()>subleading_jet->pt()){
+            if(jets_lepveto.at(i)->pt()==leading_jet->pt()) continue;
+            else subleading_jet = jets_lepveto.at(i);
+          }
+        }
+      }
 
-    if(gamma_l||HN_l){ 
+    cout << "leading jet info" << endl << leading_jet->print() << endl;
+    cout << "subleading jet info" << endl << subleading_jet->print() << endl;
+
+    }
+
+    if(fatjets_lepveto.size()>0) cout << "fatjet info" << endl << fatjets_lepveto.at(0)->print() << endl;
+
+    if(leptons.size()!=2){
+      cout << "@@@@@@@@detected lepton number : " << leptons.size() << "@@@@@@@@" << endl;
+      for(int i=0; i<leptons.size(); i++) PrintGen(leptons.at(i));
+      PrintGens(gens);
+    }
+
+    if(hard_l||HN_l){ 
       
       //sort(leptons.begin(),leptons.end(),PtCompare);
       //sort(jets.begin(),jets.end(),PtCompare);
@@ -282,7 +261,6 @@ void loop(TString infile,TString outfile){
 
       TLorentzVector* arr_leptons=MakeTLorentzVectorArray(leptons);
       TLorentzVector* arr_jets=MakeTLorentzVectorArray(jets_lepveto); 
-      //TLorentzVector* arr_forwardjets=MakeTLorentzVectorArray(jets_forward); 
       TLorentzVector* arr_fatjets=MakeTLorentzVectorArray(fatjets_lepveto); 
 
       for(int i=0;i<leptons.size();i++){
@@ -291,7 +269,6 @@ void loop(TString infile,TString outfile){
 
       sort(arr_leptons,arr_leptons+leptons.size(),PtCompare);
       sort(arr_jets,arr_jets+jets_lepveto.size(),PtCompare);
-      //sort(arr_forwardjets,arr_forwardjets+jets_forward.size(),PtCompare);
       sort(arr_fatjets,arr_fatjets+fatjets_lepveto.size(),PtCompare);
       
       for(int i=0;i<leptons.size();i++){
@@ -309,24 +286,14 @@ void loop(TString infile,TString outfile){
       TLorentzVector vec_hard_HN=MakeTLorentzVector(hard_HN);
       TLorentzVector vec_last_HN=MakeTLorentzVector(last_HN);
 
-      TLorentzVector vec_gamma_l=MakeTLorentzVector(gamma_l);
+      TLorentzVector vec_hard_l=MakeTLorentzVector(hard_l);
       TLorentzVector vec_HN_l=MakeTLorentzVector(HN_l);
       TLorentzVector vec_l0=arr_leptons[0];
       TLorentzVector vec_l1=arr_leptons[1];
       TLorentzVector vec_j0=arr_jets[0];
       TLorentzVector vec_j1=arr_jets[1];
       TLorentzVector vec_fatjet=arr_fatjets[0];
-      //TLorentzVector vec_q0=MakeTLorentzVector(forward_partons.at(0));
-      //TLorentzVector vec_q1=MakeTLorentzVector(forward_partons.at(1));
 
-      //TLorentzVector vec_forward_j0;
-      //TLorentzVector vec_forward_j1;
-      //if(jets_forward.size()==1) vec_forward_j0=arr_forwardjets[0];
-      //if(jets_forward.size()>1){
-      //  vec_forward_j0=arr_forwardjets[0];
-      //  vec_forward_j1=arr_forwardjets[1];
-      //}
-      
       TLorentzVector vec_dijet=vec_j0+vec_j1;
       TLorentzVector vec_l0_fatjet=vec_l0+vec_fatjet;
       TLorentzVector vec_l1_fatjet=vec_l1+vec_fatjet;
@@ -335,57 +302,55 @@ void loop(TString infile,TString outfile){
       TLorentzVector vec_SS2l_fatjet=vec_l0+vec_l1+vec_fatjet;
       TLorentzVector vec_SS2l_dijet=vec_l0+vec_l1+vec_dijet;
 
-      //FillHist("hard_W_m",vec_hard_W.M(),1,70,50,120);
-      //FillHist("hard_W_pt",vec_hard_W.Pt(),1,1000,0,1000);
-      //FillHist("hard_W_eta",vec_hard_W.Eta(),1,50,-5,5); // same with last_W
       FillHist("last_W_m",vec_last_W.M(),1,70,50,120);
       FillHist("last_W_pt",vec_last_W.Pt(),1,2000,0,2000);
       FillHist("last_W_E",vec_last_W.E(),1,2000,0,2000);
       FillHist("last_W_eta",vec_last_W.Eta(),1,50,-5,5);
-      FillHist("dijet_m",vec_dijet.M(),1,2500,0,2500);
-      FillHist("dijet_pt",vec_dijet.Pt(),1,1000,0,1000);
-      FillHist("dijet_E",vec_dijet.E(),1,3000,0,3000);
-      FillHist("dijet_eta",vec_dijet.Eta(),1,50,-5,5);
-      FillHist("fatjet_m",vec_fatjet.M(),1,2000,0,2000);
-      FillHist("fatjet_pt",vec_fatjet.Pt(),1,2000,0,2000);
-      FillHist("fatjet_E",vec_fatjet.E(),1,3000,0,3000);
-      FillHist("fatjet_eta",vec_fatjet.Eta(),1,50,-5,5);
-      //FillHist("hard_HN_m",vec_hard_HN.M(),1,20,990,1010);
-      //FillHist("hard_HN_pt",vec_hard_HN.Pt(),1,1000,0,1000);
-      //FillHist("hard_HN_eta",vec_hard_HN.Eta(),1,50,-5,5);
       FillHist("last_HN_m",vec_last_HN.M(),1,2100,0,2100);
       FillHist("last_HN_pt",vec_last_HN.Pt(),1,1000,0,1000);
       FillHist("last_HN_E",vec_last_HN.E(),1,3000,0,3000);
       FillHist("last_HN_eta",vec_last_HN.Eta(),1,50,-5,5);
-      FillHist("(l0+fatjet)_m",vec_l0_fatjet.M(),1,3000,0,3000);
-      FillHist("(l0+fatjet)_pt",vec_l0_fatjet.Pt(),1,3000,0,3000);
-      FillHist("(l0+fatjet)_E",vec_l0_fatjet.E(),1,3000,0,3000);
-      FillHist("(l0+fatjet)_eta",vec_l0_fatjet.Eta(),1,50,-5,5);
-      FillHist("(l1+fatjet)_m",vec_l1_fatjet.M(),1,2000,0,2000);
-      FillHist("(l1+fatjet)_pt",vec_l1_fatjet.Pt(),1,1000,0,1000);
-      FillHist("(l1+fatjet)_E",vec_l1_fatjet.E(),1,3000,0,3000);
-      FillHist("(l1+fatjet)_eta",vec_l1_fatjet.Eta(),1,50,-5,5);
-      FillHist("(l0+dijet)_m",vec_l0_dijet.M(),1,3500,0,3500);
-      FillHist("(l0+dijet)_pt",vec_l0_dijet.Pt(),1,2000,0,2000);
-      FillHist("(l0+dijet)_E",vec_l0_dijet.E(),1,3000,0,3000);
-      FillHist("(l0+dijet)_eta",vec_l0_dijet.Eta(),1,50,-5,5);
-      FillHist("(l1+dijet)_m",vec_l1_dijet.M(),1,3000,0,3000);
-      FillHist("(l1+dijet)_pt",vec_l1_dijet.Pt(),1,1000,0,1000);
-      FillHist("(l1+dijet)_E",vec_l1_dijet.E(),1,3000,0,3000);
-      FillHist("(l1+dijet)_eta",vec_l1_dijet.Eta(),1,50,-5,5);
-      FillHist("(SS2l+fatjet)_m",vec_SS2l_fatjet.M(),1,2000,0,2000);
-      FillHist("(SS2l+fatjet)_pt",vec_SS2l_fatjet.Pt(),1,1000,0,1000);
-      FillHist("(SS2l+fatjet)_E",vec_SS2l_fatjet.E(),1,3000,0,3000);
-      FillHist("(SS2l+fatjet)_eta",vec_SS2l_fatjet.Eta(),1,50,-5,5);
-      FillHist("(SS2l+dijet)_m",vec_SS2l_dijet.M(),1,3500,0,3500);
-      FillHist("(SS2l+dijet)_pt",vec_SS2l_dijet.Pt(),1,2000,0,2000);
-      FillHist("(SS2l+dijet)_E",vec_SS2l_dijet.E(),1,3000,0,3000);
-      FillHist("(SS2l+dijet)_eta",vec_SS2l_dijet.Eta(),1,50,-5,5);
+      if(fatjets_lepveto.size()>0){
+        FillHist("fatjet_m",vec_fatjet.M(),1,2000,0,2000);
+        FillHist("fatjet_pt",vec_fatjet.Pt(),1,2000,0,2000);
+        FillHist("fatjet_E",vec_fatjet.E(),1,3000,0,3000);
+        FillHist("fatjet_eta",vec_fatjet.Eta(),1,50,-5,5);
+        FillHist("(l0+fatjet)_m",vec_l0_fatjet.M(),1,3000,0,3000);
+        FillHist("(l0+fatjet)_pt",vec_l0_fatjet.Pt(),1,3000,0,3000);
+        FillHist("(l0+fatjet)_E",vec_l0_fatjet.E(),1,3000,0,3000);
+        FillHist("(l0+fatjet)_eta",vec_l0_fatjet.Eta(),1,50,-5,5);
+        FillHist("(l1+fatjet)_m",vec_l1_fatjet.M(),1,2000,0,2000);
+        FillHist("(l1+fatjet)_pt",vec_l1_fatjet.Pt(),1,1000,0,1000);
+        FillHist("(l1+fatjet)_E",vec_l1_fatjet.E(),1,3000,0,3000);
+        FillHist("(l1+fatjet)_eta",vec_l1_fatjet.Eta(),1,50,-5,5);
+        FillHist("(SS2l+fatjet)_m",vec_SS2l_fatjet.M(),1,2000,0,2000);
+        FillHist("(SS2l+fatjet)_pt",vec_SS2l_fatjet.Pt(),1,1000,0,1000);
+        FillHist("(SS2l+fatjet)_E",vec_SS2l_fatjet.E(),1,3000,0,3000);
+        FillHist("(SS2l+fatjet)_eta",vec_SS2l_fatjet.Eta(),1,50,-5,5);
+      }
+      if(jets_lepveto.size()>1){
+        FillHist("dijet_m",vec_dijet.M(),1,2500,0,2500);
+        FillHist("dijet_pt",vec_dijet.Pt(),1,1000,0,1000);
+        FillHist("dijet_E",vec_dijet.E(),1,3000,0,3000);
+        FillHist("dijet_eta",vec_dijet.Eta(),1,50,-5,5);
+        FillHist("(l0+dijet)_m",vec_l0_dijet.M(),1,3500,0,3500);
+        FillHist("(l0+dijet)_pt",vec_l0_dijet.Pt(),1,2000,0,2000);
+        FillHist("(l0+dijet)_E",vec_l0_dijet.E(),1,3000,0,3000);
+        FillHist("(l0+dijet)_eta",vec_l0_dijet.Eta(),1,50,-5,5);
+        FillHist("(l1+dijet)_m",vec_l1_dijet.M(),1,3000,0,3000);
+        FillHist("(l1+dijet)_pt",vec_l1_dijet.Pt(),1,1000,0,1000);
+        FillHist("(l1+dijet)_E",vec_l1_dijet.E(),1,3000,0,3000);
+        FillHist("(l1+dijet)_eta",vec_l1_dijet.Eta(),1,50,-5,5);
+        FillHist("(SS2l+dijet)_m",vec_SS2l_dijet.M(),1,3500,0,3500);
+        FillHist("(SS2l+dijet)_pt",vec_SS2l_dijet.Pt(),1,2000,0,2000);
+        FillHist("(SS2l+dijet)_E",vec_SS2l_dijet.E(),1,3000,0,3000);
+        FillHist("(SS2l+dijet)_eta",vec_SS2l_dijet.Eta(),1,50,-5,5);
+      }
 
-      FillHist("gamma_l_pt",vec_gamma_l.Pt(),1,1000,0,1000);
-      FillHist("gamma_l_E",vec_gamma_l.E(),1,1000,0,1000);
-      FillHist("gamma_l_eta",vec_gamma_l.Eta(),1,50,-5,5);
-      FillHist("gamma_l_charge",GetCharge(gamma_l),1,3,-1,2);
+      FillHist("hard_l_pt",vec_hard_l.Pt(),1,1000,0,1000);
+      FillHist("hard_l_E",vec_hard_l.E(),1,1000,0,1000);
+      FillHist("hard_l_eta",vec_hard_l.Eta(),1,50,-5,5);
+      FillHist("hard_l_charge",GetCharge(hard_l),1,3,-1,2);
       FillHist("HN_l_pt",vec_HN_l.Pt(),1,2000,0,2000);
       FillHist("HN_l_E",vec_HN_l.E(),1,2000,0,2000);
       FillHist("HN_l_eta",vec_HN_l.Eta(),1,50,-5,5);
@@ -396,51 +361,26 @@ void loop(TString infile,TString outfile){
       FillHist("l1_pt",vec_l1.Pt(),1,1000,0,1000);
       FillHist("l1_E",vec_l1.E(),1,1000,0,1000);
       FillHist("l1_eta",vec_l1.Eta(),1,50,-5,5);
-      FillHist("j0_m",vec_j0.M(),1,2000,0,2000);
-      FillHist("j0_pt",vec_j0.Pt(),1,2000,0,2000);
-      FillHist("j0_E",vec_j0.E(),1,2000,0,2000);
-      FillHist("j0_eta",vec_j0.Eta(),1,50,-5,5);
-      FillHist("j1_m",vec_j1.M(),1,2000,0,2000);
-      FillHist("j1_pt",vec_j1.Pt(),1,2000,0,2000);
-      FillHist("j1_E",vec_j1.E(),1,2000,0,2000);
-      FillHist("j1_eta",vec_j1.Eta(),1,50,-5,5);
-      //if(jets_forward.size()==1){
-      //  FillHist("forward_j0_m",vec_forward_j0.M(),1,2000,0,2000);
-      //  FillHist("forward_j0_pt",vec_forward_j0.Pt(),1,2000,0,2000);
-      //  FillHist("forward_j0_E",vec_forward_j0.E(),1,2000,0,2000);
-      //  FillHist("forward_j0_eta",vec_forward_j0.Eta(),1,50,-5,5);
-      //}
-      //if(jets_forward.size()>1){
-      //  FillHist("forward_j0_m",vec_forward_j0.M(),1,2000,0,2000);
-      //  FillHist("forward_j0_pt",vec_forward_j0.Pt(),1,2000,0,2000);
-      //  FillHist("forward_j0_E",vec_forward_j0.E(),1,2000,0,2000);
-      //  FillHist("forward_j0_eta",vec_forward_j0.Eta(),1,50,-5,5);
-      //  FillHist("forward_j1_m",vec_forward_j1.M(),1,2000,0,2000);
-      //  FillHist("forward_j1_pt",vec_forward_j1.Pt(),1,2000,0,2000);
-      //  FillHist("forward_j1_E",vec_forward_j1.E(),1,2000,0,2000);
-      //  FillHist("forward_j1_eta",vec_forward_j1.Eta(),1,50,-5,5);
-      //}
-      //FillHist("q0_m",vec_q0.M(),1,2000,0,2000);
-      //FillHist("q0_pt",vec_q0.Pt(),1,2000,0,2000);
-      //FillHist("q0_E",vec_q0.E(),1,2000,0,2000);
-      //FillHist("q0_eta",vec_q0.Eta(),1,50,-5,5);
-      //FillHist("q1_m",vec_q1.M(),1,2000,0,2000);
-      //FillHist("q1_pt",vec_q1.Pt(),1,2000,0,2000);
-      //FillHist("q1_E",vec_q1.E(),1,2000,0,2000);
-      //FillHist("q1_eta",vec_q1.Eta(),1,50,-5,5);
-      //FillHist("delta eta(qq)",vec_q0.Eta()-vec_q1.Eta(),1,80,-8,8);
-      //FillHist("delta eta(jj)",vec_j0.Eta()-vec_j1.Eta(),1,80,-8,8);
-      //if(jets_forward.size()>1){
-      //  FillHist("delta eta(forward jj)",vec_forward_j0.Eta()-vec_forward_j1.Eta(),1,80,-8,8);
-      //  if(abs(vec_forward_j0.Eta()-vec_forward_j1.Eta())<3.) cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! dEta(forward jets) < 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
-      //}
+      if(jets_lepveto.size()>0){
+        FillHist("j0_m",vec_j0.M(),1,2000,0,2000);
+        FillHist("j0_pt",vec_j0.Pt(),1,2000,0,2000);
+        FillHist("j0_E",vec_j0.E(),1,2000,0,2000);
+        FillHist("j0_eta",vec_j0.Eta(),1,50,-5,5);
+      }
+      if(jets_lepveto.size()>1){
+        FillHist("j1_m",vec_j1.M(),1,2000,0,2000);
+        FillHist("j1_pt",vec_j1.Pt(),1,2000,0,2000);
+        FillHist("j1_E",vec_j1.E(),1,2000,0,2000);
+        FillHist("j1_eta",vec_j1.Eta(),1,50,-5,5);
+        FillHist("DeltaR(jj)",vec_j0.DeltaR(vec_j1),1,50,0,5);
+      }
 
-      int IsSameCharge = GetCharge(gamma_l)*GetCharge(HN_l);
+      int IsSameCharge = GetCharge(hard_l)*GetCharge(HN_l);
       FillHist("IsSameChargeLepton",IsSameCharge,1,3,-1,2);
 
       FillHist("nlep",leptons.size(),1,5,0,5);
-      FillHist("njet",jets.size(),1,50,0,50);
-      FillHist("nfatjet",fatjets.size(),1,50,0,50);
+      FillHist("njet",jets_lepveto.size(),1,50,0,50);
+      FillHist("nfatjet",fatjets_lepveto.size(),1,50,0,50);
 
       for(int i=0; i<leptons.size(); i++){
         FillHist("leptons_pt",leptons.at(i)->pt(),1,1000,0,1000);
@@ -448,17 +388,17 @@ void loop(TString infile,TString outfile){
       for(int i=0; i<leptons.size(); i++){
         FillHist("leptons_eta",leptons.at(i)->eta(),1,50,-5,5);
       }
-      for(int i=0; i<jets.size(); i++){
-        FillHist("jets_pt",jets.at(i)->pt(),1,1000,0,1000);
+      for(int i=0; i<jets_lepveto.size(); i++){
+        FillHist("jets_pt",jets_lepveto.at(i)->pt(),1,1000,0,1000);
       }
-      for(int i=0; i<jets.size(); i++){
-        FillHist("jets_eta",jets.at(i)->eta(),1,50,-5,5);
+      for(int i=0; i<jets_lepveto.size(); i++){
+        FillHist("jets_eta",jets_lepveto.at(i)->eta(),1,50,-5,5);
       }
-      for(int i=0; i<fatjets.size(); i++){
-        FillHist("fatjets_pt",fatjets.at(i)->pt(),1,1000,0,1000);
+      for(int i=0; i<fatjets_lepveto.size(); i++){
+        FillHist("fatjets_pt",fatjets_lepveto.at(i)->pt(),1,1000,0,1000);
       }
-      for(int i=0; i<fatjets.size(); i++){
-        FillHist("fatjets_eta",fatjets.at(i)->eta(),1,50,-5,5);
+      for(int i=0; i<fatjets_lepveto.size(); i++){
+        FillHist("fatjets_eta",fatjets_lepveto.at(i)->eta(),1,50,-5,5);
       }
 
     }else{
