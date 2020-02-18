@@ -143,7 +143,7 @@ void loop(TString infile,TString outfile){
 
     const reco::GenParticle *hard_W=NULL,*hard_HN=NULL;
     const reco::GenParticle *last_W=NULL,*last_HN=NULL;
-    const reco::GenParticle *hard_l=NULL,*HN_l=NULL;
+    const reco::GenParticle *hard_l=NULL,*HN_l=NULL,*W_l=NULL;
     vector<const reco::GenParticle*> leptons,hard_partons;
     for(int i=0;i<gens.size();i++){
       cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << endl;
@@ -162,6 +162,10 @@ void loop(TString infile,TString outfile){
         HN_l=&gens[i];
         cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the HN_l : " << HN_l << endl;
       }
+      else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother(0)==last_W||gens[i].mother(1)==last_W)){
+        W_l=&gens[i];
+        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the W_l : " << W_l << endl;
+      }
 
       if(gens[i].isPromptFinalState()){
         if(abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13) leptons.push_back(&gens[i]);
@@ -171,8 +175,10 @@ void loop(TString infile,TString outfile){
     //hard_l = FindLastCopy(gens,hard_l); HN_l = FindLastCopy(gens,HN_l); 
     cout << "detected hard_l : " << hard_l << endl;
     cout << "detected HN_l : " << HN_l << endl;
+    cout << "detected W_l : " << W_l << endl;
     cout << "!!!!!!!!!!!!!hard_l charge : " << GetCharge(hard_l) << "!!!!!!!!!!!!!" << endl;
     cout << "!!!!!!!!!!!!!HN_l charge : " << GetCharge(HN_l) << "!!!!!!!!!!!!!" << endl;
+    cout << "!!!!!!!!!!!!!W_l charge : " << GetCharge(W_l) << "!!!!!!!!!!!!!" << endl;
     cout << "detected hard_partons : " << endl;
     for(int i=0;i<hard_partons.size();i++) cout << hard_partons.at(i) << endl;
     PrintGens(gens);
@@ -288,6 +294,7 @@ void loop(TString infile,TString outfile){
 
       TLorentzVector vec_hard_l=MakeTLorentzVector(hard_l);
       TLorentzVector vec_HN_l=MakeTLorentzVector(HN_l);
+      TLorentzVector vec_W_l=MakeTLorentzVector(W_l);
       TLorentzVector vec_l0=arr_leptons[0];
       TLorentzVector vec_l1=arr_leptons[1];
       TLorentzVector vec_j0=arr_jets[0];
@@ -347,14 +354,18 @@ void loop(TString infile,TString outfile){
         FillHist("(SS2l+dijet)_eta",vec_SS2l_dijet.Eta(),1,50,-5,5);
       }
 
-      FillHist("hard_l_pt",vec_hard_l.Pt(),1,1000,0,1000);
-      FillHist("hard_l_E",vec_hard_l.E(),1,1000,0,1000);
+      FillHist("hard_l_pt",vec_hard_l.Pt(),1,2000,0,2000);
+      FillHist("hard_l_E",vec_hard_l.E(),1,2000,0,2000);
       FillHist("hard_l_eta",vec_hard_l.Eta(),1,50,-5,5);
       FillHist("hard_l_charge",GetCharge(hard_l),1,3,-1,2);
       FillHist("HN_l_pt",vec_HN_l.Pt(),1,2000,0,2000);
       FillHist("HN_l_E",vec_HN_l.E(),1,2000,0,2000);
       FillHist("HN_l_eta",vec_HN_l.Eta(),1,50,-5,5);
       FillHist("HN_l_charge",GetCharge(HN_l),1,3,-1,2);
+      FillHist("W_l_pt",vec_W_l.Pt(),1,2000,0,2000);
+      FillHist("W_l_E",vec_W_l.E(),1,2000,0,2000);
+      FillHist("W_l_eta",vec_W_l.Eta(),1,50,-5,5);
+      FillHist("W_l_charge",GetCharge(W_l),1,3,-1,2);
       FillHist("l0_pt",vec_l0.Pt(),1,2000,0,2000);
       FillHist("l0_E",vec_l0.E(),1,2000,0,2000);
       FillHist("l0_eta",vec_l0.Eta(),1,50,-5,5);
@@ -375,8 +386,8 @@ void loop(TString infile,TString outfile){
         FillHist("DeltaR(jj)",vec_j0.DeltaR(vec_j1),1,50,0,5);
       }
 
-      int IsSameCharge = GetCharge(hard_l)*GetCharge(HN_l);
-      FillHist("IsSameChargeLepton",IsSameCharge,1,3,-1,2);
+      //int IsSameCharge = GetCharge(hard_l)*GetCharge(HN_l);
+      //FillHist("IsSameChargeLepton",IsSameCharge,1,3,-1,2);
 
       FillHist("nlep",leptons.size(),1,5,0,5);
       FillHist("njet",jets_lepveto.size(),1,50,0,50);
