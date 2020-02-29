@@ -3,7 +3,7 @@ import os
 #ptcuts = ["ptcut5","ptcut10","ptcut15","ptcut20","ptl10_ptj30","ptl20_ptj30"]
 ptcuts = ["ptcut5","ptcut10","ptcut20"]
 channels = ["MuMu"]
-masses = ["300","600","1000"]
+masses = ["300","600"]
 #masses = ["1000"]
 NEVENT = "20000"
 NCORE = "10"

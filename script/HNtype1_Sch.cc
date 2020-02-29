@@ -172,7 +172,8 @@ void loop(TString infile,TString outfile){
       }
     }
 
-    //hard_l = FindLastCopy(gens,hard_l); HN_l = FindLastCopy(gens,HN_l); 
+    hard_l = FindLastCopy(gens,hard_l); HN_l = FindLastCopy(gens,HN_l); 
+    
     cout << "detected hard_l : " << hard_l << endl;
     cout << "detected HN_l : " << HN_l << endl;
     cout << "detected W_l : " << W_l << endl;
@@ -221,7 +222,7 @@ void loop(TString infile,TString outfile){
     cout << "N of fatjets : " << fatjets.size() << endl;
     cout << "N of lepton vetoed fatjets : " << fatjets_lepveto.size() << endl;
 
-    //pick up the (sub)leading jet
+    //pick up the (sub)leading jet : to inspect jet constituents
     
     reco::GenJet* leading_jet;
     reco::GenJet* subleading_jet;
@@ -269,10 +270,6 @@ void loop(TString infile,TString outfile){
       TLorentzVector* arr_jets=MakeTLorentzVectorArray(jets_lepveto); 
       TLorentzVector* arr_fatjets=MakeTLorentzVectorArray(fatjets_lepveto); 
 
-      for(int i=0;i<leptons.size();i++){
-        cout << "array leptons pt : " << arr_leptons[i].Pt() << endl;
-      }
-
       sort(arr_leptons,arr_leptons+leptons.size(),PtCompare);
       sort(arr_jets,arr_jets+jets_lepveto.size(),PtCompare);
       sort(arr_fatjets,arr_fatjets+fatjets_lepveto.size(),PtCompare);
@@ -287,9 +284,7 @@ void loop(TString infile,TString outfile){
         cout << "sorted array lepton vetoed jets pt : " << arr_jets[i].Pt() << endl;
       }
 
-      TLorentzVector vec_hard_W=MakeTLorentzVector(hard_W);
       TLorentzVector vec_last_W=MakeTLorentzVector(last_W);
-      TLorentzVector vec_hard_HN=MakeTLorentzVector(hard_HN);
       TLorentzVector vec_last_HN=MakeTLorentzVector(last_HN);
 
       TLorentzVector vec_hard_l=MakeTLorentzVector(hard_l);
@@ -298,10 +293,13 @@ void loop(TString infile,TString outfile){
       TLorentzVector vec_l0=arr_leptons[0];
       TLorentzVector vec_l1=arr_leptons[1];
       TLorentzVector vec_j0=arr_jets[0];
-      TLorentzVector vec_j1=arr_jets[1];
-      TLorentzVector vec_fatjet=arr_fatjets[0];
+      TLorentzVector vec_j1;
+      if(jets_lepveto.size()>1) vec_j1=arr_jets[1];
+      TLorentzVector vec_fatjet;
+      if(fatjets_lepveto.size()>0) vec_fatjet=arr_fatjets[0];
 
-      TLorentzVector vec_dijet=vec_j0+vec_j1;
+      TLorentzVector vec_dijet;
+      if(jets_lepveto.size()>1) vec_dijet=vec_j0+vec_j1;
       TLorentzVector vec_l0_fatjet=vec_l0+vec_fatjet;
       TLorentzVector vec_l1_fatjet=vec_l1+vec_fatjet;
       TLorentzVector vec_l0_dijet=vec_l0+vec_dijet;

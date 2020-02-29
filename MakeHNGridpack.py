@@ -25,7 +25,7 @@ TUNE = "python/MG_NLO_CP5_DiLepChargeFilter_cff.py"
 #ptcuts = ["ptcut5","ptcut10","ptcut15","ptcut20","ptl10_ptj30","ptl20_ptj30"]
 ptcuts = ["ptcut5","ptcut10","ptcut20"]
 channels = ["MuMu"]
-masses = ["40","60","70","75"]
+masses = ["100","150","200","400","500","700","800","900","1100","1200","1300","1400","1500","1700","2000"]
 #masses = ["1000"]
 
 #for ptcut in ptcuts:
@@ -38,6 +38,11 @@ masses = ["40","60","70","75"]
 #    for mass in masses:
 #      os.system("bin/MakeGridpack.sh MG"+" "+"HeavyMajoranaNeutrino_SSDiLepton_Tchannel_LO_Vanderbilt_{0}_{1}_M{2}".format(ptcut, channel, mass)+" "+NCORE+" "+TUNE)
 
+#for channel in channels:
+#  for mass in masses:
+#    os.system("bin/MakeGridpack.sh MG"+" "+"HeavyMajoranaNeutrino_SSDiLepton_Schannel_NLO_{0}_M{1}".format(channel, mass)+" "+NCORE+" "+TUNE)
+
 for channel in channels:
   for mass in masses:
-    os.system("bin/MakeGridpack.sh MG"+" "+"HeavyMajoranaNeutrino_SSDiLepton_Schannel_NLO_{0}_M{1}".format(channel, mass)+" "+NCORE+" "+TUNE)
+    os.system("bin/MakeGridpack.sh MG"+" "+"HeavyMajoranaNeutrino_SSDiLepton_Tchannel_NLO_{0}_M{1}".format(channel, mass)+" "+NCORE+" "+TUNE)
+
