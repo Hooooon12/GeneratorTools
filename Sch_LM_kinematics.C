@@ -268,26 +268,27 @@ TH1D* Wleta_N75 = (TH1D*)N75->Get("W_l_eta");
 
 
 // TODO : MET distribution (See Fig.57- in AN17-291)
-// TODO : dRqq, q0_pt/eta, q1_pt/eta distribution
-// TODO : LM SR2
+// TODO : dRqq, q0 pt/eta, q1 pt/eta distribution
+// TODO : fraction of l1 gen-matched to Nl out of total 
+// TODO : pt+eta efficiency
 
 
 TCanvas* c1 = new TCanvas("c1","mlljj",200,350,700,650);
-//TCanvas* c2 = new TCanvas("c2","ml1jj",250,300,700,650);
-//TCanvas* c3 = new TCanvas("c3","ml2jj",300,250,700,650);
-//TCanvas* c4 = new TCanvas("c4","Npt",350,200,700,650);
-//TCanvas* c5 = new TCanvas("c5","Neta",400,150,700,650);
-TCanvas* c6 = new TCanvas("c6","Nlpt",220,330,700,650);
-TCanvas* c7 = new TCanvas("c7","Nlpt NLO",240,310,700,650);
-//TCanvas* c7 = new TCanvas("c7","Nleta",500,50,700,650);
-//TCanvas* c8 = new TCanvas("c8","Wlpt",450,100,700,650);
-//TCanvas* c9 = new TCanvas("c9","Wleta",500,50,700,650);
+TCanvas* c2 = new TCanvas("c2","ml1jj",220,330,700,650);
+TCanvas* c3 = new TCanvas("c3","ml2jj",240,310,700,650);
+TCanvas* c4 = new TCanvas("c4","Npt",260,290,700,650);
+TCanvas* c5 = new TCanvas("c5","Neta",280,270,700,650);
+TCanvas* c6 = new TCanvas("c6","Nlpt",300,250,700,650);
+TCanvas* c7 = new TCanvas("c7","Nlpt NLO",320,230,700,650);
+TCanvas* c8 = new TCanvas("c8","Nleta",340,210,700,650);
+TCanvas* c9 = new TCanvas("c9","Wlpt",360,190,700,650);
+TCanvas* c10 = new TCanvas("c10","Wleta",380,170,700,650);
 
 
 
 c1->cd();
 
-mlljj_L40->SetTitle("m(lljj) #scale[0.8]{(NLO vs LO)}");
+mlljj_L40->SetTitle("m(lljj) #scale[0.8]{(NLO vs LO) : Low mass}");
 mlljj_L40->SetStats(0);
 mlljj_L40->Rebin(10);
 mlljj_L40->GetXaxis()->SetRangeUser(0,300);
@@ -350,6 +351,69 @@ mlljj_N70->SetLineColor(kBlue);
 mlljj_N70->SetLineWidth(2);
 mlljj_N70->Draw("same hist");
 
+TLegend* mlljj_legend = new TLegend(0.62,0.7,0.9,0.9);
+mlljj_legend->AddEntry(mlljj_N40,"Sch #mu#mu m_{N}=40GeV, NLO","l");
+mlljj_legend->AddEntry(mlljj_L40,"#scale[0.9]{LO}","l");
+mlljj_legend->AddEntry(mlljj_N50,"Sch #mu#mu m_{N}=50GeV, NLO","l");
+mlljj_legend->AddEntry(mlljj_L50,"#scale[0.9]{LO}","l");
+mlljj_legend->AddEntry(mlljj_N60,"Sch #mu#mu m_{N}=60GeV, NLO","l");
+mlljj_legend->AddEntry(mlljj_L60,"#scale[0.9]{LO}","l");
+mlljj_legend->AddEntry(mlljj_N70,"Sch #mu#mu m_{N}=70GeV, NLO","l");
+mlljj_legend->AddEntry(mlljj_L70,"#scale[0.9]{LO}","l");
+mlljj_legend->Draw();
+
+
+c2->cd();
+
+ml1jj_L40->SetTitle("m(lljj) #scale[0.8]{(NLO vs LO) : Low mass}");
+ml1jj_L40->SetStats(0);
+ml1jj_L40->Rebin(10);
+ml1jj_L40->GetXaxis()->SetRangeUser(0,300);
+ml1jj_L40->GetYaxis()->SetRangeUser(0,30000);
+ml1jj_L40->SetLineColor(kRed);
+ml1jj_L40->SetLineWidth(3);
+ml1jj_L40->SetLineStyle(7);
+ml1jj_L40->Draw("hist");
+ml1jj_L50->Scale(mlljj_L40->GetEntries()/mlljj_L50->GetEntries());
+ml1jj_L50->Rebin(10);
+ml1jj_L50->SetLineColor(kOrange+1);
+ml1jj_L50->SetLineWidth(3);
+ml1jj_L50->SetLineStyle(7);
+ml1jj_L50->Draw("same hist");
+ml1jj_L60->Scale(mlljj_L40->GetEntries()/mlljj_L60->GetEntries());
+ml1jj_L60->Rebin(10);
+ml1jj_L60->SetLineColor(kGreen+1);
+ml1jj_L60->SetLineWidth(3);
+ml1jj_L60->SetLineStyle(7);
+ml1jj_L60->Draw("same hist");
+ml1jj_L70->Scale(mlljj_L40->GetEntries()/mlljj_L70->GetEntries());
+ml1jj_L70->Rebin(10);
+ml1jj_L70->SetLineColor(kBlue);
+ml1jj_L70->SetLineWidth(3);
+ml1jj_L70->SetLineStyle(7);
+ml1jj_L70->Draw("same hist");
+ml1jj_N40->SetStats(0);
+ml1jj_N40->Scale(mlljj_L40->GetEntries()/mlljj_N40->GetEntries());
+ml1jj_N40->Rebin(10);
+ml1jj_N40->SetLineColor(kRed);
+ml1jj_N40->SetLineWidth(2);
+ml1jj_N40->Draw("same hist");
+ml1jj_N50->Scale(mlljj_L40->GetEntries()/mlljj_N50->GetEntries());
+ml1jj_N50->Rebin(10);
+ml1jj_N50->SetLineColor(kOrange+1);
+ml1jj_N50->SetLineWidth(2);
+ml1jj_N50->Draw("same hist");
+ml1jj_N60->Scale(mlljj_L40->GetEntries()/mlljj_N60->GetEntries());
+ml1jj_N60->Rebin(10);
+ml1jj_N60->SetLineColor(kGreen+1);
+ml1jj_N60->SetLineWidth(2);
+ml1jj_N60->Draw("same hist");
+ml1jj_N70->Scale(mlljj_L40->GetEntries()/mlljj_N70->GetEntries());
+ml1jj_N70->Rebin(10);
+ml1jj_N70->SetLineColor(kBlue);
+ml1jj_N70->SetLineWidth(2);
+ml1jj_N70->Draw("same hist");
+
 TLegend* mlljj_legend = new TLegend(0.7,0.7,0.9,0.9);
 mlljj_legend->AddEntry(mlljj_N40,"m_{N}=40GeV, NLO","l");
 mlljj_legend->AddEntry(mlljj_L40,"#scale[0.9]{LO}","l");
@@ -363,9 +427,13 @@ mlljj_legend->Draw();
 
 
 
+
+
+
+
 c6->cd();
 
-Nlpt_L40->SetTitle("l_{N} pt #scale[0.8]{(NLO vs LO)}");
+Nlpt_L40->SetTitle("l_{N} pt #scale[0.8]{(NLO vs LO) : Low mass}");
 Nlpt_L40->SetStats(0);
 Nlpt_L40->Rebin(2);
 Nlpt_L40->GetXaxis()->SetRangeUser(0,50);
@@ -421,14 +489,14 @@ Nlpt_N70->SetLineColor(kBlue);
 Nlpt_N70->SetLineWidth(2);
 Nlpt_N70->Draw("same hist");
 
-TLegend* Nlpt_legend = new TLegend(0.7,0.7,0.9,0.9);
-Nlpt_legend->AddEntry(Nlpt_N40,"m_{N}=40GeV, NLO","l");
+TLegend* Nlpt_legend = new TLegend(0.62,0.7,0.9,0.9);
+Nlpt_legend->AddEntry(Nlpt_N40,"Sch #mu#mu m_{N}=40GeV, NLO","l");
 Nlpt_legend->AddEntry(Nlpt_L40,"#scale[0.9]{LO}","l");
-Nlpt_legend->AddEntry(Nlpt_N50,"m_{N}=50GeV, NLO","l");
+Nlpt_legend->AddEntry(Nlpt_N50,"Sch #mu#mu m_{N}=50GeV, NLO","l");
 Nlpt_legend->AddEntry(Nlpt_L50,"#scale[0.9]{LO}","l");
-Nlpt_legend->AddEntry(Nlpt_N60,"m_{N}=60GeV, NLO","l");
+Nlpt_legend->AddEntry(Nlpt_N60,"Sch #mu#mu m_{N}=60GeV, NLO","l");
 Nlpt_legend->AddEntry(Nlpt_L60,"#scale[0.9]{LO}","l");
-Nlpt_legend->AddEntry(Nlpt_N70,"m_{N}=70GeV, NLO","l");
+Nlpt_legend->AddEntry(Nlpt_N70,"Sch #mu#mu m_{N}=70GeV, NLO","l");
 Nlpt_legend->AddEntry(Nlpt_L70,"#scale[0.9]{LO}","l");
 Nlpt_legend->Draw();
 
@@ -440,7 +508,7 @@ TH1D* Nlpt_N50_2 = (TH1D*)Nlpt_N50->Clone();
 TH1D* Nlpt_N60_2 = (TH1D*)Nlpt_N60->Clone();
 TH1D* Nlpt_N70_2 = (TH1D*)Nlpt_N70->Clone();
 
-Nlpt_N40_2->SetTitle("l_{N} pt #scale[0.8]{(NLO)}");
+Nlpt_N40_2->SetTitle("l_{N} pt #scale[0.8]{(NLO) : Low mass}");
 Nlpt_N40_2->SetStats(0);
 Nlpt_N40_2->GetXaxis()->SetRangeUser(0,50);
 Nlpt_N40_2->SetLineColor(kRed);
@@ -484,362 +552,16 @@ Nlpt_N70_2->Draw("same hist");
 //Nlpt_N70->SetLineWidth(2);
 //Nlpt_N70->Draw("same hist");
 
-TLegend* Nlpt_NLO_legend = new TLegend(0.7,0.75,0.9,0.9);
-Nlpt_NLO_legend->AddEntry(Nlpt_N40_2,"m_{N}=40GeV, NLO","l");
-Nlpt_NLO_legend->AddEntry(Nlpt_N50_2,"m_{N}=50GeV, NLO","l");
-Nlpt_NLO_legend->AddEntry(Nlpt_N60_2,"m_{N}=60GeV, NLO","l");
-Nlpt_NLO_legend->AddEntry(Nlpt_N70_2,"m_{N}=70GeV, NLO","l");
+TLegend* Nlpt_NLO_legend = new TLegend(0.62,0.75,0.9,0.9);
+Nlpt_NLO_legend->AddEntry(Nlpt_N40_2,"Sch #mu#mu m_{N}=40GeV, NLO","l");
+Nlpt_NLO_legend->AddEntry(Nlpt_N50_2,"Sch #mu#mu m_{N}=50GeV, NLO","l");
+Nlpt_NLO_legend->AddEntry(Nlpt_N60_2,"Sch #mu#mu m_{N}=60GeV, NLO","l");
+Nlpt_NLO_legend->AddEntry(Nlpt_N70_2,"Sch #mu#mu m_{N}=70GeV, NLO","l");
 Nlpt_NLO_legend->Draw();
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//c2->cd();
-//
-//geta1->SetTitle("hard_l eta");
-//geta1->SetStats(0);
-//geta1->Scale(2.49*10000/geta1->GetEntries());
-//geta1->GetYaxis()->SetRangeUser(0,1200);
-//geta1->SetLineColor(kRed);
-//geta1->SetLineWidth(2);
-//geta1->Draw("hist");
-//geta2->Scale(1.95*10000/geta2->GetEntries());
-//geta2->SetLineColor(kGreen+1);
-//geta2->SetLineWidth(2);
-//geta2->Draw("same hist");
-//geta3->Scale(1.34*10000/geta3->GetEntries());
-//geta3->SetLineColor(kBlue);
-//geta3->SetLineWidth(2);
-//geta3->Draw("same hist");
-//
-//V_geta1->SetStats(0);
-//V_geta1->Scale(2.49*0.5);
-//V_geta1->SetLineColor(kRed);
-//V_geta1->SetLineWidth(3);
-//V_geta1->SetLineStyle(7);
-//V_geta1->Draw("same hist");
-//V_geta2->Scale(1.95*0.5);
-//V_geta2->SetLineColor(kGreen+1);
-//V_geta2->SetLineWidth(3);
-//V_geta2->SetLineStyle(7);
-//V_geta2->Draw("same hist");
-//V_geta3->Scale(1.34*0.5);
-//V_geta3->SetLineColor(kBlue);
-//V_geta3->SetLineWidth(3);
-//V_geta3->SetLineStyle(7);
-//V_geta3->Draw("same hist");
-//
-//
-//TLegend* geta_legend = new TLegend(0.75,0.75,0.9,0.9);
-//geta_legend->AddEntry(geta1,"ptcut 5","l");
-//geta_legend->AddEntry(V_geta1,"Vanderbilt","l");
-//geta_legend->AddEntry(geta2,"ptcut 10","l");
-//geta_legend->AddEntry(V_geta2,"Vanderbilt","l");
-//geta_legend->AddEntry(geta3,"ptcut 20","l");
-//geta_legend->AddEntry(V_geta3,"Vanderbilt","l");
-//geta_legend->Draw();
-//
-//
-//
-//c8->cd();
-//
-//geta1_SNU->SetTitle("hard_l eta (SNU)");
-//geta1_SNU->SetStats(0);
-//geta1_SNU->Scale(2.49*10000/geta1->GetEntries());
-//geta1_SNU->GetYaxis()->SetRangeUser(0,1200);
-//geta1_SNU->SetLineColor(kRed);
-//geta1_SNU->SetLineWidth(2);
-//geta1_SNU->Draw("hist");
-//geta2_SNU->Scale(1.95*10000/geta2->GetEntries());
-//geta2_SNU->SetLineColor(kGreen+1);
-//geta2_SNU->SetLineWidth(2);
-//geta2_SNU->Draw("same hist");
-//geta3_SNU->Scale(1.34*10000/geta3->GetEntries());
-//geta3_SNU->SetLineColor(kBlue);
-//geta3_SNU->SetLineWidth(2);
-//geta3_SNU->Draw("same hist");
-//
-//TLegend* geta_SNU_legend = new TLegend(0.75,0.75,0.9,0.9);
-//geta_SNU_legend->AddEntry(geta1_SNU,"ptcut 5","l");
-//geta_SNU_legend->AddEntry(geta2_SNU,"ptcut 10","l");
-//geta_SNU_legend->AddEntry(geta3_SNU,"ptcut 20","l");
-//geta_SNU_legend->Draw();
-//
-//
-//
-//c9->cd();
-//
-//V_geta1->SetTitle("hard_l eta (Vanderbilt)");
-//V_geta1->GetYaxis()->SetRangeUser(0,1200);
-//V_geta1->Draw("same hist");
-//V_geta2->Draw("same hist");
-//V_geta3->Draw("same hist");
-//
-//TLegend* geta_Vanderbilt_legend = new TLegend(0.75,0.75,0.9,0.9);
-//geta_Vanderbilt_legend->AddEntry(V_geta1,"ptcut 5","l");
-//geta_Vanderbilt_legend->AddEntry(V_geta2,"ptcut 10","l");
-//geta_Vanderbilt_legend->AddEntry(V_geta3,"ptcut 20","l");
-//geta_Vanderbilt_legend->Draw();
-//
-//
-//
-//c3->cd();
-//
-//hnpt1->Scale(2.49*10000/hnpt1->GetEntries());
-//hnpt1->Rebin(10);
-//hnpt1->GetXaxis()->SetRangeUser(0,600);
-//hnpt1->SetTitle("HN pt");
-//hnpt1->SetStats(0);
-//hnpt1->SetLineColor(kRed);
-//hnpt1->SetLineWidth(2);
-//hnpt1->Draw("hist");
-//hnpt2->Scale(1.95*10000/hnpt2->GetEntries());
-//hnpt2->Rebin(10);
-//hnpt2->SetLineColor(kGreen+1);
-//hnpt2->SetLineWidth(2);
-//hnpt2->Draw("same hist");
-//hnpt3->Scale(1.34*10000/hnpt3->GetEntries());
-//hnpt3->Rebin(10);
-//hnpt3->SetLineColor(kBlue);
-//hnpt3->SetLineWidth(2);
-//hnpt3->Draw("same hist");
-//
-//V_hnpt1->Scale(2.49*0.5);
-//V_hnpt1->Rebin(10);
-//V_hnpt1->SetStats(0);
-//V_hnpt1->SetLineColor(kRed);
-//V_hnpt1->SetLineWidth(3);
-//V_hnpt1->SetLineStyle(7);
-//V_hnpt1->Draw("same hist");
-//V_hnpt2->Scale(1.95*0.5);
-//V_hnpt2->Rebin(10);
-//V_hnpt2->SetLineColor(kGreen+1);
-//V_hnpt2->SetLineWidth(3);
-//V_hnpt2->SetLineStyle(7);
-//V_hnpt2->Draw("same hist");
-//V_hnpt3->Scale(1.34*0.5);
-//V_hnpt3->Rebin(10);
-//V_hnpt3->SetLineColor(kBlue);
-//V_hnpt3->SetLineWidth(3);
-//V_hnpt3->SetLineStyle(7);
-//V_hnpt3->Draw("same hist");
-//
-//TLegend* hnpt_legend = new TLegend(0.75,0.75,0.9,0.9);
-//hnpt_legend->AddEntry(hnpt1,"ptcut 5","l");
-//hnpt_legend->AddEntry(V_hnpt1,"Vanderbilt","l");
-//hnpt_legend->AddEntry(hnpt2,"ptcut 10","l");
-//hnpt_legend->AddEntry(V_hnpt2,"Vanderbilt","l");
-//hnpt_legend->AddEntry(hnpt3,"ptcut 20","l");
-//hnpt_legend->AddEntry(V_hnpt3,"Vanderbilt","l");
-//hnpt_legend->Draw();
-//
-//
-//c4->cd();
-//
-//hneta1->Scale(2.49*10000/hneta1->GetEntries());
-//hneta1->GetYaxis()->SetRangeUser(0,950);
-//hneta1->SetTitle("HN eta");
-//hneta1->SetStats(0);
-//hneta1->SetLineColor(kRed);
-//hneta1->SetLineWidth(2);
-//hneta1->Draw("hist");
-//hneta2->Scale(1.95*10000/hneta2->GetEntries());
-//hneta2->SetLineColor(kGreen+1);
-//hneta2->SetLineWidth(2);
-//hneta2->Draw("same hist");
-//hneta3->Scale(1.34*10000/hneta3->GetEntries());
-//hneta3->SetLineColor(kBlue);
-//hneta3->SetLineWidth(2);
-//hneta3->Draw("same hist");
-//
-//V_hneta1->Scale(2.49*0.5);
-//V_hneta1->SetStats(0);
-//V_hneta1->SetLineColor(kRed);
-//V_hneta1->SetLineWidth(3);
-//V_hneta1->SetLineStyle(7);
-//V_hneta1->Draw("same hist");
-//V_hneta2->Scale(1.95*0.5);
-//V_hneta2->SetLineColor(kGreen+1);
-//V_hneta2->SetLineWidth(3);
-//V_hneta2->SetLineStyle(7);
-//V_hneta2->Draw("same hist");
-//V_hneta3->Scale(1.34*0.5);
-//V_hneta3->SetLineColor(kBlue);
-//V_hneta3->SetLineWidth(3);
-//V_hneta3->SetLineStyle(7);
-//V_hneta3->Draw("same hist");
-//
-//TLegend* hneta_legend = new TLegend(0.75,0.75,0.9,0.9);
-//hneta_legend->AddEntry(hneta1,"ptcut 5","l");
-//hneta_legend->AddEntry(V_hneta1,"Vanderbilt","l");
-//hneta_legend->AddEntry(hneta2,"ptcut 10","l");
-//hneta_legend->AddEntry(V_hneta2,"Vanderbilt","l");
-//hneta_legend->AddEntry(hneta3,"ptcut 20","l");
-//hneta_legend->AddEntry(V_hneta3,"Vanderbilt","l");
-//hneta_legend->Draw();
-//
-//
-//c5->cd();
-//
-//j0pt1->Scale(2.49*10000/j0pt1->GetEntries());
-//j0pt1->Rebin(10);
-//j0pt1->GetXaxis()->SetRangeUser(0,800);
-//j0pt1->SetTitle("j0 pt");
-//j0pt1->SetStats(0);
-//j0pt1->SetLineColor(kRed);
-//j0pt1->SetLineWidth(2);
-//j0pt1->Draw("hist");
-//j0pt2->Scale(1.95*10000/j0pt2->GetEntries());
-//j0pt2->Rebin(10);
-//j0pt2->SetLineColor(kGreen+1);
-//j0pt2->SetLineWidth(2);
-//j0pt2->Draw("same hist");
-//j0pt3->Scale(1.34*10000/j0pt3->GetEntries());
-//j0pt3->Rebin(10);
-//j0pt3->SetLineColor(kBlue);
-//j0pt3->SetLineWidth(2);
-//j0pt3->Draw("same hist");
-//
-//V_j0pt1->Scale(2.49*0.5);
-//V_j0pt1->Rebin(10);
-//V_j0pt1->SetStats(0);
-//V_j0pt1->SetLineColor(kRed);
-//V_j0pt1->SetLineWidth(3);
-//V_j0pt1->SetLineStyle(7);
-//V_j0pt1->Draw("same hist");
-//V_j0pt2->Scale(1.95*0.5);
-//V_j0pt2->Rebin(10);
-//V_j0pt2->SetLineColor(kGreen+1);
-//V_j0pt2->SetLineWidth(3);
-//V_j0pt2->SetLineStyle(7);
-//V_j0pt2->Draw("same hist");
-//V_j0pt3->Scale(1.34*0.5);
-//V_j0pt3->Rebin(10);
-//V_j0pt3->SetLineColor(kBlue);
-//V_j0pt3->SetLineWidth(3);
-//V_j0pt3->SetLineStyle(7);
-//V_j0pt3->Draw("same hist");
-//
-//TLegend* j0pt_legend = new TLegend(0.75,0.75,0.9,0.9);
-//j0pt_legend->AddEntry(j0pt1,"ptcut 5","l");
-//j0pt_legend->AddEntry(V_j0pt1,"Vanderbilt","l");
-//j0pt_legend->AddEntry(j0pt2,"ptcut 10","l");
-//j0pt_legend->AddEntry(V_j0pt2,"Vanderbilt","l");
-//j0pt_legend->AddEntry(j0pt3,"ptcut 20","l");
-//j0pt_legend->AddEntry(V_j0pt3,"Vanderbilt","l");
-//j0pt_legend->Draw();
-//
-//
-//
-//c6->cd();
-//
-//j0eta1->SetTitle("j0 eta");
-//j0eta1->SetStats(0);
-//j0eta1->Scale(2.49*10000/geta1->GetEntries());
-//j0eta1->GetYaxis()->SetRangeUser(0,2000);
-//j0eta1->SetLineColor(kRed);
-//j0eta1->SetLineWidth(2);
-//j0eta1->Draw("hist");
-//j0eta2->Scale(1.95*10000/geta2->GetEntries());
-//j0eta2->SetLineColor(kGreen+1);
-//j0eta2->SetLineWidth(2);
-//j0eta2->Draw("same hist");
-//j0eta3->Scale(1.34*10000/geta3->GetEntries());
-//j0eta3->SetLineColor(kBlue);
-//j0eta3->SetLineWidth(2);
-//j0eta3->Draw("same hist");
-//
-//V_j0eta1->SetStats(0);
-//V_j0eta1->Scale(2.49*0.5);
-//V_j0eta1->SetLineColor(kRed);
-//V_j0eta1->SetLineWidth(3);
-//V_j0eta1->SetLineStyle(7);
-//V_j0eta1->Draw("same hist");
-//V_j0eta2->Scale(1.95*0.5);
-//V_j0eta2->SetLineColor(kGreen+1);
-//V_j0eta2->SetLineWidth(3);
-//V_j0eta2->SetLineStyle(7);
-//V_j0eta2->Draw("same hist");
-//V_j0eta3->Scale(1.34*0.5);
-//V_j0eta3->SetLineColor(kBlue);
-//V_j0eta3->SetLineWidth(3);
-//V_j0eta3->SetLineStyle(7);
-//V_j0eta3->Draw("same hist");
-//
-//
-//TLegend* j0eta_legend = new TLegend(0.75,0.75,0.9,0.9);
-//j0eta_legend->AddEntry(j0eta1,"ptcut 5","l");
-//j0eta_legend->AddEntry(V_j0eta1,"Vanderbilt","l");
-//j0eta_legend->AddEntry(j0eta2,"ptcut 10","l");
-//j0eta_legend->AddEntry(V_j0eta2,"Vanderbilt","l");
-//j0eta_legend->AddEntry(j0eta3,"ptcut 20","l");
-//j0eta_legend->AddEntry(V_j0eta3,"Vanderbilt","l");
-//j0eta_legend->Draw();
-//
-//
-//
-//
-//
-//c7->cd();
-//
-//V_dEtajj1->SetTitle("#Delta#eta(forward jj)");
-//V_dEtajj1->SetStats(0);
-//V_dEtajj1->Scale(2.02*0.5);
-//V_dEtajj1->GetYaxis()->SetRangeUser(0,200);
-//V_dEtajj1->SetLineColor(kRed);
-//V_dEtajj1->SetLineWidth(2);
-//V_dEtajj1->Draw("hist");
-//V_dEtajj2->Scale(1.54*0.5);
-//V_dEtajj2->SetLineColor(kGreen+1);
-//V_dEtajj2->SetLineWidth(2);
-//V_dEtajj2->Draw("same hist");
-//V_dEtajj3->Scale(0.959*0.5);
-//V_dEtajj3->SetLineColor(kBlue);
-//V_dEtajj3->SetLineWidth(2);
-//V_dEtajj3->Draw("same hist");
-//
-//TLegend* dEtajj_legend = new TLegend(0.75,0.75,0.9,0.9);
-//dEtajj_legend->AddEntry(V_dEtajj1,"ptcut 5","l");
-//dEtajj_legend->AddEntry(V_dEtajj2,"ptcut 10","l");
-//dEtajj_legend->AddEntry(V_dEtajj3,"ptcut 20","l");
-//dEtajj_legend->Draw();
-//
-//
-//
-//
-//
-//c1->SaveAs("Tch_kinematics/comparisons/hard_l_pt.png");
-//c2->SaveAs("Tch_kinematics/comparisons/hard_l_eta.png");
-//c3->SaveAs("Tch_kinematics/comparisons/last_HN_pt.png");
-//c4->SaveAs("Tch_kinematics/comparisons/last_HN_eta.png");
-//c5->SaveAs("Tch_kinematics/comparisons/j0_pt.png");
-//c6->SaveAs("Tch_kinematics/comparisons/j0_eta.png");
-//c7->SaveAs("Tch_kinematics/comparisons/dEta_forward_jj.png");
-//c8->SaveAs("Tch_kinematics/comparisons/hard_l_eta_SNU.png");
-//c9->SaveAs("Tch_kinematics/comparisons/hard_l_eta_Vanderbilt.png");
 
 }
