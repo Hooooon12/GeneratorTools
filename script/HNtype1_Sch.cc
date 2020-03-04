@@ -149,20 +149,20 @@ void loop(TString infile,TString outfile){
       cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << endl;
       if(gens[i].isHardProcess()){
         if(abs(gens[i].pdgId())==24) hard_W=&gens[i];
-        else if(abs(gens[i].pdgId())<=6) hard_partons.push_back(&gens[i]);
+        else if(abs(gens[i].pdgId())<=4||gens[i].pdgId()==21) hard_partons.push_back(&gens[i]);
         else if(gens[i].pdgId()==9900012) hard_HN=&gens[i]; 
       }
       if(abs(gens[i].pdgId())==24) last_W=&gens[i];
       if(gens[i].pdgId()==9900012) last_HN=&gens[i];
-      if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother(0)==hard_partons.at(0)||gens[i].mother(1)==hard_partons.at(0))){
-        hard_l=&gens[i]; //JH : XXX If gamma_l is just reco::GenParticle*, then it doesn't get &gens[i]
+      if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==hard_partons.at(0))){
+        hard_l=&gens[i]; //JH : XXX If hard_l is just reco::GenParticle* (w/o const), then it doesn't get &gens[i]
         cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the hard_l : " << hard_l << endl;
       }
-      else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother(0)==last_HN||gens[i].mother(1)==last_HN)){
+      else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==last_HN)){
         HN_l=&gens[i];
         cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the HN_l : " << HN_l << endl;
       }
-      else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother(0)==last_W||gens[i].mother(1)==last_W)){
+      else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==last_W)){
         W_l=&gens[i];
         cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the W_l : " << W_l << endl;
       }
