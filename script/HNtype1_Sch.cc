@@ -146,7 +146,7 @@ void loop(TString infile,TString outfile){
     const reco::GenParticle *hard_l=NULL,*HN_l=NULL,*W_l=NULL;
     vector<const reco::GenParticle*> leptons,hard_partons;
     for(int i=0;i<gens.size();i++){
-      cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << endl;
+      cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << ", isHardProcess : " << gens[i].isHardProcess() << endl;
       if(gens[i].isHardProcess()){
         if(abs(gens[i].pdgId())==24) hard_W=&gens[i];
         else if(abs(gens[i].pdgId())<=4||gens[i].pdgId()==21) hard_partons.push_back(&gens[i]);
@@ -172,8 +172,10 @@ void loop(TString infile,TString outfile){
       }
     }
 
-    hard_l = FindLastCopy(gens,hard_l); HN_l = FindLastCopy(gens,HN_l); 
-    
+    if(hard_l) hard_l = FindLastCopy(gens,hard_l);
+    if(W_l) W_l = FindLastCopy(gens,W_l); 
+    HN_l = FindLastCopy(gens,HN_l); 
+
     cout << "detected hard_l : " << hard_l << endl;
     cout << "detected HN_l : " << HN_l << endl;
     cout << "detected W_l : " << W_l << endl;
@@ -260,7 +262,7 @@ void loop(TString infile,TString outfile){
       PrintGens(gens);
     }
 
-    if(hard_l||HN_l){ 
+    if(W_l||HN_l){ 
       
       //sort(leptons.begin(),leptons.end(),PtCompare);
       //sort(jets.begin(),jets.end(),PtCompare);
@@ -307,10 +309,12 @@ void loop(TString infile,TString outfile){
       TLorentzVector vec_SS2l_fatjet=vec_l0+vec_l1+vec_fatjet;
       TLorentzVector vec_SS2l_dijet=vec_l0+vec_l1+vec_dijet;
 
-      FillHist("last_W_m",vec_last_W.M(),1,70,50,120);
-      FillHist("last_W_pt",vec_last_W.Pt(),1,2000,0,2000);
-      FillHist("last_W_E",vec_last_W.E(),1,2000,0,2000);
-      FillHist("last_W_eta",vec_last_W.Eta(),1,50,-5,5);
+      if(last_W){
+        FillHist("last_W_m",vec_last_W.M(),1,70,50,120);
+        FillHist("last_W_pt",vec_last_W.Pt(),1,2000,0,2000);
+        FillHist("last_W_E",vec_last_W.E(),1,2000,0,2000);
+        FillHist("last_W_eta",vec_last_W.Eta(),1,50,-5,5);
+      }
       FillHist("last_HN_m",vec_last_HN.M(),1,2100,0,2100);
       FillHist("last_HN_pt",vec_last_HN.Pt(),1,1000,0,1000);
       FillHist("last_HN_E",vec_last_HN.E(),1,3000,0,3000);
@@ -352,18 +356,22 @@ void loop(TString infile,TString outfile){
         FillHist("(SS2l+dijet)_eta",vec_SS2l_dijet.Eta(),1,50,-5,5);
       }
 
-      FillHist("hard_l_pt",vec_hard_l.Pt(),1,2000,0,2000);
-      FillHist("hard_l_E",vec_hard_l.E(),1,2000,0,2000);
-      FillHist("hard_l_eta",vec_hard_l.Eta(),1,50,-5,5);
-      FillHist("hard_l_charge",GetCharge(hard_l),1,3,-1,2);
+      if(hard_l){
+        FillHist("hard_l_pt",vec_hard_l.Pt(),1,2000,0,2000);
+        FillHist("hard_l_E",vec_hard_l.E(),1,2000,0,2000);
+        FillHist("hard_l_eta",vec_hard_l.Eta(),1,50,-5,5);
+        FillHist("hard_l_charge",GetCharge(hard_l),1,3,-1,2);
+      }
       FillHist("HN_l_pt",vec_HN_l.Pt(),1,2000,0,2000);
       FillHist("HN_l_E",vec_HN_l.E(),1,2000,0,2000);
       FillHist("HN_l_eta",vec_HN_l.Eta(),1,50,-5,5);
       FillHist("HN_l_charge",GetCharge(HN_l),1,3,-1,2);
-      FillHist("W_l_pt",vec_W_l.Pt(),1,2000,0,2000);
-      FillHist("W_l_E",vec_W_l.E(),1,2000,0,2000);
-      FillHist("W_l_eta",vec_W_l.Eta(),1,50,-5,5);
-      FillHist("W_l_charge",GetCharge(W_l),1,3,-1,2);
+      if(W_l){
+        FillHist("W_l_pt",vec_W_l.Pt(),1,2000,0,2000);
+        FillHist("W_l_E",vec_W_l.E(),1,2000,0,2000);
+        FillHist("W_l_eta",vec_W_l.Eta(),1,50,-5,5);
+        FillHist("W_l_charge",GetCharge(W_l),1,3,-1,2);
+      }
       FillHist("l0_pt",vec_l0.Pt(),1,2000,0,2000);
       FillHist("l0_E",vec_l0.E(),1,2000,0,2000);
       FillHist("l0_eta",vec_l0.Eta(),1,50,-5,5);
