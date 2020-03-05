@@ -30,8 +30,10 @@ TH1D* ml2jj_L40 = (TH1D*)L40->Get("(l1+dijet)_m");
 TH1D* dRjj_L40 = (TH1D*)L40->Get("DeltaR(jj)");
 TH1D* Npt_L40 = (TH1D*)L40->Get("last_HN_pt");
 TH1D* Neta_L40 = (TH1D*)L40->Get("last_HN_eta");
+TH1D* Nen_L40 = (TH1D*)L40->Get("last_HN_E");
 TH1D* Wpt_L40 = (TH1D*)L40->Get("last_W_pt");
 TH1D* Weta_L40 = (TH1D*)L40->Get("last_W_eta");
+TH1D* Wen_L40 = (TH1D*)L40->Get("last_W_E");
 TH1D* j1pt_L40 = (TH1D*)L40->Get("j0_pt");
 TH1D* j1eta_L40 = (TH1D*)L40->Get("j0_eta");
 TH1D* j2pt_L40 = (TH1D*)L40->Get("j1_pt");
@@ -56,8 +58,10 @@ TH1D* ml2jj_L50 = (TH1D*)L50->Get("(l1+dijet)_m");
 TH1D* dRjj_L50 = (TH1D*)L50->Get("DeltaR(jj)");
 TH1D* Npt_L50 = (TH1D*)L50->Get("last_HN_pt");
 TH1D* Neta_L50 = (TH1D*)L50->Get("last_HN_eta");
+TH1D* Nen_L50 = (TH1D*)L50->Get("last_HN_E");
 TH1D* Wpt_L50 = (TH1D*)L50->Get("last_W_pt");
 TH1D* Weta_L50 = (TH1D*)L50->Get("last_W_eta");
+TH1D* Wen_L50 = (TH1D*)L50->Get("last_W_E");
 TH1D* j1pt_L50 = (TH1D*)L50->Get("j0_pt");
 TH1D* j1eta_L50 = (TH1D*)L50->Get("j0_eta");
 TH1D* j2pt_L50 = (TH1D*)L50->Get("j1_pt");
@@ -82,8 +86,10 @@ TH1D* ml2jj_L60 = (TH1D*)L60->Get("(l1+dijet)_m");
 TH1D* dRjj_L60 = (TH1D*)L60->Get("DeltaR(jj)");
 TH1D* Npt_L60 = (TH1D*)L60->Get("last_HN_pt");
 TH1D* Neta_L60 = (TH1D*)L60->Get("last_HN_eta");
+TH1D* Nen_L60 = (TH1D*)L60->Get("last_HN_E");
 TH1D* Wpt_L60 = (TH1D*)L60->Get("last_W_pt");
 TH1D* Weta_L60 = (TH1D*)L60->Get("last_W_eta");
+TH1D* Wen_L60 = (TH1D*)L60->Get("last_W_E");
 TH1D* j1pt_L60 = (TH1D*)L60->Get("j0_pt");
 TH1D* j1eta_L60 = (TH1D*)L60->Get("j0_eta");
 TH1D* j2pt_L60 = (TH1D*)L60->Get("j1_pt");
@@ -108,8 +114,10 @@ TH1D* ml2jj_L70 = (TH1D*)L70->Get("(l1+dijet)_m");
 TH1D* dRjj_L70 = (TH1D*)L70->Get("DeltaR(jj)");
 TH1D* Npt_L70 = (TH1D*)L70->Get("last_HN_pt");
 TH1D* Neta_L70 = (TH1D*)L70->Get("last_HN_eta");
+TH1D* Nen_L70 = (TH1D*)L70->Get("last_HN_E");
 TH1D* Wpt_L70 = (TH1D*)L70->Get("last_W_pt");
 TH1D* Weta_L70 = (TH1D*)L70->Get("last_W_eta");
+TH1D* Wen_L70 = (TH1D*)L70->Get("last_W_E");
 TH1D* j1pt_L70 = (TH1D*)L70->Get("j0_pt");
 TH1D* j1eta_L70 = (TH1D*)L70->Get("j0_eta");
 TH1D* j2pt_L70 = (TH1D*)L70->Get("j1_pt");
@@ -134,8 +142,10 @@ TH1D* ml2jj_L75 = (TH1D*)L75->Get("(l1+dijet)_m");
 TH1D* dRjj_L75 = (TH1D*)L75->Get("DeltaR(jj)");
 TH1D* Npt_L75 = (TH1D*)L75->Get("last_HN_pt");
 TH1D* Neta_L75 = (TH1D*)L75->Get("last_HN_eta");
+TH1D* Nen_L75 = (TH1D*)L75->Get("last_HN_E");
 TH1D* Wpt_L75 = (TH1D*)L75->Get("last_W_pt");
 TH1D* Weta_L75 = (TH1D*)L75->Get("last_W_eta");
+TH1D* Wen_L75 = (TH1D*)L75->Get("last_W_E");
 TH1D* j1pt_L75 = (TH1D*)L75->Get("j0_pt");
 TH1D* j1eta_L75 = (TH1D*)L75->Get("j0_eta");
 TH1D* j2pt_L75 = (TH1D*)L75->Get("j1_pt");
@@ -163,8 +173,10 @@ TH1D* ml2jj_N40 = (TH1D*)N40->Get("(l1+dijet)_m");
 TH1D* dRjj_N40 = (TH1D*)N40->Get("DeltaR(jj)");
 TH1D* Npt_N40 = (TH1D*)N40->Get("last_HN_pt");
 TH1D* Neta_N40 = (TH1D*)N40->Get("last_HN_eta");
+TH1D* Nen_N40 = (TH1D*)N40->Get("last_HN_E");
 TH1D* Wpt_N40 = (TH1D*)N40->Get("last_W_pt");
 TH1D* Weta_N40 = (TH1D*)N40->Get("last_W_eta");
+TH1D* Wen_N40 = (TH1D*)N40->Get("last_W_E");
 TH1D* j1pt_N40 = (TH1D*)N40->Get("j0_pt");
 TH1D* j1eta_N40 = (TH1D*)N40->Get("j0_eta");
 TH1D* j2pt_N40 = (TH1D*)N40->Get("j1_pt");
@@ -189,8 +201,10 @@ TH1D* ml2jj_N50 = (TH1D*)N50->Get("(l1+dijet)_m");
 TH1D* dRjj_N50 = (TH1D*)N50->Get("DeltaR(jj)");
 TH1D* Npt_N50 = (TH1D*)N50->Get("last_HN_pt");
 TH1D* Neta_N50 = (TH1D*)N50->Get("last_HN_eta");
+TH1D* Nen_N50 = (TH1D*)N50->Get("last_HN_E");
 TH1D* Wpt_N50 = (TH1D*)N50->Get("last_W_pt");
 TH1D* Weta_N50 = (TH1D*)N50->Get("last_W_eta");
+TH1D* Wen_N50 = (TH1D*)N50->Get("last_W_E");
 TH1D* j1pt_N50 = (TH1D*)N50->Get("j0_pt");
 TH1D* j1eta_N50 = (TH1D*)N50->Get("j0_eta");
 TH1D* j2pt_N50 = (TH1D*)N50->Get("j1_pt");
@@ -215,8 +229,10 @@ TH1D* ml2jj_N60 = (TH1D*)N60->Get("(l1+dijet)_m");
 TH1D* dRjj_N60 = (TH1D*)N60->Get("DeltaR(jj)");
 TH1D* Npt_N60 = (TH1D*)N60->Get("last_HN_pt");
 TH1D* Neta_N60 = (TH1D*)N60->Get("last_HN_eta");
+TH1D* Nen_N60 = (TH1D*)N60->Get("last_HN_E");
 TH1D* Wpt_N60 = (TH1D*)N60->Get("last_W_pt");
 TH1D* Weta_N60 = (TH1D*)N60->Get("last_W_eta");
+TH1D* Wen_N60 = (TH1D*)N60->Get("last_W_E");
 TH1D* j1pt_N60 = (TH1D*)N60->Get("j0_pt");
 TH1D* j1eta_N60 = (TH1D*)N60->Get("j0_eta");
 TH1D* j2pt_N60 = (TH1D*)N60->Get("j1_pt");
@@ -241,8 +257,10 @@ TH1D* ml2jj_N70 = (TH1D*)N70->Get("(l1+dijet)_m");
 TH1D* dRjj_N70 = (TH1D*)N70->Get("DeltaR(jj)");
 TH1D* Npt_N70 = (TH1D*)N70->Get("last_HN_pt");
 TH1D* Neta_N70 = (TH1D*)N70->Get("last_HN_eta");
+TH1D* Nen_N70 = (TH1D*)N70->Get("last_HN_E");
 TH1D* Wpt_N70 = (TH1D*)N70->Get("last_W_pt");
 TH1D* Weta_N70 = (TH1D*)N70->Get("last_W_eta");
+TH1D* Wen_N70 = (TH1D*)N70->Get("last_W_E");
 TH1D* j1pt_N70 = (TH1D*)N70->Get("j0_pt");
 TH1D* j1eta_N70 = (TH1D*)N70->Get("j0_eta");
 TH1D* j2pt_N70 = (TH1D*)N70->Get("j1_pt");
@@ -267,8 +285,10 @@ TH1D* ml2jj_N75 = (TH1D*)N75->Get("(l1+dijet)_m");
 TH1D* dRjj_N75 = (TH1D*)N75->Get("DeltaR(jj)");
 TH1D* Npt_N75 = (TH1D*)N75->Get("last_HN_pt");
 TH1D* Neta_N75 = (TH1D*)N75->Get("last_HN_eta");
+TH1D* Nen_N75 = (TH1D*)N75->Get("last_HN_E");
 TH1D* Wpt_N75 = (TH1D*)N75->Get("last_W_pt");
 TH1D* Weta_N75 = (TH1D*)N75->Get("last_W_eta");
+TH1D* Wen_N75 = (TH1D*)N75->Get("last_W_E");
 TH1D* j1pt_N75 = (TH1D*)N75->Get("j0_pt");
 TH1D* j1eta_N75 = (TH1D*)N75->Get("j0_eta");
 TH1D* j2pt_N75 = (TH1D*)N75->Get("j1_pt");
@@ -298,13 +318,15 @@ TCanvas* c2 = new TCanvas("c2","m(l1jj)",220,330,700,650);
 TCanvas* c3 = new TCanvas("c3","m(l2jj)",240,310,700,650);
 TCanvas* c4 = new TCanvas("c4","N pt",260,290,700,650);
 TCanvas* c5 = new TCanvas("c5","N eta",280,270,700,650);
-TCanvas* c6 = new TCanvas("c6","Nl pt",300,250,700,650);
-TCanvas* c7 = new TCanvas("c7","Nl pt : NLO",320,230,700,650);
-TCanvas* c8 = new TCanvas("c8","Nl eta",340,210,700,650);
-TCanvas* c9 = new TCanvas("c9","W pt",360,190,700,650);
-TCanvas* c10 = new TCanvas("c10","W eta",380,170,700,650);
-TCanvas* c11 = new TCanvas("c11","Wl pt",360,190,700,650);
-TCanvas* c12 = new TCanvas("c12","Wl eta",380,170,700,650);
+TCanvas* c6 = new TCanvas("c6","N energy",300,250,700,650);
+TCanvas* c7 = new TCanvas("c7","Nl pt",320,230,700,650);
+TCanvas* c8 = new TCanvas("c8","Nl pt : NLO",340,210,700,650);
+TCanvas* c9 = new TCanvas("c9","Nl eta",360,190,700,650);
+TCanvas* c10 = new TCanvas("c10","W pt",380,170,700,650);
+TCanvas* c11 = new TCanvas("c11","W eta",400,150,700,650);
+TCanvas* c12 = new TCanvas("c12","W energy",420,130,700,650);
+TCanvas* c13 = new TCanvas("c13","Wl pt",440,110,700,650);
+TCanvas* c14 = new TCanvas("c14","Wl eta",460,90,700,650);
 
 
 
@@ -575,6 +597,14 @@ Npt_legend->Draw();
 
 
 
+
+
+
+
+
+
+
+
 c5->cd();
 
 Neta_L40->SetTitle("N eta #scale[0.8]{(NLO vs LO) : Low mass}");
@@ -638,7 +668,76 @@ Neta_legend->Draw();
 
 
 
+
 c6->cd();
+
+Nen_L40->SetTitle("N energy #scale[0.8]{(NLO vs LO) : Low mass}");
+Nen_L40->SetStats(0);
+Nen_L40->Rebin(10);
+Nen_L40->GetXaxis()->SetRangeUser(0,300);
+Nen_L40->GetYaxis()->SetRangeUser(0,14000);
+Nen_L40->SetLineColor(kRed);
+Nen_L40->SetLineWidth(3);
+Nen_L40->SetLineStyle(7);
+Nen_L40->Draw("hist");
+Nen_L50->Scale(Nen_L40->GetEntries()/Nen_L50->GetEntries());
+Nen_L50->Rebin(10);
+Nen_L50->SetLineColor(kOrange+1);
+Nen_L50->SetLineWidth(3);
+Nen_L50->SetLineStyle(7);
+Nen_L50->Draw("same hist");
+Nen_L60->Scale(Nen_L40->GetEntries()/Nen_L60->GetEntries());
+Nen_L60->Rebin(10);
+Nen_L60->SetLineColor(kGreen+1);
+Nen_L60->SetLineWidth(3);
+Nen_L60->SetLineStyle(7);
+Nen_L60->Draw("same hist");
+Nen_L70->Scale(Nen_L40->GetEntries()/Nen_L70->GetEntries());
+Nen_L70->Rebin(10);
+Nen_L70->SetLineColor(kBlue);
+Nen_L70->SetLineWidth(3);
+Nen_L70->SetLineStyle(7);
+Nen_L70->Draw("same hist");
+Nen_N40->SetStats(0);
+Nen_N40->Scale(Nen_L40->GetEntries()/Nen_N40->GetEntries());
+Nen_N40->Rebin(10);
+Nen_N40->SetLineColor(kRed);
+Nen_N40->SetLineWidth(2);
+Nen_N40->Draw("same hist");
+Nen_N50->Scale(Nen_L40->GetEntries()/Nen_N50->GetEntries());
+Nen_N50->Rebin(10);
+Nen_N50->SetLineColor(kOrange+1);
+Nen_N50->SetLineWidth(2);
+Nen_N50->Draw("same hist");
+Nen_N60->Scale(Nen_L40->GetEntries()/Nen_N60->GetEntries());
+Nen_N60->Rebin(10);
+Nen_N60->SetLineColor(kGreen+1);
+Nen_N60->SetLineWidth(2);
+Nen_N60->Draw("same hist");
+Nen_N70->Scale(Nen_L40->GetEntries()/Nen_N70->GetEntries());
+Nen_N70->Rebin(10);
+Nen_N70->SetLineColor(kBlue);
+Nen_N70->SetLineWidth(2);
+Nen_N70->Draw("same hist");
+
+TLegend* Nen_legend = new TLegend(0.62,0.7,0.9,0.9);
+Nen_legend->AddEntry(Nen_N40,"Sch #mu#mu m_{N}=40GeV, NLO","l");
+Nen_legend->AddEntry(Nen_L40,"#scale[0.9]{LO}","l");
+Nen_legend->AddEntry(Nen_N50,"Sch #mu#mu m_{N}=50GeV, NLO","l");
+Nen_legend->AddEntry(Nen_L50,"#scale[0.9]{LO}","l");
+Nen_legend->AddEntry(Nen_N60,"Sch #mu#mu m_{N}=60GeV, NLO","l");
+Nen_legend->AddEntry(Nen_L60,"#scale[0.9]{LO}","l");
+Nen_legend->AddEntry(Nen_N70,"Sch #mu#mu m_{N}=70GeV, NLO","l");
+Nen_legend->AddEntry(Nen_L70,"#scale[0.9]{LO}","l");
+Nen_legend->Draw();
+
+
+
+
+
+
+
+c7->cd();
 
 Nlpt_L40->SetTitle("l_{N} pt #scale[0.8]{(NLO vs LO) : Low mass}");
 Nlpt_L40->SetStats(0);
@@ -708,7 +807,7 @@ Nlpt_legend->AddEntry(Nlpt_L70,"#scale[0.9]{LO}","l");
 Nlpt_legend->Draw();
 
 
-c7->cd();
+c8->cd();
 
 TH1D* Nlpt_N40_2 = (TH1D*)Nlpt_N40->Clone();
 TH1D* Nlpt_N50_2 = (TH1D*)Nlpt_N50->Clone();
@@ -767,7 +866,7 @@ Nlpt_NLO_legend->AddEntry(Nlpt_N70_2,"Sch #mu#mu m_{N}=70GeV, NLO","l");
 Nlpt_NLO_legend->Draw();
 
 
-c8->cd();
+c9->cd();
 
 Nleta_L40->SetTitle("l_{N} #eta #scale[0.8]{(NLO vs LO) : Low mass}");
 Nleta_L40->SetStats(0);
@@ -829,7 +928,7 @@ Nleta_legend->AddEntry(Nleta_L70,"#scale[0.9]{LO}","l");
 Nleta_legend->Draw();
 
 
-c9->cd();
+c10->cd();
 
 Wpt_L40->SetTitle("W pt #scale[0.8]{(NLO vs LO) : Low mass}");
 Wpt_L40->SetStats(0);
@@ -840,60 +939,60 @@ Wpt_L40->SetLineColor(kRed);
 Wpt_L40->SetLineWidth(3);
 Wpt_L40->SetLineStyle(7);
 Wpt_L40->Draw("hist");
-Wpt_L50->Scale(Npt_L40->GetEntries()/Npt_L50->GetEntries());
+Wpt_L50->Scale(Wpt_L40->GetEntries()/Wpt_L50->GetEntries());
 Wpt_L50->Rebin(2);
 Wpt_L50->SetLineColor(kOrange+1);
 Wpt_L50->SetLineWidth(3);
 Wpt_L50->SetLineStyle(7);
 Wpt_L50->Draw("same hist");
-Wpt_L60->Scale(Npt_L40->GetEntries()/Npt_L60->GetEntries());
+Wpt_L60->Scale(Wpt_L40->GetEntries()/Wpt_L60->GetEntries());
 Wpt_L60->Rebin(2);
 Wpt_L60->SetLineColor(kGreen+1);
 Wpt_L60->SetLineWidth(3);
 Wpt_L60->SetLineStyle(7);
 Wpt_L60->Draw("same hist");
-Wpt_L70->Scale(Npt_L40->GetEntries()/Npt_L70->GetEntries());
+Wpt_L70->Scale(Wpt_L40->GetEntries()/Wpt_L70->GetEntries());
 Wpt_L70->Rebin(2);
 Wpt_L70->SetLineColor(kBlue);
 Wpt_L70->SetLineWidth(3);
 Wpt_L70->SetLineStyle(7);
 Wpt_L70->Draw("same hist");
 Wpt_N40->SetStats(0);
-Wpt_N40->Scale(Npt_L40->GetEntries()/Npt_N40->GetEntries());
+Wpt_N40->Scale(Wpt_L40->GetEntries()/Wpt_N40->GetEntries());
 Wpt_N40->Rebin(2);
 Wpt_N40->SetLineColor(kRed);
 Wpt_N40->SetLineWidth(2);
 Wpt_N40->Draw("same hist");
-Wpt_N50->Scale(Npt_L40->GetEntries()/Npt_N50->GetEntries());
+Wpt_N50->Scale(Wpt_L40->GetEntries()/Wpt_N50->GetEntries());
 Wpt_N50->Rebin(2);
 Wpt_N50->SetLineColor(kOrange+1);
 Wpt_N50->SetLineWidth(2);
 Wpt_N50->Draw("same hist");
-Wpt_N60->Scale(Npt_L40->GetEntries()/Npt_N60->GetEntries());
+Wpt_N60->Scale(Wpt_L40->GetEntries()/Wpt_N60->GetEntries());
 Wpt_N60->Rebin(2);
 Wpt_N60->SetLineColor(kGreen+1);
 Wpt_N60->SetLineWidth(2);
 Wpt_N60->Draw("same hist");
-Wpt_N70->Scale(Npt_L40->GetEntries()/Npt_N70->GetEntries());
+Wpt_N70->Scale(Wpt_L40->GetEntries()/Wpt_N70->GetEntries());
 Wpt_N70->Rebin(2);
 Wpt_N70->SetLineColor(kBlue);
 Wpt_N70->SetLineWidth(2);
 Wpt_N70->Draw("same hist");
 
 TLegend* Wpt_legend = new TLegend(0.62,0.7,0.9,0.9);
-Wpt_legend->AddEntry(Npt_N40,"Sch #mu#mu m_{N}=40GeV, NLO","l");
-Wpt_legend->AddEntry(Npt_L40,"#scale[0.9]{LO}","l");
-Wpt_legend->AddEntry(Npt_N50,"Sch #mu#mu m_{N}=50GeV, NLO","l");
-Wpt_legend->AddEntry(Npt_L50,"#scale[0.9]{LO}","l");
-Wpt_legend->AddEntry(Npt_N60,"Sch #mu#mu m_{N}=60GeV, NLO","l");
-Wpt_legend->AddEntry(Npt_L60,"#scale[0.9]{LO}","l");
-Wpt_legend->AddEntry(Npt_N70,"Sch #mu#mu m_{N}=70GeV, NLO","l");
-Wpt_legend->AddEntry(Npt_L70,"#scale[0.9]{LO}","l");
+Wpt_legend->AddEntry(Wpt_N40,"Sch #mu#mu m_{N}=40GeV, NLO","l");
+Wpt_legend->AddEntry(Wpt_L40,"#scale[0.9]{LO}","l");
+Wpt_legend->AddEntry(Wpt_N50,"Sch #mu#mu m_{N}=50GeV, NLO","l");
+Wpt_legend->AddEntry(Wpt_L50,"#scale[0.9]{LO}","l");
+Wpt_legend->AddEntry(Wpt_N60,"Sch #mu#mu m_{N}=60GeV, NLO","l");
+Wpt_legend->AddEntry(Wpt_L60,"#scale[0.9]{LO}","l");
+Wpt_legend->AddEntry(Wpt_N70,"Sch #mu#mu m_{N}=70GeV, NLO","l");
+Wpt_legend->AddEntry(Wpt_L70,"#scale[0.9]{LO}","l");
 Wpt_legend->Draw();
 
 
 
-c10->cd();
+c11->cd();
 
 Weta_L40->SetTitle("W eta #scale[0.8]{(NLO vs LO) : Low mass}");
 Weta_L40->SetStats(0);
@@ -903,66 +1002,127 @@ Weta_L40->SetLineColor(kRed);
 Weta_L40->SetLineWidth(3);
 Weta_L40->SetLineStyle(7);
 Weta_L40->Draw("hist");
-Weta_L50->Scale(Neta_L40->GetEntries()/Neta_L50->GetEntries());
+Weta_L50->Scale(Weta_L40->GetEntries()/Weta_L50->GetEntries());
 Weta_L50->Rebin(2);
 Weta_L50->SetLineColor(kOrange+1);
 Weta_L50->SetLineWidth(3);
 Weta_L50->SetLineStyle(7);
 Weta_L50->Draw("same hist");
-Weta_L60->Scale(Neta_L40->GetEntries()/Neta_L60->GetEntries());
+Weta_L60->Scale(Weta_L40->GetEntries()/Weta_L60->GetEntries());
 Weta_L60->Rebin(2);
 Weta_L60->SetLineColor(kGreen+1);
 Weta_L60->SetLineWidth(3);
 Weta_L60->SetLineStyle(7);
 Weta_L60->Draw("same hist");
-Weta_L70->Scale(Neta_L40->GetEntries()/Neta_L70->GetEntries());
+Weta_L70->Scale(Weta_L40->GetEntries()/Weta_L70->GetEntries());
 Weta_L70->Rebin(2);
 Weta_L70->SetLineColor(kBlue);
 Weta_L70->SetLineWidth(3);
 Weta_L70->SetLineStyle(7);
 Weta_L70->Draw("same hist");
 Weta_N40->SetStats(0);
-Weta_N40->Scale(Neta_L40->GetEntries()/Neta_N40->GetEntries());
+Weta_N40->Scale(Weta_L40->GetEntries()/Weta_N40->GetEntries());
 Weta_N40->Rebin(2);
 Weta_N40->SetLineColor(kRed);
 Weta_N40->SetLineWidth(2);
 Weta_N40->Draw("same hist");
-Weta_N50->Scale(Neta_L40->GetEntries()/Neta_N50->GetEntries());
+Weta_N50->Scale(Weta_L40->GetEntries()/Weta_N50->GetEntries());
 Weta_N50->Rebin(2);
 Weta_N50->SetLineColor(kOrange+1);
 Weta_N50->SetLineWidth(2);
 Weta_N50->Draw("same hist");
-Weta_N60->Scale(Neta_L40->GetEntries()/Neta_N60->GetEntries());
+Weta_N60->Scale(Weta_L40->GetEntries()/Weta_N60->GetEntries());
 Weta_N60->Rebin(2);
 Weta_N60->SetLineColor(kGreen+1);
 Weta_N60->SetLineWidth(2);
 Weta_N60->Draw("same hist");
-Weta_N70->Scale(Neta_L40->GetEntries()/Neta_N70->GetEntries());
+Weta_N70->Scale(Weta_L40->GetEntries()/Weta_N70->GetEntries());
 Weta_N70->Rebin(2);
 Weta_N70->SetLineColor(kBlue);
 Weta_N70->SetLineWidth(2);
 Weta_N70->Draw("same hist");
 
 TLegend* Weta_legend = new TLegend(0.62,0.7,0.9,0.9);
-Weta_legend->AddEntry(Neta_N40,"Sch #mu#mu m_{N}=40GeV, NLO","l");
-Weta_legend->AddEntry(Neta_L40,"#scale[0.9]{LO}","l");
-Weta_legend->AddEntry(Neta_N50,"Sch #mu#mu m_{N}=50GeV, NLO","l");
-Weta_legend->AddEntry(Neta_L50,"#scale[0.9]{LO}","l");
-Weta_legend->AddEntry(Neta_N60,"Sch #mu#mu m_{N}=60GeV, NLO","l");
-Weta_legend->AddEntry(Neta_L60,"#scale[0.9]{LO}","l");
-Weta_legend->AddEntry(Neta_N70,"Sch #mu#mu m_{N}=70GeV, NLO","l");
-Weta_legend->AddEntry(Neta_L70,"#scale[0.9]{LO}","l");
+Weta_legend->AddEntry(Weta_N40,"Sch #mu#mu m_{N}=40GeV, NLO","l");
+Weta_legend->AddEntry(Weta_L40,"#scale[0.9]{LO}","l");
+Weta_legend->AddEntry(Weta_N50,"Sch #mu#mu m_{N}=50GeV, NLO","l");
+Weta_legend->AddEntry(Weta_L50,"#scale[0.9]{LO}","l");
+Weta_legend->AddEntry(Weta_N60,"Sch #mu#mu m_{N}=60GeV, NLO","l");
+Weta_legend->AddEntry(Weta_L60,"#scale[0.9]{LO}","l");
+Weta_legend->AddEntry(Weta_N70,"Sch #mu#mu m_{N}=70GeV, NLO","l");
+Weta_legend->AddEntry(Weta_L70,"#scale[0.9]{LO}","l");
 Weta_legend->Draw();
 
 
 
+c12->cd();
+
+Wen_L40->SetTitle("W energy #scale[0.8]{(NLO vs LO) : Low mass}");
+Wen_L40->SetStats(0);
+Wen_L40->Rebin(10);
+Wen_L40->GetXaxis()->SetRangeUser(0,300);
+//Wen_L40->GetYaxis()->SetRangeUser(0,12000);
+Wen_L40->SetLineColor(kRed);
+Wen_L40->SetLineWidth(3);
+Wen_L40->SetLineStyle(7);
+Wen_L40->Draw("hist");
+Wen_L50->Scale(Wen_L40->GetEntries()/Wen_L50->GetEntries());
+Wen_L50->Rebin(10);
+Wen_L50->SetLineColor(kOrange+1);
+Wen_L50->SetLineWidth(3);
+Wen_L50->SetLineStyle(7);
+Wen_L50->Draw("same hist");
+Wen_L60->Scale(Wen_L40->GetEntries()/Wen_L60->GetEntries());
+Wen_L60->Rebin(10);
+Wen_L60->SetLineColor(kGreen+1);
+Wen_L60->SetLineWidth(3);
+Wen_L60->SetLineStyle(7);
+Wen_L60->Draw("same hist");
+Wen_L70->Scale(Wen_L40->GetEntries()/Wen_L70->GetEntries());
+Wen_L70->Rebin(10);
+Wen_L70->SetLineColor(kBlue);
+Wen_L70->SetLineWidth(3);
+Wen_L70->SetLineStyle(7);
+Wen_L70->Draw("same hist");
+Wen_N40->SetStats(0);
+Wen_N40->Scale(Wen_L40->GetEntries()/Wen_N40->GetEntries());
+Wen_N40->Rebin(10);
+Wen_N40->SetLineColor(kRed);
+Wen_N40->SetLineWidth(2);
+Wen_N40->Draw("same hist");
+Wen_N50->Scale(Wen_L40->GetEntries()/Wen_N50->GetEntries());
+Wen_N50->Rebin(10);
+Wen_N50->SetLineColor(kOrange+1);
+Wen_N50->SetLineWidth(2);
+Wen_N50->Draw("same hist");
+Wen_N60->Scale(Wen_L40->GetEntries()/Wen_N60->GetEntries());
+Wen_N60->Rebin(10);
+Wen_N60->SetLineColor(kGreen+1);
+Wen_N60->SetLineWidth(2);
+Wen_N60->Draw("same hist");
+Wen_N70->Scale(Wen_L40->GetEntries()/Wen_N70->GetEntries());
+Wen_N70->Rebin(10);
+Wen_N70->SetLineColor(kBlue);
+Wen_N70->SetLineWidth(2);
+Wen_N70->Draw("same hist");
+
+TLegend* Wen_legend = new TLegend(0.62,0.7,0.9,0.9);
+Wen_legend->AddEntry(Wen_N40,"Sch #mu#mu m_{N}=40GeV, NLO","l");
+Wen_legend->AddEntry(Wen_L40,"#scale[0.9]{LO}","l");
+Wen_legend->AddEntry(Wen_N50,"Sch #mu#mu m_{N}=50GeV, NLO","l");
+Wen_legend->AddEntry(Wen_L50,"#scale[0.9]{LO}","l");
+Wen_legend->AddEntry(Wen_N60,"Sch #mu#mu m_{N}=60GeV, NLO","l");
+Wen_legend->AddEntry(Wen_L60,"#scale[0.9]{LO}","l");
+Wen_legend->AddEntry(Wen_N70,"Sch #mu#mu m_{N}=70GeV, NLO","l");
+Wen_legend->AddEntry(Wen_L70,"#scale[0.9]{LO}","l");
+Wen_legend->Draw();
 
 
 
 
 
 
-c11->cd();
+c13->cd();
 
 Wlpt_L40->SetTitle("l_{W} pt #scale[0.8]{(NLO vs LO) : Low mass}");
 Wlpt_L40->SetStats(0);
@@ -1025,7 +1185,7 @@ Wlpt_legend->AddEntry(Wlpt_L70,"#scale[0.9]{LO}","l");
 Wlpt_legend->Draw();
 
 
-c12->cd();
+c14->cd();
 
 Wleta_L40->SetTitle("l_{W} #eta #scale[0.8]{(NLO vs LO) : Low mass}");
 Wleta_L40->SetStats(0);
