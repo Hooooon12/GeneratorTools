@@ -3,6 +3,7 @@
 #include "TFile.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/JetReco/interface/GenJet.h"
+#include "DataFormats/METReco/interface/GenMET.h"
 #include "DataFormats/Math/interface/deltaR.h"
 #include "DataFormats/FWLite/interface/Handle.h"
 #include "DataFormats/FWLite/interface/Event.h"
@@ -25,6 +26,9 @@ TLorentzVector MakeTLorentzVector(const reco::GenParticle* particle){
   return MakeTLorentzVector((reco::LeafCandidate*)particle);
 }
 TLorentzVector MakeTLorentzVector(reco::GenJet* particle){
+  return MakeTLorentzVector((reco::LeafCandidate*)particle);
+}
+TLorentzVector MakeTLorentzVector(reco::GenMET* particle){
   return MakeTLorentzVector((reco::LeafCandidate*)particle);
 }
 TLorentzVector MakeTLorentzVector(tuple<reco::GenJet*,reco::GenJet*> particles){
@@ -132,6 +136,14 @@ void loop(TString infile,TString outfile){
     for(const auto& fatjet:fatjets_all){
       fatjets.push_back((reco::GenJet*)&fatjet);
     } 
+ 
+    fwlite::Handle<std::vector<reco::GenMET>> METs_;
+    METs_.getByLabel(ev,"genMetTrue");
+    const vector<reco::GenMET>& METs_all=*METs_.ptr();
+    vector<reco::GenMET*> METs;
+    for(const auto& MET:METs_all){
+      METs.push_back((reco::GenMET*)&MET);
+    } 
 
     fwlite::Handle<GenEventInfoProduct> geninfo;
     geninfo.getByLabel(ev,"generator");
@@ -143,8 +155,8 @@ void loop(TString infile,TString outfile){
 
     const reco::GenParticle *hard_W=NULL,*hard_HN=NULL;
     const reco::GenParticle *last_W=NULL,*last_HN=NULL;
-    const reco::GenParticle *hard_l=NULL,*HN_l=NULL,*W_l=NULL;
-    vector<const reco::GenParticle*> leptons,hard_partons;
+    const reco::GenParticle *hard_l=NULL,*HN_l=NULL,*W_l=NULL,*forward_q=NULL;
+    vector<const reco::GenParticle*> leptons,hard_partons,N_partons;
     for(int i=0;i<gens.size();i++){
       cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << ", isHardProcess : " << gens[i].isHardProcess() << endl;
       if(gens[i].isHardProcess()){
@@ -171,6 +183,13 @@ void loop(TString infile,TString outfile){
         if(abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13) leptons.push_back(&gens[i]);
       }
     }
+    
+    for(int i=0;i<hard_partons.size();i++){
+      if(abs((hard_partons.at(i)->mother())->pdgId())==24||(hard_partons.at(i)->mother())->pdgId()==9900012) N_partons.push_back(hard_partons.at(i));
+      for(int j=0;j<hard_partons.size();j++){
+        if(hard_partons.at(i)->mother()==hard_partons.at(j)) forward_q=hard_partons.at(i);
+      }
+    }
 
     if(hard_l) hard_l = FindLastCopy(gens,hard_l);
     if(W_l) W_l = FindLastCopy(gens,W_l); 
@@ -184,6 +203,10 @@ void loop(TString infile,TString outfile){
     cout << "!!!!!!!!!!!!!W_l charge : " << GetCharge(W_l) << "!!!!!!!!!!!!!" << endl;
     cout << "detected hard_partons : " << endl;
     for(int i=0;i<hard_partons.size();i++) cout << hard_partons.at(i) << endl;
+
+    cout << "detected forward_q : " << forward_q << endl;
+    cout << "N of METs : " << METs.size() << endl;
+
     PrintGens(gens);
 
     //clean the jets
@@ -262,17 +285,19 @@ void loop(TString infile,TString outfile){
       PrintGens(gens);
     }
 
-    if(W_l||HN_l){ 
+    if(HN_l){ 
       
       //sort(leptons.begin(),leptons.end(),PtCompare);
       //sort(jets.begin(),jets.end(),PtCompare);
       //sort(fatjets.begin(),fatjets.end(),PtCompare); //JH : XXX These - sorting vector<reco::GenParticles*> don't work!
 
       TLorentzVector* arr_leptons=MakeTLorentzVectorArray(leptons);
+      TLorentzVector* arr_Npartons=MakeTLorentzVectorArray(N_partons);
       TLorentzVector* arr_jets=MakeTLorentzVectorArray(jets_lepveto); 
       TLorentzVector* arr_fatjets=MakeTLorentzVectorArray(fatjets_lepveto); 
 
       sort(arr_leptons,arr_leptons+leptons.size(),PtCompare);
+      sort(arr_Npartons,arr_Npartons+N_partons.size(),PtCompare);
       sort(arr_jets,arr_jets+jets_lepveto.size(),PtCompare);
       sort(arr_fatjets,arr_fatjets+fatjets_lepveto.size(),PtCompare);
       
@@ -294,11 +319,16 @@ void loop(TString infile,TString outfile){
       TLorentzVector vec_W_l=MakeTLorentzVector(W_l);
       TLorentzVector vec_l0=arr_leptons[0];
       TLorentzVector vec_l1=arr_leptons[1];
-      TLorentzVector vec_j0=arr_jets[0];
+      TLorentzVector vec_N_q0=arr_Npartons[0];
+      TLorentzVector vec_N_q1=arr_Npartons[1];
+      TLorentzVector vec_forward_q=MakeTLorentzVector(forward_q);
+      TLorentzVector vec_j0;
+      if(jets_lepveto.size()>0) vec_j0=arr_jets[0];
       TLorentzVector vec_j1;
       if(jets_lepveto.size()>1) vec_j1=arr_jets[1];
       TLorentzVector vec_fatjet;
       if(fatjets_lepveto.size()>0) vec_fatjet=arr_fatjets[0];
+      TLorentzVector vec_MET=MakeTLorentzVector(METs.at(0));
 
       TLorentzVector vec_dijet;
       if(jets_lepveto.size()>1) vec_dijet=vec_j0+vec_j1;
@@ -308,17 +338,41 @@ void loop(TString infile,TString outfile){
       TLorentzVector vec_l1_dijet=vec_l1+vec_dijet;
       TLorentzVector vec_SS2l_fatjet=vec_l0+vec_l1+vec_fatjet;
       TLorentzVector vec_SS2l_dijet=vec_l0+vec_l1+vec_dijet;
+      TLorentzVector vec_off_W=vec_hard_l+vec_last_HN;
 
       if(last_W){
-        FillHist("last_W_m",vec_last_W.M(),1,70,50,120);
+        FillHist("last_W_m",vec_last_W.M(),1,70,40,120);
         FillHist("last_W_pt",vec_last_W.Pt(),1,2000,0,2000);
         FillHist("last_W_E",vec_last_W.E(),1,2000,0,2000);
         FillHist("last_W_eta",vec_last_W.Eta(),1,50,-5,5);
       }
+      if(hard_l){
+        FillHist("offshell_W_m",vec_off_W.M(),1,2000,0,2000);
+        FillHist("offshell_W_pt",vec_off_W.Pt(),1,2000,0,2000);
+        FillHist("offshell_W_E",vec_off_W.E(),1,2000,0,2000);
+        FillHist("offshell_W_eta",vec_off_W.Eta(),1,50,-5,5);
+      }
       FillHist("last_HN_m",vec_last_HN.M(),1,2100,0,2100);
-      FillHist("last_HN_pt",vec_last_HN.Pt(),1,1000,0,1000);
+      FillHist("last_HN_pt",vec_last_HN.Pt(),1,2000,0,2000);
       FillHist("last_HN_E",vec_last_HN.E(),1,3000,0,3000);
       FillHist("last_HN_eta",vec_last_HN.Eta(),1,50,-5,5);
+
+      if(forward_q){
+        FillHist("forward_q_m",vec_forward_q.M(),1,2000,0,2000);
+        FillHist("forward_q_pt",vec_forward_q.Pt(),1,2000,0,2000);
+        FillHist("forward_q_E",vec_forward_q.E(),1,2000,0,2000);
+        FillHist("forward_q_eta",vec_forward_q.Eta(),1,50,-5,5);
+      }
+
+      FillHist("N_q0_m",vec_N_q0.M(),1,2000,0,2000);
+      FillHist("N_q0_pt",vec_N_q0.Pt(),1,2000,0,2000);
+      FillHist("N_q0_E",vec_N_q0.E(),1,3000,0,3000);
+      FillHist("N_q0_eta",vec_N_q0.Eta(),1,50,-5,5);
+      FillHist("N_q1_m",vec_N_q1.M(),1,2000,0,2000);
+      FillHist("N_q1_pt",vec_N_q1.Pt(),1,2000,0,2000);
+      FillHist("N_q1_E",vec_N_q1.E(),1,3000,0,3000);
+      FillHist("N_q1_eta",vec_N_q1.Eta(),1,50,-5,5);
+
       if(fatjets_lepveto.size()>0){
         FillHist("fatjet_m",vec_fatjet.M(),1,2000,0,2000);
         FillHist("fatjet_pt",vec_fatjet.Pt(),1,2000,0,2000);
@@ -391,6 +445,11 @@ void loop(TString infile,TString outfile){
         FillHist("j1_eta",vec_j1.Eta(),1,50,-5,5);
         FillHist("DeltaR(jj)",vec_j0.DeltaR(vec_j1),1,50,0,5);
       }
+      FillHist("DeltaR(qq)",vec_N_q0.DeltaR(vec_N_q1),1,50,0,5);
+      FillHist("MET_m",vec_MET.M(),1,2000,0,2000);
+      FillHist("MET_pt",vec_MET.Pt(),1,2000,0,2000);
+      FillHist("MET_E",vec_MET.E(),1,2000,0,2000);
+      FillHist("MET_eta",vec_MET.Eta(),1,50,-5,5);
 
       //int IsSameCharge = GetCharge(hard_l)*GetCharge(HN_l);
       //FillHist("IsSameChargeLepton",IsSameCharge,1,3,-1,2);

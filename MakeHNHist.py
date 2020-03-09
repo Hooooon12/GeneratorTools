@@ -3,8 +3,8 @@ import os
 #ptcuts = ["ptcut5","ptcut10","ptcut15","ptcut20","ptl10_ptj30","ptl20_ptj30"]
 ptcuts = ["ptcut5","ptcut10","ptcut20"]
 channels = ["MuMu"]
-masses = ["40","50","60","70","75","500","1000"]
-masses_LO = masses+["100","200","300","600","800","1200","1500"]
+masses = ["40","50","60","70","75","300","500","600","1000"]
+masses_LO = masses+["100","200","800","1200","1500"]
 
 #for ptcut in ptcuts:
 #  for channel in channels:
