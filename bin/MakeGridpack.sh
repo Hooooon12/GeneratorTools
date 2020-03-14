@@ -43,7 +43,6 @@ fi
 if [ -e $GENERATORTOOLS_BASE/$GENERATOR/Gridpack/$PROCESSNAME ]
 then
     echo "[MakeGridpack.sh] WARNING::Be aware, the gridpack already exist!!"
-    echo "[MakeGridpack.sh] WARNING::But if you're running MakeHNGridpack.py, never mind."
     #echo "Gridpack already exist... Remove existing gridpack or change processname"
     #echo "rm -r $GENERATORTOOLS_BASE/$GENERATOR/Gridpack/$PROCESSNAME"
     #exit 1
