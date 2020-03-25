@@ -2,9 +2,13 @@
 
 if [ -z "$1" -o -z "$2" -o -z "$3" ]
 then
-    echo "usage: $0 Sherpa|MG PROCESSNAME NEVENT [NCORE]"
-    echo "example: $0 Sherpa ttH 2000 24"
-    exit 1
+  echo "usage: $0 Sherpa|MG PROCESSNAME NEVENT [NCORE]"
+  echo "example: $0 Sherpa ttH 2000 24"
+  exit 1
+elif [ ! -f $GENERATORTOOLS_BASE/x509up_u`id -u` ]
+then
+  echo "do voms-proxy-init --voms cms -valid 240:00; cp /tmp/x509up_u`id -u` $GENERATORTOOLS_BASE; before run this"
+  exit 1
 fi
 
 test -z "$GENERATORTOOLS_BASE" && { echo "Please source setup.sh";exit 1; }
@@ -93,6 +97,83 @@ EOF
   fi
   echo -n '.'
   echo ""
+
+  echo -n "Waiting step1"
+  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
+  then
+    condor_wait ${WORKING_DIR}/run_step1.log > /dev/null
+  else
+    wait $!
+  fi
+  echo -n '.'
+  echo ""
+
+  echo -n "Submitting step2 jobs"
+  echo "#!/bin/bash" > run_step2.sh
+  echo "cmsDriver.py step2 --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 102X_upgrade2018_realistic_v15 --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI --procModifiers premix_stage2 --nThreads 8 --era Run2_2018 --filein file:${PROCESSNAME}_step1.root --fileout file:${PROCESSNAME}_step2.root --python_filename ${PROCESSNAME}_step2_cfg.py -n $NEVENT" >> run_step2.sh #following RunIIAutumn18DRPremix campaign
+  chmod +x run_step2.sh
+  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
+  then
+    condor_submit -batch-name MG_MakeSample_${PROCESSNAME}_step2 <<EOF >/dev/null
+executable = run_step2.sh
+output = run_step2.out
+error = run_step2.err
+log = run_step2.log
+getenv = true
+request_memory = 8000
+request_cpus = $NCORE
+accounting_group = group_cms
+queue
+EOF
+  else
+    ./run_step2.sh 1>run_step2.out 2>run_step2.err &
+  fi
+  echo -n '.'
+  echo ""
+ 
+  echo -n "Waiting step2"
+  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
+  then
+    condor_wait ${WORKING_DIR}/run_step2.log > /dev/null
+  else
+    wait $!
+  fi
+  echo -n '.'
+  echo ""
+
+  echo -n "Submitting MiniAOD jobs"
+  echo "#!/bin/bash" > run_MiniAOD.sh
+  echo "cmsDriver.py step1 --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 102X_upgrade2018_realistic_v15 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2018 --filein file:${PROCESSNAME}_step2.root --fileout file:${PROCESSNAME}_MiniAOD.root --python_filename ${PROCESSNAME}_MiniAOD_cfg.py -n $NEVENT" >> run_MiniAOD.sh #following RunIIAutumn18MiniAOD campaign
+  chmod +x run_MiniAOD.sh
+  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
+  then
+    condor_submit -batch-name MG_MakeSample_${PROCESSNAME}_MiniAOD <<EOF >/dev/null
+executable = run_MiniAOD.sh
+output = run_MiniAOD.out
+error = run_MiniAOD.err
+log = run_MiniAOD.log
+getenv = true
+request_memory = 8000
+request_cpus = $NCORE
+accounting_group = group_cms
+queue
+EOF
+  else
+    ./run_step2.sh 1>run_step2.out 2>run_step2.err &
+  fi
+  echo -n '.'
+  echo ""
+
+  echo -n "Waiting MiniAOD"
+  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
+  then
+    condor_wait ${WORKING_DIR}/run_MiniAOD.log > /dev/null
+  else
+    wait $!
+  fi
+  echo -n '.'
+  echo ""
+
 
 else
     echo "Improper GENERATOR=$GENERATOR"

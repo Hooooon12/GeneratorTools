@@ -3,8 +3,8 @@ import os
 #ptcuts = ["ptcut5","ptcut10","ptcut15","ptcut20","ptl10_ptj30","ptl20_ptj30"]
 ptcuts = ["ptcut5","ptcut10","ptcut20"]
 channels = ["MuMu"]
-masses = ["40","50","60","70","75","300","500","600","1000"]
-masses_LO = masses+["100","200","800","1200","1500"]
+masses_NLO = ["40","50","60","70","75","85","90","300","500","600","1000"]
+masses_LO = ["40","50","60","70","75","100","200","300","500","600","800","1000","1200","1500"]
 
 #for ptcut in ptcuts:
 #  for channel in channels:
@@ -17,7 +17,7 @@ masses_LO = masses+["100","200","800","1200","1500"]
 #      os.system("bin/MakeHist_CollectJobs.sh"+" "+"MG"+" "+"HeavyMajoranaNeutrino_SSDiLepton_Tchannel_LO_Vanderbilt_{0}_{1}_M{2}".format(ptcut, channel, mass)+" "+"script/HNtype1_Vanderbilt.cc")
 
 for channel in channels:
-  for mass in masses:
+  for mass in masses_NLO:
     os.system("bin/MakeHist_CollectJobs.sh"+" "+"MG"+" "+"HeavyMajoranaNeutrino_SSDiLepton_Schannel_NLO_{0}_M{1}".format(channel, mass)+" "+"script/HNtype1_Sch.cc")
 
 for channel in channels:
