@@ -81,6 +81,38 @@ void FillHist(TString histname, double value, double weight, int n_bin, double x
   }else hist=it->second;
   hist->Fill(value, weight);  
 }
+TString Ptr2Idx(const reco::GenParticle* gen,const vector<reco::GenParticle>& gens){
+  TString idx = "-";
+  for(int i=0;i<gens.size();i++){
+    if(&gens[i]==gen) idx = TString::Itoa(i,10);
+  }
+  return idx;
+}
+class formatted_output //JH : thanks to https://stackoverflow.com/questions/7248627/setting-width-in-c-output-stream
+{
+  private:
+    int width;
+    ostream& stream_obj;
+
+  public:
+    formatted_output(ostream& obj, int w): width(w), stream_obj(obj) {}
+
+    template<typename T>
+    formatted_output& operator<<(const T& output){
+      stream_obj << setw(width) << output;
+      return *this;
+    }
+
+    formatted_output& operator<<(ostream& (*func)(ostream&)){
+      func(stream_obj);
+      return *this;
+    }
+};
+void PrintGen(const reco::GenParticle& gen, const vector<reco::GenParticle>& gens){
+  formatted_output new_cout(cout,5);
+  new_cout<<Ptr2Idx((reco::GenParticle*)&gen,gens)<<gen.pdgId()<<gen.status()<<Ptr2Idx((reco::GenParticle*)gen.mother(0),gens)<<Ptr2Idx((reco::GenParticle*)gen.mother(1),gens)<<Ptr2Idx((reco::GenParticle*)gen.daughter(0),gens)<<Ptr2Idx((reco::GenParticle*)gen.daughter(1),gens)<<gen.isHardProcess();
+  cout<<"<"<<endl;
+}
 void PrintGen(const reco::GenParticle& gen){
   cout<<&gen<<" "<<gen.pdgId()<<" "<<gen.status()<<" "<<gen.mother(0)<<" "<<gen.mother(1)<<" "<<gen.daughter(0)<<" "<<gen.daughter(1)<<"\t"<<gen.isHardProcess()<<gen.isLastCopy()<<gen.isLastCopyBeforeFSR()<<gen.isPromptDecayed()<<gen.isPromptFinalState()<<endl;
 }
@@ -91,8 +123,9 @@ void PrintGen(const reco::GenParticle* gen){
 void PrintGens(const vector<reco::GenParticle>& gens){
   for(unsigned int i=0;i<gens.size();i++){
     //if(gens[i].isHardProcess())  cout<<i<<" "<<&gens[i]<<" "<<gens[i].pdgId()<<" "<<gens[i].status()<<" "<<gens[i].mother()<<"\t"<<gens[i].energy()<<" "<<gens[i].p()<<" "<<gens[i].eta()<<" "<<gens[i].phi()<<endl;                                                                                 
-    cout<<i<<" ";
-    PrintGen(gens[i]);
+    //cout<<i<<" "; //JH
+    //PrintGen(gens[i]); //JH
+    PrintGen(gens[i],gens); 
   }
 }
 void PrintGens(const vector<reco::GenParticle*>& gens){
@@ -210,6 +243,7 @@ void loop(TString infile,TString outfile){
     cout << "detected forward_parton : " << forward_parton << endl;
     cout << "N of Ws : " << hard_Ws.size() << endl;
 
+    cout<<"  Idx  PID  sts mtr1 mtr2  dt1  dt2 hard"<<endl;
     PrintGens(gens);
 
     //clean the jets

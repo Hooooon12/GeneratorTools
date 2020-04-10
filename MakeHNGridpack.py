@@ -26,7 +26,7 @@ TUNE = "python/MG_NLO_CP5_DiLepChargeFilter_cff.py"
 ptcuts = ["ptcut5","ptcut10","ptcut20"]
 channels = ["MuMu"]
 #masses = ["100","150","200","400","500","700","800","900","1100","1200","1300","1400","1500","1700","2000"]
-masses = ["300","600"]
+masses = ["40","50","60","70","75"]
 
 #for ptcut in ptcuts:
 #  for channel in channels:
