@@ -397,11 +397,11 @@ void loop(TString infile,TString outfile){
         vec_off_W1=vec_hard_l+vec_last_HN;
       }
       else if(vec_on_W1.E()&&!vec_on_W2.E()){
-        vec_off_W2=vec_HN_l+vec_N_q0+vec_N_q1;
+        vec_off_W2=vec_N_q0+vec_N_q1;
       }
       else if(!vec_on_W1.E()&&!vec_on_W2.E()){
         vec_off_W1=vec_hard_l+vec_last_HN;
-        vec_off_W2=vec_HN_l+vec_N_q0+vec_N_q1;
+        vec_off_W2=vec_N_q0+vec_N_q1;
       }
 
       //========jets, fatjet, METv (only lepton cleaned)========//
