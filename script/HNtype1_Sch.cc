@@ -367,7 +367,7 @@ void loop(TString infile,TString outfile){
       //========onshell Ws========//
       TLorentzVector vec_on_W1, vec_on_W2;
       if(hard_Ws.size()==1){
-        if(Ptr2Idx(hard_Ws.at(0),gens)<Ptr2Idx(hard_HN,gens)){
+        if(Ptr2Idx(hard_Ws.at(0),gens).Atoi()<Ptr2Idx(hard_HN,gens).Atoi()){ //NOTE Don't forget Atoi()!
           vec_on_W1=MakeTLorentzVector(hard_Ws.at(0));
         }else{
           vec_on_W2=MakeTLorentzVector(hard_Ws.at(0));
