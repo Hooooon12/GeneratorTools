@@ -4,37 +4,24 @@ TString LO_filename2 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_H
 TString LO_filename3 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_LO_MuMu_M60.root";
 TString LO_filename4 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_LO_MuMu_M70.root";
 TString LO_filename5 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_LO_MuMu_M75.root";
-TString LO_filename6 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_LO_MuMu_M300.root";
-TString LO_filename7 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_LO_MuMu_M600.root";
-TString LO_filename8 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_LO_MuMu_M1000.root";
 TFile* L40 = new TFile(LO_filename1);
 TFile* L50 = new TFile(LO_filename2);
 TFile* L60 = new TFile(LO_filename3);
 TFile* L70 = new TFile(LO_filename4);
 TFile* L75 = new TFile(LO_filename5);
-TFile* L300 = new TFile(LO_filename6);
-TFile* L600 = new TFile(LO_filename7);
-TFile* L1000 = new TFile(LO_filename8);
 TString NLO_filename1 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_NLO_MuMu_M40.root";
 TString NLO_filename2 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_NLO_MuMu_M50.root";
 TString NLO_filename3 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_NLO_MuMu_M60.root";
 TString NLO_filename4 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_NLO_MuMu_M70.root";
 TString NLO_filename5 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_NLO_MuMu_M75.root";
-TString NLO_filename6 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_NLO_MuMu_M300.root";
-TString NLO_filename7 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_NLO_MuMu_M600.root";
-TString NLO_filename8 = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_NLO_MuMu_M1000.root";
 TFile* N40 = new TFile(NLO_filename1);
 TFile* N50 = new TFile(NLO_filename2);
 TFile* N60 = new TFile(NLO_filename3);
 TFile* N70 = new TFile(NLO_filename4);
 TFile* N75 = new TFile(NLO_filename5);
-TFile* N300 = new TFile(NLO_filename6);
-TFile* N600 = new TFile(NLO_filename7);
-TFile* N1000 = new TFile(NLO_filename8);
 
 
 gSystem->Exec("mkdir -p Sch_kinematics/LM");
-gSystem->Exec("mkdir -p Sch_kinematics/HM");
 
 
 //========================LO========================//
