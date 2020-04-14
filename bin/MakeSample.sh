@@ -32,148 +32,193 @@ if [ "$GENERATOR" = "MG" ]
 then
   [ -f $CMSSW_BASE/src/MY/mg/python/${PROCESSNAME}.pyc ] || { echo "No MG python config for $PROCESSNAME... Exiting...";exit 1; }
 
-  echo -n "Submitting GS jobs"
   WORKING_DIR=$GENERATORTOOLS_BASE/MG/Sample/$PROCESSNAME
   mkdir -p $WORKING_DIR
   cd $WORKING_DIR
-  echo "#!/bin/bash" > run_GS.sh
-  echo "cmsDriver.py MY/mg/python/${PROCESSNAME}.py --fileout file:${PROCESSNAME}_GS.root --mc --eventcontent RAWSIM,LHE --datatier GEN-SIM,LHE --conditions 102X_upgrade2018_realistic_v20 --beamspot Realistic25ns13TeVEarly2018Collision --step LHE,GEN,SIM --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename ${PROCESSNAME}_GS_cfg.py -n $NEVENT" >> run_GS.sh #following RunIIFall18wmLHEGS campaign
-  chmod +x run_GS.sh
-  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
-  then
-    condor_submit -batch-name MG_MakeSample_${PROCESSNAME}_GS <<EOF >/dev/null
-executable = run_GS.sh
-output = run_GS.out
-error = run_GS.err
-log = run_GS.log
+
+  echo -n "Submitting GS jobs"
+  WAITLIST_GS=()
+  for i in $(seq 1 $NCORE) 
+  do   
+    mkdir -p $WORKING_DIR/run_${i} 
+    cd $WORKING_DIR/run_${i}
+
+    echo "#!/bin/bash" > run_GS_${i}.sh
+    echo "cmsDriver.py MY/mg/python/${PROCESSNAME}.py --fileout file:${PROCESSNAME}_GS_${i}.root --mc --eventcontent RAWSIM,LHE --datatier GEN-SIM,LHE --conditions 102X_upgrade2018_realistic_v20 --beamspot Realistic25ns13TeVEarly2018Collision --step LHE,GEN,SIM --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename ${PROCESSNAME}_GS_cfg_${i}.py -n $NEVENT" >> run_GS_${i}.sh #following RunIIFall18wmLHEGS campaign
+    chmod +x run_GS_${i}.sh
+    if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
+    then
+      condor_submit -batch-name MG_MakeSample_${PROCESSNAME}_GS <<EOF >/dev/null
+executable = run_GS_${i}.sh
+output = run_GS_${i}.out
+error = run_GS_${i}.err
+log = run_GS_${i}.log
 getenv = true
 request_memory = 8000
-request_cpus = $NCORE
 accounting_group = group_cms
 queue
 EOF
-  else
-    ./run_GS.sh 1>run_GS.out 2>run_GS.err &
-  fi
-  echo -n '.'
+      WAITLIST_GS+=(${WORKING_DIR}/run_${i}/run_GS_${i}.log)
+    else
+      ./run_GS_${i}.sh 1>run_GS_${i}.out 2>run_GS_${i}.err &
+      WAITLIST_GS+=($!)
+    fi
+    echo -n '.'
+  done
   echo ""
   
   echo -n "Waiting GS"
-  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
-  then
-    condor_wait ${WORKING_DIR}/run_GS.log > /dev/null
-  else
-    wait $!
-  fi
-  echo -n '.'
+  for WAITTARGET in "${WAITLIST_GS[@]}"
+  do
+    if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
+    then
+      condor_wait $WAITTARGET > /dev/null
+    else
+      echo $WAITTARGET
+      echo ${WAITLIST_GS[@]}
+      wait $WAITTARGET
+    fi
+    echo -n '.'
+  done
   echo ""
 
   echo -n "Submitting step1 jobs"
-  echo "#!/bin/bash" > run_step1.sh
-  echo "echo \"Copying grid certificate...\"" >> run_step1.sh
-  echo "cp \"$GENERATORTOOLS_BASE/x509up_u\"* \"/tmp/x509up_u\"`id -u`" >> run_step1.sh
-  echo "ls -hlt /tmp/" >> run_step1.sh
-  echo "echo \"Making config file...\"" >> run_step1.sh
-  echo "time bash -c \"cmsDriver.py step1 --mc --eventcontent PREMIXRAW --datatier GEN-SIM-RAW --conditions 102X_upgrade2018_realistic_v20 --step DIGI,DATAMIX,L1,DIGI2RAW,HLT:@relval2018 --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2018 --filein file:${PROCESSNAME}_GS.root --fileout file:${PROCESSNAME}_step1.root --pileup_input \"dbs:/Neutrino_E-10_gun/RunIISummer17PrePremix-PUAutumn18_102X_upgrade2018_realistic_v15-v1/GEN-SIM-DIGI-RAW\" --python_filename ${PROCESSNAME}_step1_cfg.py -n $NEVENT --no_exec\"" >> run_step1.sh #following RunIIAutumn18DRPremix campaign
-  echo "sed -i \"s/\/store/root:\/\/eoscms.cern.ch\/\/eos\/cms\/store/g\" ${PROCESSNAME}_step1_cfg.py" >> run_step1.sh
-  echo "echo \"Now cmsRun...\"" >> run_step1.sh
-  echo "cmsRun ${PROCESSNAME}_step1_cfg.py" >> run_step1.sh
-  chmod +x run_step1.sh
-  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]                                           
-  then
-    condor_submit -batch-name MG_MakeSample_${PROCESSNAME}_step1 <<EOF >/dev/null
-executable = run_step1.sh
-output = run_step1.out
-error = run_step1.err
-log = run_step1.log
+  WAITLIST_step1=()
+  for i in $(seq 1 $NCORE)
+  do
+    cd $WORKING_DIR/run_${i}
+
+    echo "#!/bin/bash" > run_step1_${i}.sh
+    echo "echo \"Copying grid certificate...\"" >> run_step1_${i}.sh
+    echo "cp \"$GENERATORTOOLS_BASE/x509up_u\"* \"/tmp/x509up_u\"`id -u`" >> run_step1_${i}.sh
+    echo "ls -hlt /tmp/" >> run_step1_${i}.sh
+    echo "echo \"Making config file...\"" >> run_step1_${i}.sh
+    echo "time bash -c \"cmsDriver.py step1 --mc --eventcontent PREMIXRAW --datatier GEN-SIM-RAW --conditions 102X_upgrade2018_realistic_v20 --step DIGI,DATAMIX,L1,DIGI2RAW,HLT:@relval2018 --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2018 --filein file:${PROCESSNAME}_GS_${i}.root --fileout file:${PROCESSNAME}_step1_${i}.root --pileup_input \"dbs:/Neutrino_E-10_gun/RunIISummer17PrePremix-PUAutumn18_102X_upgrade2018_realistic_v15-v1/GEN-SIM-DIGI-RAW\" --python_filename ${PROCESSNAME}_step1_cfg_${i}.py -n $NEVENT --no_exec\"" >> run_step1_${i}.sh #following RunIIAutumn18DRPremix campaign
+    echo "sed -i \"s/\/store/root:\/\/eoscms.cern.ch\/\/eos\/cms\/store/g\" ${PROCESSNAME}_step1_cfg_${i}.py" >> run_step1_${i}.sh
+    echo "echo \"Now cmsRun...\"" >> run_step1_${i}.sh
+    echo "cmsRun ${PROCESSNAME}_step1_cfg_${i}.py" >> run_step1_${i}.sh
+    chmod +x run_step1_${i}.sh
+    if [[ $GENERATORTOOLS_USECONDOR = 1 ]]    
+    then
+      condor_submit -batch-name MG_MakeSample_${PROCESSNAME}_step1 <<EOF >/dev/null
+executable = run_step1_${i}.sh
+output = run_step1_${i}.out
+error = run_step1_${i}.err
+log = run_step1_${i}.log
 getenv = true
 request_memory = 10000
-request_cpus = $NCORE
 accounting_group = group_cms
 queue
 EOF
-  else
-    ./run_step1.sh 1>run_step1.out 2>run_step1.err &
-  fi
-  echo -n '.'
+      WAITLIST_step1+=(${WORKING_DIR}/run_${i}/run_step1_${i}.log)
+    else
+      ./run_step1_${i}.sh 1>run_step1_${i}.out 2>run_step1_${i}.err &
+      WAITLIST_step1+=($!)
+    fi
+    echo -n '.'
+  done
   echo ""
 
   echo -n "Waiting step1"
-  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
-  then
-    condor_wait ${WORKING_DIR}/run_step1.log > /dev/null
-  else
-    wait $!
-  fi
-  echo -n '.'
+  for WAITTARGET in "${WAITLIST_step1[@]}"
+  do
+    if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
+    then
+      condor_wait $WAITTARGET > /dev/null
+    else
+      wait $WAITTARGET
+    fi
+    echo -n '.'
+  done
   echo ""
 
   echo -n "Submitting step2 jobs"
-  echo "#!/bin/bash" > run_step2.sh
-  echo "cmsDriver.py step2 --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 102X_upgrade2018_realistic_v20 --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI --procModifiers premix_stage2 --nThreads 8 --era Run2_2018 --filein file:${PROCESSNAME}_step1.root --fileout file:${PROCESSNAME}_step2.root --python_filename ${PROCESSNAME}_step2_cfg.py -n $NEVENT" >> run_step2.sh #following RunIIAutumn18DRPremix campaign
-  chmod +x run_step2.sh
-  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
-  then
-    condor_submit -batch-name MG_MakeSample_${PROCESSNAME}_step2 <<EOF >/dev/null
-executable = run_step2.sh
-output = run_step2.out
-error = run_step2.err
-log = run_step2.log
+  WAITLIST_step2=()
+  for i in $(seq 1 $NCORE)
+  do
+    cd $WORKING_DIR/run_${i}
+
+    echo "#!/bin/bash" > run_step2_${i}.sh
+    echo "cmsDriver.py step2 --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 102X_upgrade2018_realistic_v20 --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI --procModifiers premix_stage2 --nThreads 8 --era Run2_2018 --filein file:${PROCESSNAME}_step1_${i}.root --fileout file:${PROCESSNAME}_step2_${i}.root --python_filename ${PROCESSNAME}_step2_cfg_${i}.py -n $NEVENT" >> run_step2_${i}.sh #following RunIIAutumn18DRPremix campaign
+    chmod +x run_step2_${i}.sh
+    if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
+    then
+      condor_submit -batch-name MG_MakeSample_${PROCESSNAME}_step2 <<EOF >/dev/null
+executable = run_step2_${i}.sh
+output = run_step2_${i}.out
+error = run_step2_${i}.err
+log = run_step2_${i}.log
 getenv = true
 request_memory = 8000
-request_cpus = $NCORE
 accounting_group = group_cms
 queue
 EOF
-  else
-    ./run_step2.sh 1>run_step2.out 2>run_step2.err &
-  fi
-  echo -n '.'
+      WAITLIST_step2+=(${WORKING_DIR}/run_${i}/run_step2_${i}.log)
+    else
+      ./run_step2_${i}.sh 1>run_step2_${i}.out 2>run_step2_${i}.err &
+      WAITLIST_step2+=($!)
+    fi
+    echo -n '.'
+  done
   echo ""
  
   echo -n "Waiting step2"
-  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
-  then
-    condor_wait ${WORKING_DIR}/run_step2.log > /dev/null
-  else
-    wait $!
-  fi
-  echo -n '.'
+  for WAITTARGET in "${WAITLIST_step2[@]}"
+  do
+    if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
+    then
+      condor_wait $WAITTARGET > /dev/null
+    else
+      wait $WAITTARGET
+    fi
+    echo -n '.'
+  done
   echo ""
 
   echo -n "Submitting MiniAOD jobs"
-  echo "#!/bin/bash" > run_MiniAOD.sh
-  echo "cmsDriver.py step1 --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 102X_upgrade2018_realistic_v20 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2018 --filein file:${PROCESSNAME}_step2.root --fileout file:${PROCESSNAME}_MiniAOD.root --python_filename ${PROCESSNAME}_MiniAOD_cfg.py -n $NEVENT" >> run_MiniAOD.sh #following RunIIAutumn18MiniAOD campaign
-  chmod +x run_MiniAOD.sh
-  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
-  then
-    condor_submit -batch-name MG_MakeSample_${PROCESSNAME}_MiniAOD <<EOF >/dev/null
-executable = run_MiniAOD.sh
-output = run_MiniAOD.out
-error = run_MiniAOD.err
-log = run_MiniAOD.log
+  WAITLIST_MiniAOD=()
+  for i in $(seq 1 $NCORE)
+  do
+    cd $WORKING_DIR/run_${i}
+
+    echo "#!/bin/bash" > run_MiniAOD_${i}.sh
+    echo "cmsDriver.py step1 --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 102X_upgrade2018_realistic_v20 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2018 --filein file:${PROCESSNAME}_step2_${i}.root --fileout file:${PROCESSNAME}_MiniAOD_${i}.root --python_filename ${PROCESSNAME}_MiniAOD_cfg_${i}.py -n $NEVENT" >> run_MiniAOD_${i}.sh #following RunIIAutumn18MiniAOD campaign
+    chmod +x run_MiniAOD_${i}.sh
+    if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
+    then
+      condor_submit -batch-name MG_MakeSample_${PROCESSNAME}_MiniAOD <<EOF >/dev/null
+executable = run_MiniAOD_${i}.sh
+output = run_MiniAOD_${i}.out
+error = run_MiniAOD_${i}.err
+log = run_MiniAOD_${i}.log
 getenv = true
 request_memory = 8000
-request_cpus = $NCORE
 accounting_group = group_cms
 queue
 EOF
-  else
-    ./run_step2.sh 1>run_step2.out 2>run_step2.err &
-  fi
-  echo -n '.'
+      WAITLIST_MiniAOD+=(${WORKING_DIR}/run_${i}/run_MiniAOD_${i}.log)
+    else
+      ./run_MiniAOD_${i}.sh 1>run_MiniAOD_${i}.out 2>run_MiniAOD_${i}.err &
+      WAITLIST_MiniAOD+=($!)
+    fi
+    echo -n '.'
+  done
   echo ""
 
   echo -n "Waiting MiniAOD"
-  if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
-  then
-    condor_wait ${WORKING_DIR}/run_MiniAOD.log > /dev/null
-  else
-    wait $!
-  fi
-  echo -n '.'
+  for WAITTARGET in "${WAITLIST_MiniAOD[@]}"
+  do
+    if [[ $GENERATORTOOLS_USECONDOR = 1 ]]
+    then
+      condor_wait $WAITTARGET > /dev/null
+    else
+      wait $WAITTARGET
+    fi
+    echo -n '.'
+  done
   echo ""
 
+  cd $WORKING_DIR
 
 else
     echo "Improper GENERATOR=$GENERATOR"
