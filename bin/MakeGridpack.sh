@@ -137,6 +137,7 @@ output = MG_MakeGridpack_${PROCESSNAME}.out
 error = MG_MakeGridpack_${PROCESSNAME}.err
 log = MG_MakeGridpack_${PROCESSNAME}.log
 request_cpus = $NCORE
+request_memory = 8000
 getenv = true
 accounting_group = group_cms
 queue
