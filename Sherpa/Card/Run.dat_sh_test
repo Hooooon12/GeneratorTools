@@ -1,5 +1,5 @@
 (run){
-OL_PREFIX=/data6/Users/hsseo/GeneratorTools/OpenLoops-2.1.0
+OL_PREFIX=/data8/Users/hsseo/GeneratorTools/OpenLoops-2.1.0
 OUTPUT=2
  % general settings
  EVENTS 0; ERROR 0.1;

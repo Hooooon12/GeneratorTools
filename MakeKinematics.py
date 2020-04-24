@@ -11,7 +11,7 @@ with open ("test.C",'w') as f:
 
   for order in orders:
     for i in range(len(masses)):
-      f.write('TString '+order+'_filename'+str(i+1)+' = "/data6/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_'+order+'_MuMu_M'+str(masses[i])+'.root";\n')
+      f.write('TString '+order+'_filename'+str(i+1)+' = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_Sch_MG_HeavyMajoranaNeutrino_SSDiLepton_Schannel_'+order+'_MuMu_M'+str(masses[i])+'.root";\n')
     for i in range(len(masses)):
       f.write('TFile* '+order[0]+str(masses[i])+' = new TFile('+order+'_filename'+str(i+1)+');\n')
 

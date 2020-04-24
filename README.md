@@ -15,7 +15,7 @@
   - Sherpa card is a file.
   - MG card is a directory.
   - See existing cards for example.
-  - Currently, Many libraries are missing in OpenLoops 2.1.0 in CMSSW_10_2_18. To use local OpenLoops 2.1.0 in SNU cluster, `./bin/SetOpenLoopsPath.sh /data6/Users/hsseo/GeneratorTools/OpenLoops-2.1.0`
+  - Currently, Many libraries are missing in OpenLoops 2.1.0 in CMSSW_10_2_18. To use local OpenLoops 2.1.0 in SNU cluster, `./bin/SetOpenLoopsPath.sh /data8/Users/hsseo/GeneratorTools/OpenLoops-2.1.0`
   
 ## 2. `bin/MakeGridpack.sh Sherpa|MG PROCESSNAME [NCORE] [fragment_template]`
   - Make Gridpack using card, place geneneration python fragment at CMSSW directory, and compile
