@@ -221,7 +221,7 @@ void loop(TString infile,TString outfile){
     for(int i=0;i<hard_partons.size();i++){
       if(abs((hard_partons.at(i)->mother())->pdgId())==24||(hard_partons.at(i)->mother())->pdgId()==9900012) N_partons.push_back(hard_partons.at(i));
       for(int j=0;j<hard_partons.size();j++){
-        if(hard_partons.at(i)->mother()==hard_partons.at(j)) forward_parton=hard_partons.at(i);
+        if(hard_partons.at(j)->mother()==hard_partons.at(i)) forward_parton=hard_partons.at(j);
       }
     }
 
@@ -238,10 +238,11 @@ void loop(TString infile,TString outfile){
     cout << "!!!!!!!!!!!!!hard_l charge : " << GetCharge(hard_l) << "!!!!!!!!!!!!!" << endl;
     cout << "!!!!!!!!!!!!!HN_l charge : " << GetCharge(HN_l) << "!!!!!!!!!!!!!" << endl;
     cout << "!!!!!!!!!!!!!W_l charge : " << GetCharge(W_l) << "!!!!!!!!!!!!!" << endl;
+
     cout << "detected hard_partons : " << endl;
     for(int i=0;i<hard_partons.size();i++) cout << Ptr2Idx(hard_partons.at(i),gens) << endl;
-
     cout << "detected forward_parton : " << Ptr2Idx(forward_parton,gens) << endl;
+
     cout << "N of Ws : " << hard_Ws.size() << endl;
     if(hard_Ws.size()==1){
       cout << "Which : ";
