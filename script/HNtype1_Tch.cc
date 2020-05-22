@@ -247,7 +247,7 @@ void loop(TString infile,TString outfile){
     cout << "detected hard_partons : " << endl;
     for(int i=0;i<hard_partons.size();i++) cout << Ptr2Idx(hard_partons.at(i),gens) << endl;
     cout << "detected forward_partons : " << endl;
-    for(int i=0;i<forward_partons.size();i++) cout << Ptr2Idx(forward_parton,gens) << endl;
+    for(int i=0;i<forward_partons.size();i++) cout << Ptr2Idx(forward_partons.at(i),gens) << endl;
     
     cout << "N of Ws : " << hard_Ws.size() << endl;
     //if(hard_Ws.size()==1){
@@ -398,7 +398,9 @@ void loop(TString infile,TString outfile){
       TLorentzVector vec_l1=arr_leptons[1];
       TLorentzVector vec_N_q0=arr_Npartons[0];
       TLorentzVector vec_N_q1=arr_Npartons[1];
-      TLorentzVector vec_forward_parton=MakeTLorentzVector(forward_parton);
+      TLorentzVector vec_forward_parton1, vec_forward_parton2;
+      if(forward_partons.size()>0) vec_forward_parton1=MakeTLorentzVector(forward_partons.at(0));
+      if(forward_partons.size()>1) vec_forward_parton2=MakeTLorentzVector(forward_partons.at(1));
       
       //========offshell Ws reconstruction========//
       TLorentzVector vec_off_W1, vec_off_W2;
@@ -414,9 +416,8 @@ void loop(TString infile,TString outfile){
       }
 
       //========jets, fatjet, METv (only lepton cleaned)========//
-      TLorentzVector vec_j0;
+      TLorentzVector vec_j0, vec_j1;
       if(jets_lepveto.size()>0) vec_j0=arr_jets[0];
-      TLorentzVector vec_j1;
       if(jets_lepveto.size()>1) vec_j1=arr_jets[1];
       TLorentzVector vec_fatjet;
       if(fatjets_lepveto.size()>0) vec_fatjet=arr_fatjets[0];
@@ -546,22 +547,40 @@ void loop(TString infile,TString outfile){
       FillHist("last_HN_E",vec_last_HN.E(),1,3000,0,3000);
       FillHist("last_HN_eta",vec_last_HN.Eta(),1,50,-5,5);
 
-      if(forward_parton){
-        FillHist("forward_parton_m",vec_forward_parton.M(),1,2000,0,2000);
-        FillHist("forward_parton_pt",vec_forward_parton.Pt(),1,2000,0,2000);
-        FillHist("forward_parton_E",vec_forward_parton.E(),1,2000,0,2000);
-        FillHist("forward_parton_eta",vec_forward_parton.Eta(),1,50,-5,5);
-        if(forward_parton->pdgId()==21){
-          FillHist("forward_gluon_m",vec_forward_parton.M(),1,2000,0,2000);
-          FillHist("forward_gluon_pt",vec_forward_parton.Pt(),1,2000,0,2000);
-          FillHist("forward_gluon_E",vec_forward_parton.E(),1,2000,0,2000);
-          FillHist("forward_gluon_eta",vec_forward_parton.Eta(),1,50,-5,5);
+      if(forward_partons.size()==1){
+        FillHist("forward_parton1_m",vec_forward_parton1.M(),1,2000,0,2000);
+        FillHist("forward_parton1_pt",vec_forward_parton1.Pt(),1,2000,0,2000);
+        FillHist("forward_parton1_E",vec_forward_parton1.E(),1,2000,0,2000);
+        FillHist("forward_parton1_eta",vec_forward_parton1.Eta(),1,50,-5,5);
+        if(forward_partons.at(0)->pdgId()==21){
+          FillHist("forward_gluon1_m",vec_forward_parton1.M(),1,2000,0,2000);
+          FillHist("forward_gluon1_pt",vec_forward_parton1.Pt(),1,2000,0,2000);
+          FillHist("forward_gluon1_E",vec_forward_parton1.E(),1,2000,0,2000);
+          FillHist("forward_gluon1_eta",vec_forward_parton1.Eta(),1,50,-5,5);
         }
         else{
-          FillHist("forward_q_m",vec_forward_parton.M(),1,2000,0,2000);
-          FillHist("forward_q_pt",vec_forward_parton.Pt(),1,2000,0,2000);
-          FillHist("forward_q_E",vec_forward_parton.E(),1,2000,0,2000);
-          FillHist("forward_q_eta",vec_forward_parton.Eta(),1,50,-5,5);
+          FillHist("forward_q1_m",vec_forward_parton1.M(),1,2000,0,2000);
+          FillHist("forward_q1_pt",vec_forward_parton1.Pt(),1,2000,0,2000);
+          FillHist("forward_q1_E",vec_forward_parton1.E(),1,2000,0,2000);
+          FillHist("forward_q1_eta",vec_forward_parton1.Eta(),1,50,-5,5);
+        }
+      }
+      else if(forward_partons.size()==2){
+        FillHist("forward_parton2_m",vec_forward_parton2.M(),1,2000,0,2000);
+        FillHist("forward_parton2_pt",vec_forward_parton2.Pt(),1,2000,0,2000);
+        FillHist("forward_parton2_E",vec_forward_parton2.E(),1,2000,0,2000);
+        FillHist("forward_parton2_eta",vec_forward_parton2.Eta(),1,50,-5,5);
+        if(forward_partons.at(1)->pdgId()==21){
+          FillHist("forward_gluon2_m",vec_forward_parton2.M(),1,2000,0,2000);
+          FillHist("forward_gluon2_pt",vec_forward_parton2.Pt(),1,2000,0,2000);
+          FillHist("forward_gluon2_E",vec_forward_parton2.E(),1,2000,0,2000);
+          FillHist("forward_gluon2_eta",vec_forward_parton2.Eta(),1,50,-5,5);
+        }
+        else{
+          FillHist("forward_q2_m",vec_forward_parton2.M(),1,2000,0,2000);
+          FillHist("forward_q2_pt",vec_forward_parton2.Pt(),1,2000,0,2000);
+          FillHist("forward_q2_E",vec_forward_parton2.E(),1,2000,0,2000);
+          FillHist("forward_q2_eta",vec_forward_parton2.Eta(),1,50,-5,5);
         }
       }
 

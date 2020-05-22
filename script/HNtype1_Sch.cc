@@ -406,9 +406,8 @@ void loop(TString infile,TString outfile){
       }
 
       //========jets, fatjet, METv (only lepton cleaned)========//
-      TLorentzVector vec_j0;
+      TLorentzVector vec_j0, vec_j1;
       if(jets_lepveto.size()>0) vec_j0=arr_jets[0];
-      TLorentzVector vec_j1;
       if(jets_lepveto.size()>1) vec_j1=arr_jets[1];
       TLorentzVector vec_fatjet;
       if(fatjets_lepveto.size()>0) vec_fatjet=arr_fatjets[0];
