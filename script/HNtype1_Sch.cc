@@ -194,7 +194,7 @@ void loop(TString infile,TString outfile){
     for(int i=0;i<gens.size();i++){
       //cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << ", isHardProcess : " << gens[i].isHardProcess() << endl;
       if(gens[i].isHardProcess()){
-        cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << ", px : " << gens[i].px() << ", py : " << gens[i].py() << ", pz : " << gens[i].pz() << ", E : " << gens[i].energy() << ", eta : " << gens[i].eta() << endl;
+        cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << ", px : " << gens[i].px() << ", py : " << gens[i].py() << ", pz : " << gens[i].pz() << ", E : " << gens[i].energy() << ", pt : " << gens[i].pt() << ", eta : " << gens[i].eta() << ", phi : " << gens[i].phi() << endl;
         if(abs(gens[i].pdgId())==24) hard_Ws.push_back(&gens[i]);
         else if(abs(gens[i].pdgId())<=4||gens[i].pdgId()==21) hard_partons.push_back(&gens[i]);
         else if(gens[i].pdgId()==9900012) hard_HN=&gens[i]; 
@@ -202,15 +202,15 @@ void loop(TString infile,TString outfile){
       if(gens[i].pdgId()==9900012) last_HN=&gens[i];
       if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==hard_partons.at(0))){
         hard_l=&gens[i]; //JH : XXX If hard_l is just reco::GenParticle* (w/o const), then it doesn't get &gens[i]
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the hard_l : " << hard_l << endl;
+        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the hard_l : " << endl;
       }
       else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==last_HN)){ //NOTE The mother should be last_HN
         HN_l=&gens[i];
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the HN_l : " << HN_l << endl;
+        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the HN_l : " << endl;
       }
       else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(abs(gens[i].mother()->pdgId())==24)){
         W_l=&gens[i];
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the W_l : " << W_l << endl;
+        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the W_l : " << endl;
       }
 
       if(gens[i].isPromptFinalState()){
@@ -319,8 +319,8 @@ void loop(TString infile,TString outfile){
         }
       }
 
-    cout << "leading jet info" << endl << leading_jet->print() << endl;
-    cout << "subleading jet info" << endl << subleading_jet->print() << endl;
+      cout << "leading jet info" << endl << leading_jet->print() << endl;
+      cout << "subleading jet info" << endl << subleading_jet->print() << endl;
 
     }
 

@@ -196,7 +196,7 @@ void loop(TString infile,TString outfile){
       //cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << ", isHardProcess : " << gens[i].isHardProcess() << endl;
       if(gens[i].isHardProcess()){
         Nhard++;
-        cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << ", px : " << gens[i].px() << ", py : " << gens[i].py() << ", pz : " << gens[i].pz() << ", E : " << gens[i].energy() << ", eta : " << gens[i].eta() << endl;
+        cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << ", px : " << gens[i].px() << ", py : " << gens[i].py() << ", pz : " << gens[i].pz() << ", E : " << gens[i].energy() << ", pt : " << gens[i].pt() << ", eta : " << gens[i].eta() << ", phi : " << gens[i].phi() << endl;
         if(abs(gens[i].pdgId())==24) hard_Ws.push_back(&gens[i]);
         else if(abs(gens[i].pdgId())<=4||gens[i].pdgId()==21) hard_partons.push_back(&gens[i]);
         else if(gens[i].pdgId()==9900012) hard_HN=&gens[i]; 
@@ -205,15 +205,15 @@ void loop(TString infile,TString outfile){
       if(gens[i].pdgId()==9900012) last_HN=&gens[i];
       if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==hard_partons.at(0)||gens[i].mother()==hard_photon)){
         hard_l=&gens[i]; //JH : XXX If hard_l is just reco::GenParticle* (w/o const), then it doesn't get &gens[i]
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the hard_l : " << hard_l << endl;
+        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the hard_l : " << endl;
       }
       else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==last_HN)){ //NOTE The mother should be last_HN
         HN_l=&gens[i];
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the HN_l : " << HN_l << endl;
+        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the HN_l : " << endl;
       }
       else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(abs(gens[i].mother()->pdgId())==24)){
         W_l=&gens[i];
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the W_l : " << W_l << endl;
+        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the W_l : " << endl;
       }
 
       if(gens[i].isPromptFinalState()){
@@ -223,9 +223,7 @@ void loop(TString infile,TString outfile){
     
     for(int i=0;i<hard_partons.size();i++){
       if(abs((hard_partons.at(i)->mother())->pdgId())==24||(hard_partons.at(i)->mother())->pdgId()==9900012) N_partons.push_back(hard_partons.at(i));
-      for(int j=0;j<hard_partons.size();j++){
-        if(hard_partons.at(j)->mother()==hard_partons.at(i)) forward_partons.push_back(hard_partons.at(j));
-      }
+      if(hard_partons.at(i)->mother(0)==hard_photon||hard_partons.at(i)->mother(1)==hard_photon) forward_partons.push_back(hard_partons.at(i));
     }
 
     if(hard_Ws.size()>0){
@@ -248,6 +246,7 @@ void loop(TString infile,TString outfile){
     for(int i=0;i<hard_partons.size();i++) cout << Ptr2Idx(hard_partons.at(i),gens) << endl;
     cout << "detected forward_partons : " << endl;
     for(int i=0;i<forward_partons.size();i++) cout << Ptr2Idx(forward_partons.at(i),gens) << endl;
+    cout << "N of forward partons : " << forward_partons.size() << endl;
     
     cout << "N of Ws : " << hard_Ws.size() << endl;
     //if(hard_Ws.size()==1){
@@ -258,7 +257,7 @@ void loop(TString infile,TString outfile){
     //    else cout << "W2" << endl;
     //  cout << "W : " << Ptr2Idx(hard_Ws.at(0),gens) << ", HN : " << Ptr2Idx(hard_HN,gens) << endl;
     //  cout << "W eta : " << hard_Ws.at(0)->eta() << endl; //NOTE W eta extremely changes from hard_W to last_W
-    //}
+    //} //JH : W1 and W2 are meaningless in Tchannel
 
     cout<<"  Idx  PID  sts mtr1 mtr2  dt1  dt2  hrdp"<<endl;
     PrintGens(gens);
@@ -301,13 +300,12 @@ void loop(TString infile,TString outfile){
     cout << "N of fatjets : " << fatjets.size() << endl;
     cout << "N of lepton vetoed fatjets : " << fatjets_lepveto.size() << endl;
 
-    //pick up the (sub)leading jet : to inspect jet constituents
-    
     reco::GenJet* leading_jet;
     reco::GenJet* subleading_jet;
 
     if(jets_lepveto.size()>0){
-
+      
+      //pick up the (sub)leading jet and inspect the jet constituents
       leading_jet = jets_lepveto.at(0);
   
       for(int i=0; i<jets_lepveto.size(); i++){
@@ -326,10 +324,67 @@ void loop(TString infile,TString outfile){
         }
       }
 
-    cout << "leading jet info" << endl << leading_jet->print() << endl;
-    cout << "subleading jet info" << endl << subleading_jet->print() << endl;
+      cout << "leading jet info" << endl << leading_jet->print() << endl;
+      cout << "subleading jet info" << endl << subleading_jet->print() << endl;
 
+      //now pick up the forward jet and inspect the constituents
+      vector<reco::GenJet*> jets_forward;
+  
+      for(int i=0;i<jets_lepveto.size();i++){
+        bool HasForwardParton = false;
+        for(int j=0;j<forward_partons.size();j++){
+          if(deltaR(*jets_lepveto.at(i),*forward_partons.at(j))<0.1){
+            HasForwardParton = true;
+            break;
+          }
+        }
+        if(HasForwardParton) jets_forward.push_back(jets_lepveto.at(i));
+        else continue;
+      }
+
+      cout << "N of forward jets : " << jets_forward.size() << endl;
+      if(jets_forward.size()>0) cout << "forward jet 1 info" << endl << jets_forward.at(0)->print() << endl;
+      if(jets_forward.size()>1) cout << "forward jet 2 info" << endl << jets_forward.at(1)->print() << endl;
+
+      //pick up the forward jet with dR = 0.4
+      vector<reco::GenJet*> jets_forward_dR0p4;
+  
+      for(int i=0;i<jets_lepveto.size();i++){
+        bool HasForwardParton = false;
+        for(int j=0;j<forward_partons.size();j++){
+          if(deltaR(*jets_lepveto.at(i),*forward_partons.at(j))<0.4){
+            HasForwardParton = true;
+            break;
+          }
+        }
+        if(HasForwardParton) jets_forward_dR0p4.push_back(jets_lepveto.at(i));
+        else continue;
+      }
+
+      cout << "N of forward jets(dR=0.4) : " << jets_forward_dR0p4.size() << endl;
+      //if(jets_forward_dR0p4.size()>0) cout << "forward jet(dR=0.4) 1 info" << endl << jets_forward_dR0p4.at(0)->print() << endl;
+      //if(jets_forward_dR0p4.size()>1) cout << "forward jet(dR=0.4) 2 info" << endl << jets_forward_dR0p4.at(1)->print() << endl;
+
+      //See if subleading jet contains forward parton
+      int HasForwardParton = 0;
+      for(int j=0;j<forward_partons.size();j++){
+        if(deltaR(*subleading_jet,*forward_partons.at(j))<0.4){
+          HasForwardParton = 1;
+          break;
+        }
+      }
+      FillHist("j1_contains_forward",HasForwardParton,1,2,0,2);
     }
+
+    //See if fatjet contains forward parton
+    int HasForwardParton = 0;
+    for(int j=0;j<forward_partons.size();j++){
+      if(deltaR(*fatjets_lepveto.at(0),*forward_partons.at(j))<0.8){
+        HasForwardParton = 1;
+        break;
+      }
+    }
+    FillHist("fatjet_contains_forward",HasForwardParton,1,2,0,2);
 
     if(fatjets_lepveto.size()>0) cout << "fatjet info" << endl << fatjets_lepveto.at(0)->print() << endl;
 
@@ -339,7 +394,7 @@ void loop(TString infile,TString outfile){
       PrintGens(gens);
     }
 
-    if(!HN_l){ //JH : Don't draw yet.. need to check kinematics
+    if(HN_l){ 
       
       //sort(leptons.begin(),leptons.end(),PtCompare);
       //sort(jets.begin(),jets.end(),PtCompare);
@@ -547,7 +602,7 @@ void loop(TString infile,TString outfile){
       FillHist("last_HN_E",vec_last_HN.E(),1,3000,0,3000);
       FillHist("last_HN_eta",vec_last_HN.Eta(),1,50,-5,5);
 
-      if(forward_partons.size()==1){
+      if(forward_partons.size()>0){
         FillHist("forward_parton1_m",vec_forward_parton1.M(),1,2000,0,2000);
         FillHist("forward_parton1_pt",vec_forward_parton1.Pt(),1,2000,0,2000);
         FillHist("forward_parton1_E",vec_forward_parton1.E(),1,2000,0,2000);
@@ -565,7 +620,7 @@ void loop(TString infile,TString outfile){
           FillHist("forward_q1_eta",vec_forward_parton1.Eta(),1,50,-5,5);
         }
       }
-      else if(forward_partons.size()==2){
+      if(forward_partons.size()>1){
         FillHist("forward_parton2_m",vec_forward_parton2.M(),1,2000,0,2000);
         FillHist("forward_parton2_pt",vec_forward_parton2.Pt(),1,2000,0,2000);
         FillHist("forward_parton2_E",vec_forward_parton2.E(),1,2000,0,2000);
@@ -703,11 +758,11 @@ void loop(TString infile,TString outfile){
       }
 
     }
-    //else{
-    //  cout<<"Something wrong"<<endl;
-    //  PrintGens(gens);
-    //  exit(1);
-    //} //JH : Don't draw yet.. need to check kinematics
+    else{
+      cout<<"Something wrong"<<endl;
+      PrintGens(gens);
+      exit(1);
+    } 
     ievent++;
   }
   
