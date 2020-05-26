@@ -56,8 +56,8 @@ TH1D* Nleta_L300 = (TH1D*)L300->Get("HN_l_eta");
 //TH1D* Wleta_L300 = (TH1D*)L300->Get("W_l_eta");
 TH1D* hardlpt_L300 = (TH1D*)L300->Get("hard_l_pt");
 TH1D* hardleta_L300 = (TH1D*)L300->Get("hard_l_eta");
-TH1D* hardqpt_L300 = (TH1D*)L300->Get("forward_q1_pt");
-TH1D* hardqeta_L300 = (TH1D*)L300->Get("forward_q1_eta");
+TH1D* hardqpt_L300 = (TH1D*)L300->Get("forward_parton1_pt");
+TH1D* hardqeta_L300 = (TH1D*)L300->Get("forward_parton1_eta");
 TH1D* Wq1pt_L300 = (TH1D*)L300->Get("N_q0_pt");
 TH1D* Wq1eta_L300 = (TH1D*)L300->Get("N_q0_eta");
 TH1D* Wq2pt_L300 = (TH1D*)L300->Get("N_q1_pt");
@@ -104,8 +104,8 @@ TH1D* Nleta_L600 = (TH1D*)L600->Get("HN_l_eta");
 //TH1D* Wleta_L600 = (TH1D*)L600->Get("W_l_eta");
 TH1D* hardlpt_L600 = (TH1D*)L600->Get("hard_l_pt");
 TH1D* hardleta_L600 = (TH1D*)L600->Get("hard_l_eta");
-TH1D* hardqpt_L600 = (TH1D*)L600->Get("forward_q1_pt");
-TH1D* hardqeta_L600 = (TH1D*)L600->Get("forward_q1_eta");
+TH1D* hardqpt_L600 = (TH1D*)L600->Get("forward_parton1_pt");
+TH1D* hardqeta_L600 = (TH1D*)L600->Get("forward_parton1_eta");
 TH1D* Wq1pt_L600 = (TH1D*)L600->Get("N_q0_pt");
 TH1D* Wq1eta_L600 = (TH1D*)L600->Get("N_q0_eta");
 TH1D* Wq2pt_L600 = (TH1D*)L600->Get("N_q1_pt");
@@ -153,8 +153,8 @@ TH1D* Nleta_L1000 = (TH1D*)L1000->Get("HN_l_eta");
 //TH1D* Wleta_L1000 = (TH1D*)L1000->Get("W_l_eta");
 TH1D* hardlpt_L1000 = (TH1D*)L1000->Get("hard_l_pt");
 TH1D* hardleta_L1000 = (TH1D*)L1000->Get("hard_l_eta");
-TH1D* hardqpt_L1000 = (TH1D*)L1000->Get("forward_q1_pt");
-TH1D* hardqeta_L1000 = (TH1D*)L1000->Get("forward_q1_eta");
+TH1D* hardqpt_L1000 = (TH1D*)L1000->Get("forward_parton1_pt");
+TH1D* hardqeta_L1000 = (TH1D*)L1000->Get("forward_parton1_eta");
 TH1D* Wq1pt_L1000 = (TH1D*)L1000->Get("N_q0_pt");
 TH1D* Wq1eta_L1000 = (TH1D*)L1000->Get("N_q0_eta");
 TH1D* Wq2pt_L1000 = (TH1D*)L1000->Get("N_q1_pt");
@@ -203,8 +203,8 @@ TH1D* Nleta_N300 = (TH1D*)N300->Get("HN_l_eta");
 //TH1D* Wleta_N300 = (TH1D*)N300->Get("W_l_eta");
 TH1D* hardlpt_N300 = (TH1D*)N300->Get("hard_l_pt");
 TH1D* hardleta_N300 = (TH1D*)N300->Get("hard_l_eta");
-TH1D* hardqpt_N300 = (TH1D*)N300->Get("forward_q1_pt");
-TH1D* hardqeta_N300 = (TH1D*)N300->Get("forward_q1_eta");
+TH1D* hardqpt_N300 = (TH1D*)N300->Get("forward_parton1_pt");
+TH1D* hardqeta_N300 = (TH1D*)N300->Get("forward_parton1_eta");
 TH1D* Wq1pt_N300 = (TH1D*)N300->Get("N_q0_pt");
 TH1D* Wq1eta_N300 = (TH1D*)N300->Get("N_q0_eta");
 TH1D* Wq2pt_N300 = (TH1D*)N300->Get("N_q1_pt");
@@ -251,8 +251,8 @@ TH1D* Nleta_N600 = (TH1D*)N600->Get("HN_l_eta");
 //TH1D* Wleta_N600 = (TH1D*)N600->Get("W_l_eta");
 TH1D* hardlpt_N600 = (TH1D*)N600->Get("hard_l_pt");
 TH1D* hardleta_N600 = (TH1D*)N600->Get("hard_l_eta");
-TH1D* hardqpt_N600 = (TH1D*)N600->Get("forward_q1_pt");
-TH1D* hardqeta_N600 = (TH1D*)N600->Get("forward_q1_eta");
+TH1D* hardqpt_N600 = (TH1D*)N600->Get("forward_parton1_pt");
+TH1D* hardqeta_N600 = (TH1D*)N600->Get("forward_parton1_eta");
 TH1D* Wq1pt_N600 = (TH1D*)N600->Get("N_q0_pt");
 TH1D* Wq1eta_N600 = (TH1D*)N600->Get("N_q0_eta");
 TH1D* Wq2pt_N600 = (TH1D*)N600->Get("N_q1_pt");
@@ -299,8 +299,8 @@ TH1D* Nleta_N1000 = (TH1D*)N1000->Get("HN_l_eta");
 //TH1D* Wleta_N1000 = (TH1D*)N1000->Get("W_l_eta");
 TH1D* hardlpt_N1000 = (TH1D*)N1000->Get("hard_l_pt");
 TH1D* hardleta_N1000 = (TH1D*)N1000->Get("hard_l_eta");
-TH1D* hardqpt_N1000 = (TH1D*)N1000->Get("forward_q1_pt");
-TH1D* hardqeta_N1000 = (TH1D*)N1000->Get("forward_q1_eta");
+TH1D* hardqpt_N1000 = (TH1D*)N1000->Get("forward_parton1_pt");
+TH1D* hardqeta_N1000 = (TH1D*)N1000->Get("forward_parton1_eta");
 TH1D* Wq1pt_N1000 = (TH1D*)N1000->Get("N_q0_pt");
 TH1D* Wq1eta_N1000 = (TH1D*)N1000->Get("N_q0_eta");
 TH1D* Wq2pt_N1000 = (TH1D*)N1000->Get("N_q1_pt");
@@ -363,7 +363,7 @@ TCanvas* c37=NULL;
 TCanvas* c38=NULL;
 
 
-//c1 = new TCanvas("c1","m(lljj)",200,350,700,650);
+c1 = new TCanvas("c1","m(lljj)",200,350,700,650);
 //c2 = new TCanvas("c2","m(l1jj)",220,330,700,650);
 //c3 = new TCanvas("c3","m(l2jj)",240,310,700,650);
 c4 = new TCanvas("c4","N pt",260,290,700,650);
@@ -382,21 +382,21 @@ c16 = new TCanvas("c16","j1 pt",250,350,700,650);
 c17 = new TCanvas("c17","j1 eta",270,330,700,650);
 c18 = new TCanvas("c18","j2 pt",290,310,700,650);
 c19 = new TCanvas("c19","j2 eta",310,290,700,650);
-//c20 = new TCanvas("c20","fatjet pt",330,270,700,650);
-//c21 = new TCanvas("c21","fatjet eta",350,250,700,650);
-//c22 = new TCanvas("c22","fatjet mass",370,230,700,650);
-//c23 = new TCanvas("c23","dijet mass",390,210,700,650);
-//c24 = new TCanvas("c24","m(llJ)",410,190,700,650);
-//c25 = new TCanvas("c25","m(l1J)",430,170,700,650);
-//c26 = new TCanvas("c26","m(l2J)",450,150,700,650);
-//c27 = new TCanvas("c27","hard_q pt",470,130,700,650);
-//c28 = new TCanvas("c28","hard_q eta",490,110,700,650);
-//c29 = new TCanvas("c29","W_q1 pt",510,90,700,650);
-//c30 = new TCanvas("c30","W_q1 eta",530,70,700,650);
-//c31 = new TCanvas("c31","W_q2 pt",300,350,700,650);
-//c32 = new TCanvas("c32","W_q2 eta",320,330,700,650);
-//c33 = new TCanvas("c33","dR(jj)",340,310,700,650);
-//c34 = new TCanvas("c34","dR(qq)",360,290,700,650);
+c20 = new TCanvas("c20","fatjet pt",330,270,700,650);
+c21 = new TCanvas("c21","fatjet eta",350,250,700,650);
+c22 = new TCanvas("c22","fatjet mass",370,230,700,650);
+c23 = new TCanvas("c23","dijet mass",390,210,700,650);
+c24 = new TCanvas("c24","m(llJ)",410,190,700,650);
+c25 = new TCanvas("c25","m(l1J)",430,170,700,650);
+c26 = new TCanvas("c26","m(l2J)",450,150,700,650);
+c27 = new TCanvas("c27","forward_parton pt",470,130,700,650);
+c28 = new TCanvas("c28","forward_parton eta",490,110,700,650);
+c29 = new TCanvas("c29","W_q1 pt",510,90,700,650);
+c30 = new TCanvas("c30","W_q1 eta",530,70,700,650);
+c31 = new TCanvas("c31","W_q2 pt",300,350,700,650);
+c32 = new TCanvas("c32","W_q2 eta",320,330,700,650);
+c33 = new TCanvas("c33","dR(jj)",340,310,700,650);
+c34 = new TCanvas("c34","dR(qq)",360,290,700,650);
 //c35 = new TCanvas("c35","W2 pt",380,270,700,650);
 //c36 = new TCanvas("c36","W2 eta",400,250,700,650);
 //c37 = new TCanvas("c37","W2 mass",420,230,700,650);
@@ -406,50 +406,51 @@ c19 = new TCanvas("c19","j2 eta",310,290,700,650);
 if(c1){
 c1->cd();
 
-mlljj_L300->SetTitle("m(lljj) #scale[0.8]{(NLO vs LO) : High mass}");
+mlljj_L300->SetTitle("m(lljj) #scale[0.8]{(NLO vs LO)}");
 mlljj_L300->SetStats(0);
-mlljj_L300->Rebin(50);
+mlljj_L300->Rebin(100);
 //mlljj_L300->GetXaxis()->SetRangeUser(0,300);
-//mlljj_L300->GetYaxis()->SetRangeUser(0,30000);
+mlljj_L300->GetYaxis()->SetRangeUser(0,30000);
+mlljj_L300->GetXaxis()->SetTitle("m(lljj)");
 mlljj_L300->SetLineColor(kRed);
 mlljj_L300->SetLineWidth(3);
 mlljj_L300->SetLineStyle(7);
 mlljj_L300->Draw("hist");
 mlljj_L600->Scale(mlljj_L300->GetEntries()/mlljj_L600->GetEntries());
-mlljj_L600->Rebin(50);
+mlljj_L600->Rebin(100);
 mlljj_L600->SetLineColor(kGreen+1);
 mlljj_L600->SetLineWidth(3);
 mlljj_L600->SetLineStyle(7);
 mlljj_L600->Draw("same hist");
 mlljj_L1000->Scale(mlljj_L300->GetEntries()/mlljj_L1000->GetEntries());
-mlljj_L1000->Rebin(50);
+mlljj_L1000->Rebin(100);
 mlljj_L1000->SetLineColor(kBlue);
 mlljj_L1000->SetLineWidth(3);
 mlljj_L1000->SetLineStyle(7);
 mlljj_L1000->Draw("same hist");
 mlljj_N300->SetStats(0);
 mlljj_N300->Scale(mlljj_L300->GetEntries()/mlljj_N300->GetEntries());
-mlljj_N300->Rebin(50);
+mlljj_N300->Rebin(100);
 mlljj_N300->SetLineColor(kRed);
 mlljj_N300->SetLineWidth(2);
 mlljj_N300->Draw("same hist");
 mlljj_N600->Scale(mlljj_L300->GetEntries()/mlljj_N600->GetEntries());
-mlljj_N600->Rebin(50);
+mlljj_N600->Rebin(100);
 mlljj_N600->SetLineColor(kGreen+1);
 mlljj_N600->SetLineWidth(2);
 mlljj_N600->Draw("same hist");
 mlljj_N1000->Scale(mlljj_L300->GetEntries()/mlljj_N1000->GetEntries());
-mlljj_N1000->Rebin(50);
+mlljj_N1000->Rebin(100);
 mlljj_N1000->SetLineColor(kBlue);
 mlljj_N1000->SetLineWidth(2);
 mlljj_N1000->Draw("same hist");
 
 TLegend* mlljj_legend = new TLegend(0.62,0.75,0.9,0.9);
-mlljj_legend->AddEntry(mlljj_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+mlljj_legend->AddEntry(mlljj_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 mlljj_legend->AddEntry(mlljj_L300,"#scale[0.9]{LO}","l");
-mlljj_legend->AddEntry(mlljj_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+mlljj_legend->AddEntry(mlljj_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 mlljj_legend->AddEntry(mlljj_L600,"#scale[0.9]{LO}","l");
-mlljj_legend->AddEntry(mlljj_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+mlljj_legend->AddEntry(mlljj_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 mlljj_legend->AddEntry(mlljj_L1000,"#scale[0.9]{LO}","l");
 mlljj_legend->Draw();
 }
@@ -458,7 +459,7 @@ mlljj_legend->Draw();
 if(c2){
 c2->cd();
 
-ml1jj_L300->SetTitle("m(l1jj) #scale[0.8]{(NLO vs LO) : High mass}");
+ml1jj_L300->SetTitle("m(l1jj) #scale[0.8]{(NLO vs LO)}");
 ml1jj_L300->SetStats(0);
 ml1jj_L300->Rebin(50);
 ml1jj_L300->GetXaxis()->SetRangeUser(0,2000);
@@ -497,11 +498,11 @@ ml1jj_N1000->SetLineWidth(2);
 ml1jj_N1000->Draw("same hist");
 
 TLegend* ml1jj_legend = new TLegend(0.62,0.75,0.9,0.9);
-ml1jj_legend->AddEntry(ml1jj_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+ml1jj_legend->AddEntry(ml1jj_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 ml1jj_legend->AddEntry(ml1jj_L300,"#scale[0.9]{LO}","l");
-ml1jj_legend->AddEntry(ml1jj_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+ml1jj_legend->AddEntry(ml1jj_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 ml1jj_legend->AddEntry(ml1jj_L600,"#scale[0.9]{LO}","l");
-ml1jj_legend->AddEntry(ml1jj_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+ml1jj_legend->AddEntry(ml1jj_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 ml1jj_legend->AddEntry(ml1jj_L1000,"#scale[0.9]{LO}","l");
 ml1jj_legend->Draw();
 }
@@ -510,7 +511,7 @@ ml1jj_legend->Draw();
 if(c3){
 c3->cd();
 
-ml2jj_L300->SetTitle("m(l2jj) #scale[0.8]{(NLO vs LO) : High mass}");
+ml2jj_L300->SetTitle("m(l2jj) #scale[0.8]{(NLO vs LO)}");
 ml2jj_L300->SetStats(0);
 ml2jj_L300->Rebin(50);
 ml2jj_L300->GetXaxis()->SetRangeUser(0,2000);
@@ -549,11 +550,11 @@ ml2jj_N1000->SetLineWidth(2);
 ml2jj_N1000->Draw("same hist");
 
 TLegend* ml2jj_legend = new TLegend(0.62,0.75,0.9,0.9);
-ml2jj_legend->AddEntry(ml2jj_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+ml2jj_legend->AddEntry(ml2jj_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 ml2jj_legend->AddEntry(ml2jj_L300,"#scale[0.9]{LO}","l");
-ml2jj_legend->AddEntry(ml2jj_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+ml2jj_legend->AddEntry(ml2jj_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 ml2jj_legend->AddEntry(ml2jj_L600,"#scale[0.9]{LO}","l");
-ml2jj_legend->AddEntry(ml2jj_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+ml2jj_legend->AddEntry(ml2jj_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 ml2jj_legend->AddEntry(ml2jj_L1000,"#scale[0.9]{LO}","l");
 ml2jj_legend->Draw();
 }
@@ -563,7 +564,7 @@ ml2jj_legend->Draw();
 if(c4){
 c4->cd();
 
-Npt_L300->SetTitle("N pt #scale[0.8]{(NLO vs LO) : High mass}");
+Npt_L300->SetTitle("N pt #scale[0.8]{(NLO vs LO)}");
 Npt_L300->SetStats(0);
 Npt_L300->Rebin(20);
 Npt_L300->GetXaxis()->SetRangeUser(0,600);
@@ -609,13 +610,13 @@ TString Nptdiff_600_t = Form("%f",Nptdiff_600);
 double Nptdiff_1000 = 100*(Npt_N1000->GetMean()-Npt_L1000->GetMean())/Npt_L1000->GetMean();
 TString Nptdiff_1000_t = Form("%f",Nptdiff_1000);
 TLegend* Npt_legend = new TLegend(0.62,0.65,0.9,0.9);
-Npt_legend->AddEntry(Npt_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+Npt_legend->AddEntry(Npt_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 Npt_legend->AddEntry(Npt_L300,"#scale[0.9]{LO}","l");
 Npt_legend->AddEntry((TObject*)0,"#bf{mean p_{T}} diff : "+Nptdiff_300_t+"%","");
-Npt_legend->AddEntry(Npt_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+Npt_legend->AddEntry(Npt_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 Npt_legend->AddEntry(Npt_L600,"#scale[0.9]{LO}","l");
 Npt_legend->AddEntry((TObject*)0,"diff : "+Nptdiff_600_t+"%","");
-Npt_legend->AddEntry(Npt_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+Npt_legend->AddEntry(Npt_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 Npt_legend->AddEntry(Npt_L1000,"#scale[0.9]{LO}","l");
 Npt_legend->AddEntry((TObject*)0,"diff : "+Nptdiff_1000_t+"%","");
 Npt_legend->Draw();
@@ -626,7 +627,7 @@ Npt_legend->Draw();
 if(c5){
 c5->cd();
 
-Neta_L300->SetTitle("N eta #scale[0.8]{(NLO vs LO) : High mass}");
+Neta_L300->SetTitle("N eta #scale[0.8]{(NLO vs LO)}");
 Neta_L300->SetStats(0);
 Neta_L300->Rebin(2);
 Neta_L300->GetXaxis()->SetTitle("N #eta");
@@ -665,11 +666,11 @@ Neta_N1000->SetLineWidth(2);
 Neta_N1000->Draw("same hist");
 
 TLegend* Neta_legend = new TLegend(0.62,0.75,0.9,0.9);
-Neta_legend->AddEntry(Neta_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+Neta_legend->AddEntry(Neta_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 Neta_legend->AddEntry(Neta_L300,"#scale[0.9]{LO}","l");
-Neta_legend->AddEntry(Neta_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+Neta_legend->AddEntry(Neta_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 Neta_legend->AddEntry(Neta_L600,"#scale[0.9]{LO}","l");
-Neta_legend->AddEntry(Neta_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+Neta_legend->AddEntry(Neta_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 Neta_legend->AddEntry(Neta_L1000,"#scale[0.9]{LO}","l");
 Neta_legend->Draw();
 }
@@ -679,7 +680,7 @@ Neta_legend->Draw();
 if(c6){
 c6->cd();
 
-Nen_L300->SetTitle("N energy #scale[0.8]{(NLO vs LO) : High mass}");
+Nen_L300->SetTitle("N energy #scale[0.8]{(NLO vs LO)}");
 Nen_L300->SetStats(0);
 Nen_L300->Rebin(50);
 //Nen_L300->GetXaxis()->SetRangeUser(0,300);
@@ -718,11 +719,11 @@ Nen_N1000->SetLineWidth(2);
 Nen_N1000->Draw("same hist");
 
 TLegend* Nen_legend = new TLegend(0.62,0.75,0.9,0.9);
-Nen_legend->AddEntry(Nen_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+Nen_legend->AddEntry(Nen_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 Nen_legend->AddEntry(Nen_L300,"#scale[0.9]{LO}","l");
-Nen_legend->AddEntry(Nen_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+Nen_legend->AddEntry(Nen_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 Nen_legend->AddEntry(Nen_L600,"#scale[0.9]{LO}","l");
-Nen_legend->AddEntry(Nen_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+Nen_legend->AddEntry(Nen_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 Nen_legend->AddEntry(Nen_L1000,"#scale[0.9]{LO}","l");
 Nen_legend->Draw();
 }
@@ -733,7 +734,7 @@ Nen_legend->Draw();
 if(c7){
 c7->cd();
 
-Nlpt_L300->SetTitle("l_{N} pt #scale[0.8]{(NLO vs LO) : High mass}");
+Nlpt_L300->SetTitle("l_{N} pt #scale[0.8]{(NLO vs LO)}");
 Nlpt_L300->SetStats(0);
 Nlpt_L300->Rebin(20);
 Nlpt_L300->GetXaxis()->SetRangeUser(0,800);
@@ -780,13 +781,13 @@ TString Nlptdiff_600_t = Form("%f",Nlptdiff_600);
 double Nlptdiff_1000 = 100*(Nlpt_N1000->GetMean()-Nlpt_L1000->GetMean())/Nlpt_L1000->GetMean();
 TString Nlptdiff_1000_t = Form("%f",Nlptdiff_1000);
 TLegend* Nlpt_legend = new TLegend(0.62,0.65,0.9,0.9);
-Nlpt_legend->AddEntry(Nlpt_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+Nlpt_legend->AddEntry(Nlpt_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 Nlpt_legend->AddEntry(Nlpt_L300,"#scale[0.9]{LO}","l");
 Nlpt_legend->AddEntry((TObject*)0,"#bf{mean p_{T}} diff : "+Nlptdiff_300_t+"%","");
-Nlpt_legend->AddEntry(Nlpt_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+Nlpt_legend->AddEntry(Nlpt_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 Nlpt_legend->AddEntry(Nlpt_L600,"#scale[0.9]{LO}","l");
 Nlpt_legend->AddEntry((TObject*)0,"diff : "+Nlptdiff_600_t+"%","");
-Nlpt_legend->AddEntry(Nlpt_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+Nlpt_legend->AddEntry(Nlpt_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 Nlpt_legend->AddEntry(Nlpt_L1000,"#scale[0.9]{LO}","l");
 Nlpt_legend->AddEntry((TObject*)0,"diff : "+Nlptdiff_1000_t+"%","");
 Nlpt_legend->Draw();
@@ -802,7 +803,7 @@ TH1D* Nlpt_N300_2 = (TH1D*)Nlpt_N300->Clone();
 TH1D* Nlpt_N600_2 = (TH1D*)Nlpt_N600->Clone();
 TH1D* Nlpt_N1000_2 = (TH1D*)Nlpt_N1000->Clone();
 
-Nlpt_N300_2->SetTitle("l_{N} pt #scale[0.8]{(NLO) : High mass}");
+Nlpt_N300_2->SetTitle("l_{N} pt #scale[0.8]{(NLO)}");
 Nlpt_N300_2->SetStats(0);
 //Nlpt_N300_2->GetXaxis()->SetRangeUser(0,50);
 Nlpt_N300_2->SetLineColor(kRed);
@@ -818,9 +819,9 @@ Nlpt_N1000_2->SetLineWidth(2);
 Nlpt_N1000_2->Draw("same hist");
 
 TLegend* Nlpt_NLO_legend = new TLegend(0.62,0.755,0.9,0.9);
-Nlpt_NLO_legend->AddEntry(Nlpt_N300_2,"Sch #mu#mu m_{N}=300GeV, NLO","l");
-Nlpt_NLO_legend->AddEntry(Nlpt_N600_2,"Sch #mu#mu m_{N}=600GeV, NLO","l");
-Nlpt_NLO_legend->AddEntry(Nlpt_N1000_2,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+Nlpt_NLO_legend->AddEntry(Nlpt_N300_2,"Tch #mu#mu m_{N}=300GeV, NLO","l");
+Nlpt_NLO_legend->AddEntry(Nlpt_N600_2,"Tch #mu#mu m_{N}=600GeV, NLO","l");
+Nlpt_NLO_legend->AddEntry(Nlpt_N1000_2,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 Nlpt_NLO_legend->Draw();
 }
 
@@ -829,7 +830,7 @@ Nlpt_NLO_legend->Draw();
 if(c9){
 c9->cd();
 
-Nleta_L300->SetTitle("l_{N} #eta #scale[0.8]{(NLO vs LO) : High mass}");
+Nleta_L300->SetTitle("l_{N} #eta #scale[0.8]{(NLO vs LO)}");
 Nleta_L300->SetStats(0);
 Nleta_L300->Rebin(2);
 Nleta_L300->GetYaxis()->SetRangeUser(0,17000);
@@ -868,11 +869,11 @@ Nleta_N1000->SetLineWidth(2);
 Nleta_N1000->Draw("same hist");
 
 TLegend* Nleta_legend = new TLegend(0.62,0.75,0.9,0.9);
-Nleta_legend->AddEntry(Nleta_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+Nleta_legend->AddEntry(Nleta_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 Nleta_legend->AddEntry(Nleta_L300,"#scale[0.9]{LO}","l");
-Nleta_legend->AddEntry(Nleta_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+Nleta_legend->AddEntry(Nleta_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 Nleta_legend->AddEntry(Nleta_L600,"#scale[0.9]{LO}","l");
-Nleta_legend->AddEntry(Nleta_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+Nleta_legend->AddEntry(Nleta_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 Nleta_legend->AddEntry(Nleta_L1000,"#scale[0.9]{LO}","l");
 Nleta_legend->Draw();
 }
@@ -881,7 +882,7 @@ Nleta_legend->Draw();
 if(c10){
 c10->cd();
 
-W1pt_L300->SetTitle("W1 pt #scale[0.8]{(NLO vs LO) : High mass}");
+W1pt_L300->SetTitle("W1 pt #scale[0.8]{(NLO vs LO)}");
 W1pt_L300->SetStats(0);
 W1pt_L300->Rebin(5);
 W1pt_L300->GetXaxis()->SetRangeUser(0,300);
@@ -920,11 +921,11 @@ W1pt_N1000->SetLineWidth(2);
 W1pt_N1000->Draw("same hist");
 
 TLegend* W1pt_legend = new TLegend(0.62,0.75,0.9,0.9);
-W1pt_legend->AddEntry(W1pt_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+W1pt_legend->AddEntry(W1pt_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 W1pt_legend->AddEntry(W1pt_L300,"#scale[0.9]{LO}","l");
-W1pt_legend->AddEntry(W1pt_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+W1pt_legend->AddEntry(W1pt_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 W1pt_legend->AddEntry(W1pt_L600,"#scale[0.9]{LO}","l");
-W1pt_legend->AddEntry(W1pt_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+W1pt_legend->AddEntry(W1pt_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 W1pt_legend->AddEntry(W1pt_L1000,"#scale[0.9]{LO}","l");
 W1pt_legend->Draw();
 }
@@ -936,7 +937,7 @@ W1pt_legend->Draw();
 if(c11){
 c11->cd();
 
-W1eta_L300->SetTitle("W1 eta #scale[0.8]{(NLO vs LO) : High mass}");
+W1eta_L300->SetTitle("W1 eta #scale[0.8]{(NLO vs LO)}");
 W1eta_L300->SetStats(0);
 W1eta_L300->Rebin(2);
 W1eta_L300->GetYaxis()->SetRangeUser(0,6500);
@@ -974,11 +975,11 @@ W1eta_N1000->SetLineWidth(2);
 W1eta_N1000->Draw("same hist");
 
 TLegend* W1eta_legend = new TLegend(0.62,0.75,0.9,0.9);
-W1eta_legend->AddEntry(W1eta_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+W1eta_legend->AddEntry(W1eta_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 W1eta_legend->AddEntry(W1eta_L300,"#scale[0.9]{LO}","l");
-W1eta_legend->AddEntry(W1eta_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+W1eta_legend->AddEntry(W1eta_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 W1eta_legend->AddEntry(W1eta_L600,"#scale[0.9]{LO}","l");
-W1eta_legend->AddEntry(W1eta_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+W1eta_legend->AddEntry(W1eta_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 W1eta_legend->AddEntry(W1eta_L1000,"#scale[0.9]{LO}","l");
 W1eta_legend->Draw();
 }
@@ -987,7 +988,7 @@ W1eta_legend->Draw();
 if(c12){
 c12->cd();
 
-W1mass_L300->SetTitle("W1 mass #scale[0.8]{(NLO vs LO) : High mass}");
+W1mass_L300->SetTitle("W1 mass #scale[0.8]{(NLO vs LO)}");
 W1mass_L300->SetStats(0);
 W1mass_L300->Rebin(50);
 //W1mass_L300->GetXaxis()->SetRangeUser(0,300);
@@ -1026,11 +1027,11 @@ W1mass_N1000->SetLineWidth(2);
 W1mass_N1000->Draw("same hist");
 
 TLegend* W1mass_legend = new TLegend(0.62,0.75,0.9,0.9);
-W1mass_legend->AddEntry(W1mass_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+W1mass_legend->AddEntry(W1mass_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 W1mass_legend->AddEntry(W1mass_L300,"#scale[0.9]{LO}","l");
-W1mass_legend->AddEntry(W1mass_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+W1mass_legend->AddEntry(W1mass_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 W1mass_legend->AddEntry(W1mass_L600,"#scale[0.9]{LO}","l");
-W1mass_legend->AddEntry(W1mass_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+W1mass_legend->AddEntry(W1mass_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 W1mass_legend->AddEntry(W1mass_L1000,"#scale[0.9]{LO}","l");
 W1mass_legend->Draw();
 }
@@ -1040,7 +1041,7 @@ W1mass_legend->Draw();
 if(c13){
 c13->cd();
 
-W1en_L300->SetTitle("W1 energy #scale[0.8]{(NLO vs LO) : High mass}");
+W1en_L300->SetTitle("W1 energy #scale[0.8]{(NLO vs LO)}");
 W1en_L300->SetStats(0);
 W1en_L300->Rebin(50);
 //W1en_L300->GetXaxis()->SetRangeUser(0,300);
@@ -1079,11 +1080,11 @@ W1en_N1000->SetLineWidth(2);
 W1en_N1000->Draw("same hist");
 
 TLegend* W1en_legend = new TLegend(0.62,0.75,0.9,0.9);
-W1en_legend->AddEntry(W1en_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+W1en_legend->AddEntry(W1en_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 W1en_legend->AddEntry(W1en_L300,"#scale[0.9]{LO}","l");
-W1en_legend->AddEntry(W1en_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+W1en_legend->AddEntry(W1en_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 W1en_legend->AddEntry(W1en_L600,"#scale[0.9]{LO}","l");
-W1en_legend->AddEntry(W1en_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+W1en_legend->AddEntry(W1en_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 W1en_legend->AddEntry(W1en_L1000,"#scale[0.9]{LO}","l");
 W1en_legend->Draw();
 }
@@ -1094,7 +1095,7 @@ W1en_legend->Draw();
 if(c14){
 c14->cd();
 
-hardlpt_L300->SetTitle("l_{#gamma} pt #scale[0.8]{(NLO vs LO) : High mass}");
+hardlpt_L300->SetTitle("l_{#gamma} pt #scale[0.8]{(NLO vs LO)}");
 hardlpt_L300->SetStats(0);
 hardlpt_L300->Rebin(20);
 hardlpt_L300->GetXaxis()->SetRangeUser(0,500);
@@ -1140,13 +1141,13 @@ TString hardlptdiff_600_t = Form("%f",hardlptdiff_600);
 double hardlptdiff_1000 = 100*(hardlpt_N1000->GetMean()-hardlpt_L1000->GetMean())/hardlpt_L1000->GetMean();
 TString hardlptdiff_1000_t = Form("%f",hardlptdiff_1000);
 TLegend* hardlpt_legend = new TLegend(0.62,0.65,0.9,0.9);
-hardlpt_legend->AddEntry(hardlpt_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+hardlpt_legend->AddEntry(hardlpt_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 hardlpt_legend->AddEntry(hardlpt_L300,"#scale[0.9]{LO}","l");
 hardlpt_legend->AddEntry((TObject*)0,"#bf{mean p_{T}} diff : "+hardlptdiff_300_t+"%","");
-hardlpt_legend->AddEntry(hardlpt_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+hardlpt_legend->AddEntry(hardlpt_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 hardlpt_legend->AddEntry(hardlpt_L600,"#scale[0.9]{LO}","l");
 hardlpt_legend->AddEntry((TObject*)0,"diff : "+hardlptdiff_600_t+"%","");
-hardlpt_legend->AddEntry(hardlpt_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+hardlpt_legend->AddEntry(hardlpt_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 hardlpt_legend->AddEntry(hardlpt_L1000,"#scale[0.9]{LO}","l");
 hardlpt_legend->AddEntry((TObject*)0,"diff : "+hardlptdiff_1000_t+"%","");
 hardlpt_legend->Draw();
@@ -1157,7 +1158,7 @@ hardlpt_legend->Draw();
 if(c15){
 c15->cd();
 
-hardleta_L300->SetTitle("l_{#gamma} #eta #scale[0.8]{(NLO vs LO) : High mass}");
+hardleta_L300->SetTitle("l_{#gamma} #eta #scale[0.8]{(NLO vs LO)}");
 hardleta_L300->SetStats(0);
 hardleta_L300->Rebin(2);
 hardleta_L300->GetYaxis()->SetRangeUser(0,16000);
@@ -1196,11 +1197,11 @@ hardleta_N1000->SetLineWidth(2);
 hardleta_N1000->Draw("same hist");
 
 TLegend* hardleta_legend = new TLegend(0.62,0.75,0.9,0.9);
-hardleta_legend->AddEntry(hardleta_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+hardleta_legend->AddEntry(hardleta_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 hardleta_legend->AddEntry(hardleta_L300,"#scale[0.9]{LO}","l");
-hardleta_legend->AddEntry(hardleta_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+hardleta_legend->AddEntry(hardleta_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 hardleta_legend->AddEntry(hardleta_L600,"#scale[0.9]{LO}","l");
-hardleta_legend->AddEntry(hardleta_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+hardleta_legend->AddEntry(hardleta_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 hardleta_legend->AddEntry(hardleta_L1000,"#scale[0.9]{LO}","l");
 hardleta_legend->Draw();
 }
@@ -1210,7 +1211,7 @@ hardleta_legend->Draw();
 if(c16){
 c16->cd();
 
-j1pt_L300->SetTitle("j1 pt #scale[0.8]{(NLO vs LO) : High mass}");
+j1pt_L300->SetTitle("j1 pt #scale[0.8]{(NLO vs LO)}");
 j1pt_L300->SetStats(0);
 j1pt_L300->Rebin(20);
 j1pt_L300->GetXaxis()->SetRangeUser(0,800);
@@ -1256,13 +1257,13 @@ TString j1ptdiff_600_t = Form("%f",j1ptdiff_600);
 double j1ptdiff_1000 = 100*(j1pt_N1000->GetMean()-j1pt_L1000->GetMean())/j1pt_L1000->GetMean();
 TString j1ptdiff_1000_t = Form("%f",j1ptdiff_1000);
 TLegend* j1pt_legend = new TLegend(0.62,0.65,0.9,0.9);
-j1pt_legend->AddEntry(j1pt_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+j1pt_legend->AddEntry(j1pt_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 j1pt_legend->AddEntry(j1pt_L300,"#scale[0.9]{LO}","l");
 j1pt_legend->AddEntry((TObject*)0,"#bf{mean p_{T}} diff : "+j1ptdiff_300_t+"%","");
-j1pt_legend->AddEntry(j1pt_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+j1pt_legend->AddEntry(j1pt_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 j1pt_legend->AddEntry(j1pt_L600,"#scale[0.9]{LO}","l");
 j1pt_legend->AddEntry((TObject*)0,"diff : "+j1ptdiff_600_t+"%","");
-j1pt_legend->AddEntry(j1pt_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+j1pt_legend->AddEntry(j1pt_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 j1pt_legend->AddEntry(j1pt_L1000,"#scale[0.9]{LO}","l");
 j1pt_legend->AddEntry((TObject*)0,"diff : "+j1ptdiff_1000_t+"%","");
 j1pt_legend->Draw();
@@ -1273,7 +1274,7 @@ j1pt_legend->Draw();
 if(c17){
 c17->cd();
 
-j1eta_L300->SetTitle("j1 #eta #scale[0.8]{(NLO vs LO) : High mass}");
+j1eta_L300->SetTitle("j1 #eta #scale[0.8]{(NLO vs LO)}");
 j1eta_L300->SetStats(0);
 j1eta_L300->Rebin(2);
 j1eta_L300->GetYaxis()->SetRangeUser(0,15000);
@@ -1312,11 +1313,11 @@ j1eta_N1000->SetLineWidth(2);
 j1eta_N1000->Draw("same hist");
 
 TLegend* j1eta_legend = new TLegend(0.62,0.75,0.9,0.9);
-j1eta_legend->AddEntry(j1eta_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+j1eta_legend->AddEntry(j1eta_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 j1eta_legend->AddEntry(j1eta_L300,"#scale[0.9]{LO}","l");
-j1eta_legend->AddEntry(j1eta_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+j1eta_legend->AddEntry(j1eta_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 j1eta_legend->AddEntry(j1eta_L600,"#scale[0.9]{LO}","l");
-j1eta_legend->AddEntry(j1eta_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+j1eta_legend->AddEntry(j1eta_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 j1eta_legend->AddEntry(j1eta_L1000,"#scale[0.9]{LO}","l");
 j1eta_legend->Draw();
 }
@@ -1325,7 +1326,7 @@ j1eta_legend->Draw();
 if(c18){
 c18->cd();
 
-j2pt_L300->SetTitle("j2 pt #scale[0.8]{(NLO vs LO) : High mass}");
+j2pt_L300->SetTitle("j2 pt #scale[0.8]{(NLO vs LO)}");
 j2pt_L300->SetStats(0);
 j2pt_L300->Rebin(10);
 j2pt_L300->GetXaxis()->SetRangeUser(0,400);
@@ -1371,13 +1372,13 @@ TString j2ptdiff_600_t = Form("%f",j2ptdiff_600);
 double j2ptdiff_1000 = 100*(j2pt_N1000->GetMean()-j2pt_L1000->GetMean())/j2pt_L1000->GetMean();
 TString j2ptdiff_1000_t = Form("%f",j2ptdiff_1000);
 TLegend* j2pt_legend = new TLegend(0.62,0.65,0.9,0.9);
-j2pt_legend->AddEntry(j2pt_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+j2pt_legend->AddEntry(j2pt_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 j2pt_legend->AddEntry(j2pt_L300,"#scale[0.9]{LO}","l");
 j2pt_legend->AddEntry((TObject*)0,"#bf{mean p_{T}} diff : "+j2ptdiff_300_t+"%","");
-j2pt_legend->AddEntry(j2pt_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+j2pt_legend->AddEntry(j2pt_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 j2pt_legend->AddEntry(j2pt_L600,"#scale[0.9]{LO}","l");
 j2pt_legend->AddEntry((TObject*)0,"diff : "+j2ptdiff_600_t+"%","");
-j2pt_legend->AddEntry(j2pt_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+j2pt_legend->AddEntry(j2pt_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 j2pt_legend->AddEntry(j2pt_L1000,"#scale[0.9]{LO}","l");
 j2pt_legend->AddEntry((TObject*)0,"diff : "+j2ptdiff_1000_t+"%","");
 j2pt_legend->Draw();
@@ -1388,7 +1389,7 @@ j2pt_legend->Draw();
 if(c19){
 c19->cd();
 
-j2eta_L300->SetTitle("j2 #eta #scale[0.8]{(NLO vs LO) : High mass}");
+j2eta_L300->SetTitle("j2 #eta #scale[0.8]{(NLO vs LO)}");
 j2eta_L300->SetStats(0);
 j2eta_L300->Rebin(2);
 j2eta_L300->GetYaxis()->SetRangeUser(0,10000);
@@ -1427,11 +1428,11 @@ j2eta_N1000->SetLineWidth(2);
 j2eta_N1000->Draw("same hist");
 
 TLegend* j2eta_legend = new TLegend(0.62,0.75,0.9,0.9);
-j2eta_legend->AddEntry(j2eta_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+j2eta_legend->AddEntry(j2eta_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 j2eta_legend->AddEntry(j2eta_L300,"#scale[0.9]{LO}","l");
-j2eta_legend->AddEntry(j2eta_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+j2eta_legend->AddEntry(j2eta_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 j2eta_legend->AddEntry(j2eta_L600,"#scale[0.9]{LO}","l");
-j2eta_legend->AddEntry(j2eta_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+j2eta_legend->AddEntry(j2eta_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 j2eta_legend->AddEntry(j2eta_L1000,"#scale[0.9]{LO}","l");
 j2eta_legend->Draw();
 }
@@ -1441,11 +1442,11 @@ j2eta_legend->Draw();
 if(c20){
 c20->cd();
 
-Jpt_L300->SetTitle("fatjet pt #scale[0.8]{(NLO vs LO) : High mass}");
+Jpt_L300->SetTitle("fatjet pt #scale[0.8]{(NLO vs LO)}");
 Jpt_L300->SetStats(0);
 Jpt_L300->Rebin(20);
-Jpt_L300->GetXaxis()->SetRangeUser(0,1000);
-//Jpt_L300->GetYaxis()->SetRangeUser(0,30000);
+Jpt_L300->GetXaxis()->SetRangeUser(0,800);
+Jpt_L300->GetYaxis()->SetRangeUser(0,21000);
 Jpt_L300->GetXaxis()->SetTitle("fatjet p_{T} [GeV]");
 Jpt_L300->SetLineColor(kRed);
 Jpt_L300->SetLineWidth(3);
@@ -1480,13 +1481,22 @@ Jpt_N1000->SetLineColor(kBlue);
 Jpt_N1000->SetLineWidth(2);
 Jpt_N1000->Draw("same hist");
 
-TLegend* Jpt_legend = new TLegend(0.62,0.75,0.9,0.9);
-Jpt_legend->AddEntry(Jpt_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+double Jptdiff_300 = 100*(Jpt_N300->GetMean()-Jpt_L300->GetMean())/Jpt_L300->GetMean();
+TString Jptdiff_300_t = Form("%f",Jptdiff_300);
+double Jptdiff_600 = 100*(Jpt_N600->GetMean()-Jpt_L600->GetMean())/Jpt_L600->GetMean();
+TString Jptdiff_600_t = Form("%f",Jptdiff_600);
+double Jptdiff_1000 = 100*(Jpt_N1000->GetMean()-Jpt_L1000->GetMean())/Jpt_L1000->GetMean();
+TString Jptdiff_1000_t = Form("%f",Jptdiff_1000);
+TLegend* Jpt_legend = new TLegend(0.62,0.65,0.9,0.9);
+Jpt_legend->AddEntry(Jpt_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 Jpt_legend->AddEntry(Jpt_L300,"#scale[0.9]{LO}","l");
-Jpt_legend->AddEntry(Jpt_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+Jpt_legend->AddEntry((TObject*)0,"#bf{mean p_{T}} diff : "+Jptdiff_300_t+"%","");
+Jpt_legend->AddEntry(Jpt_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 Jpt_legend->AddEntry(Jpt_L600,"#scale[0.9]{LO}","l");
-Jpt_legend->AddEntry(Jpt_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+Jpt_legend->AddEntry((TObject*)0,"diff : "+Jptdiff_600_t+"%","");
+Jpt_legend->AddEntry(Jpt_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 Jpt_legend->AddEntry(Jpt_L1000,"#scale[0.9]{LO}","l");
+Jpt_legend->AddEntry((TObject*)0,"diff : "+Jptdiff_1000_t+"%","");
 Jpt_legend->Draw();
 }
 
@@ -1495,10 +1505,11 @@ Jpt_legend->Draw();
 if(c21){
 c21->cd();
 
-Jeta_L300->SetTitle("fatjet #eta #scale[0.8]{(NLO vs LO) : High mass}");
+Jeta_L300->SetTitle("fatjet #eta #scale[0.8]{(NLO vs LO)}");
 Jeta_L300->SetStats(0);
 Jeta_L300->Rebin(2);
-Jeta_L300->GetYaxis()->SetRangeUser(0,12000);
+Jeta_L300->GetYaxis()->SetRangeUser(0,15000);
+Jeta_L300->GetXaxis()->SetTitle("fatjet #eta");
 Jeta_L300->SetLineColor(kRed);
 Jeta_L300->SetLineWidth(3);
 Jeta_L300->SetLineStyle(7);
@@ -1533,11 +1544,11 @@ Jeta_N1000->SetLineWidth(2);
 Jeta_N1000->Draw("same hist");
 
 TLegend* Jeta_legend = new TLegend(0.62,0.75,0.9,0.9);
-Jeta_legend->AddEntry(Jeta_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+Jeta_legend->AddEntry(Jeta_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 Jeta_legend->AddEntry(Jeta_L300,"#scale[0.9]{LO}","l");
-Jeta_legend->AddEntry(Jeta_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+Jeta_legend->AddEntry(Jeta_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 Jeta_legend->AddEntry(Jeta_L600,"#scale[0.9]{LO}","l");
-Jeta_legend->AddEntry(Jeta_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+Jeta_legend->AddEntry(Jeta_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 Jeta_legend->AddEntry(Jeta_L1000,"#scale[0.9]{LO}","l");
 Jeta_legend->Draw();
 }
@@ -1547,11 +1558,12 @@ Jeta_legend->Draw();
 if(c22){
 c22->cd();
 
-mJ_L300->SetTitle("fatjet mass #scale[0.8]{(NLO vs LO) : High mass}");
+mJ_L300->SetTitle("fatjet mass #scale[0.8]{(NLO vs LO)}");
 mJ_L300->SetStats(0);
 mJ_L300->Rebin(5);
-mJ_L300->GetXaxis()->SetRangeUser(0,200);
-mJ_L300->GetYaxis()->SetRangeUser(0,20000);
+mJ_L300->GetXaxis()->SetRangeUser(0,140);
+mJ_L300->GetYaxis()->SetRangeUser(0,22000);
+mJ_L300->GetXaxis()->SetTitle("m_{fatjet} [GeV]");
 mJ_L300->SetLineColor(kRed);
 mJ_L300->SetLineWidth(3);
 mJ_L300->SetLineStyle(7);
@@ -1586,11 +1598,11 @@ mJ_N1000->SetLineWidth(2);
 mJ_N1000->Draw("same hist");
 
 TLegend* mJ_legend = new TLegend(0.62,0.75,0.9,0.9);
-mJ_legend->AddEntry(mJ_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+mJ_legend->AddEntry(mJ_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 mJ_legend->AddEntry(mJ_L300,"#scale[0.9]{LO}","l");
-mJ_legend->AddEntry(mJ_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+mJ_legend->AddEntry(mJ_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 mJ_legend->AddEntry(mJ_L600,"#scale[0.9]{LO}","l");
-mJ_legend->AddEntry(mJ_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+mJ_legend->AddEntry(mJ_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 mJ_legend->AddEntry(mJ_L1000,"#scale[0.9]{LO}","l");
 mJ_legend->Draw();
 }
@@ -1599,11 +1611,12 @@ mJ_legend->Draw();
 if(c23){
 c23->cd();
 
-mjj_L300->SetTitle("dijet mass #scale[0.8]{(NLO vs LO) : High mass}");
+mjj_L300->SetTitle("dijet mass #scale[0.8]{(NLO vs LO)}");
 mjj_L300->SetStats(0);
 mjj_L300->Rebin(5);
 mjj_L300->GetXaxis()->SetRangeUser(0,200);
 mjj_L300->GetYaxis()->SetRangeUser(0,25000);
+mjj_L300->GetXaxis()->SetTitle("m(jj) [GeV]");
 mjj_L300->SetLineColor(kRed);
 mjj_L300->SetLineWidth(3);
 mjj_L300->SetLineStyle(7);
@@ -1638,11 +1651,11 @@ mjj_N1000->SetLineWidth(2);
 mjj_N1000->Draw("same hist");
 
 TLegend* mjj_legend = new TLegend(0.62,0.75,0.9,0.9);
-mjj_legend->AddEntry(mjj_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+mjj_legend->AddEntry(mjj_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 mjj_legend->AddEntry(mjj_L300,"#scale[0.9]{LO}","l");
-mjj_legend->AddEntry(mjj_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+mjj_legend->AddEntry(mjj_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 mjj_legend->AddEntry(mjj_L600,"#scale[0.9]{LO}","l");
-mjj_legend->AddEntry(mjj_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+mjj_legend->AddEntry(mjj_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 mjj_legend->AddEntry(mjj_L1000,"#scale[0.9]{LO}","l");
 mjj_legend->Draw();
 }
@@ -1652,11 +1665,12 @@ mjj_legend->Draw();
 if(c24){
 c24->cd();
 
-mllJ_L300->SetTitle("m(llJ) #scale[0.8]{(NLO vs LO) : High mass}");
+mllJ_L300->SetTitle("m(llJ) #scale[0.8]{(NLO vs LO)}");
 mllJ_L300->SetStats(0);
 mllJ_L300->Rebin(50);
 //mllJ_L300->GetXaxis()->SetRangeUser(0,300);
-//mllJ_L300->GetYaxis()->SetRangeUser(0,30000);
+mllJ_L300->GetYaxis()->SetRangeUser(0,20000);
+mllJ_L300->GetXaxis()->SetTitle("m(llJ) [GeV]");
 mllJ_L300->SetLineColor(kRed);
 mllJ_L300->SetLineWidth(3);
 mllJ_L300->SetLineStyle(7);
@@ -1691,11 +1705,11 @@ mllJ_N1000->SetLineWidth(2);
 mllJ_N1000->Draw("same hist");
 
 TLegend* mllJ_legend = new TLegend(0.62,0.75,0.9,0.9);
-mllJ_legend->AddEntry(mllJ_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+mllJ_legend->AddEntry(mllJ_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 mllJ_legend->AddEntry(mllJ_L300,"#scale[0.9]{LO}","l");
-mllJ_legend->AddEntry(mllJ_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+mllJ_legend->AddEntry(mllJ_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 mllJ_legend->AddEntry(mllJ_L600,"#scale[0.9]{LO}","l");
-mllJ_legend->AddEntry(mllJ_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+mllJ_legend->AddEntry(mllJ_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 mllJ_legend->AddEntry(mllJ_L1000,"#scale[0.9]{LO}","l");
 mllJ_legend->Draw();
 }
@@ -1704,11 +1718,12 @@ mllJ_legend->Draw();
 if(c25){
 c25->cd();
 
-ml1J_L300->SetTitle("m(l1J) #scale[0.8]{(NLO vs LO) : High mass}");
+ml1J_L300->SetTitle("m(l1J) #scale[0.8]{(NLO vs LO)}");
 ml1J_L300->SetStats(0);
 ml1J_L300->Rebin(50);
-ml1J_L300->GetXaxis()->SetRangeUser(0,2000);
-ml1J_L300->GetYaxis()->SetRangeUser(0,50000);
+ml1J_L300->GetXaxis()->SetRangeUser(0,1400);
+ml1J_L300->GetYaxis()->SetRangeUser(0,80000);
+ml1J_L300->GetXaxis()->SetTitle("m(l1J) [GeV]");
 ml1J_L300->SetLineColor(kRed);
 ml1J_L300->SetLineWidth(3);
 ml1J_L300->SetLineStyle(7);
@@ -1743,11 +1758,11 @@ ml1J_N1000->SetLineWidth(2);
 ml1J_N1000->Draw("same hist");
 
 TLegend* ml1J_legend = new TLegend(0.62,0.75,0.9,0.9);
-ml1J_legend->AddEntry(ml1J_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+ml1J_legend->AddEntry(ml1J_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 ml1J_legend->AddEntry(ml1J_L300,"#scale[0.9]{LO}","l");
-ml1J_legend->AddEntry(ml1J_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+ml1J_legend->AddEntry(ml1J_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 ml1J_legend->AddEntry(ml1J_L600,"#scale[0.9]{LO}","l");
-ml1J_legend->AddEntry(ml1J_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+ml1J_legend->AddEntry(ml1J_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 ml1J_legend->AddEntry(ml1J_L1000,"#scale[0.9]{LO}","l");
 ml1J_legend->Draw();
 }
@@ -1756,50 +1771,51 @@ ml1J_legend->Draw();
 if(c26){
 c26->cd();
 
-ml2J_L300->SetTitle("m(l2J) #scale[0.8]{(NLO vs LO) : High mass}");
+ml2J_L300->SetTitle("m(l2J) #scale[0.8]{(NLO vs LO)}");
 ml2J_L300->SetStats(0);
-ml2J_L300->Rebin(20);
+ml2J_L300->Rebin(50);
 ml2J_L300->GetXaxis()->SetRangeUser(0,1400);
-ml2J_L300->GetYaxis()->SetRangeUser(0,30000);
+ml2J_L300->GetYaxis()->SetRangeUser(0,25000);
+ml2J_L300->GetXaxis()->SetTitle("m(l2J) [GeV]");
 ml2J_L300->SetLineColor(kRed);
 ml2J_L300->SetLineWidth(3);
 ml2J_L300->SetLineStyle(7);
 ml2J_L300->Draw("hist");
 ml2J_L600->Scale(ml2J_L300->GetEntries()/ml2J_L600->GetEntries());
-ml2J_L600->Rebin(20);
+ml2J_L600->Rebin(50);
 ml2J_L600->SetLineColor(kGreen+1);
 ml2J_L600->SetLineWidth(3);
 ml2J_L600->SetLineStyle(7);
 ml2J_L600->Draw("same hist");
 ml2J_L1000->Scale(ml2J_L300->GetEntries()/ml2J_L1000->GetEntries());
-ml2J_L1000->Rebin(20);
+ml2J_L1000->Rebin(50);
 ml2J_L1000->SetLineColor(kBlue);
 ml2J_L1000->SetLineWidth(3);
 ml2J_L1000->SetLineStyle(7);
 ml2J_L1000->Draw("same hist");
 ml2J_N300->SetStats(0);
 ml2J_N300->Scale(ml2J_L300->GetEntries()/ml2J_N300->GetEntries());
-ml2J_N300->Rebin(20);
+ml2J_N300->Rebin(50);
 ml2J_N300->SetLineColor(kRed);
 ml2J_N300->SetLineWidth(2);
 ml2J_N300->Draw("same hist");
 ml2J_N600->Scale(ml2J_L300->GetEntries()/ml2J_N600->GetEntries());
-ml2J_N600->Rebin(20);
+ml2J_N600->Rebin(50);
 ml2J_N600->SetLineColor(kGreen+1);
 ml2J_N600->SetLineWidth(2);
 ml2J_N600->Draw("same hist");
 ml2J_N1000->Scale(ml2J_L300->GetEntries()/ml2J_N1000->GetEntries());
-ml2J_N1000->Rebin(20);
+ml2J_N1000->Rebin(50);
 ml2J_N1000->SetLineColor(kBlue);
 ml2J_N1000->SetLineWidth(2);
 ml2J_N1000->Draw("same hist");
 
 TLegend* ml2J_legend = new TLegend(0.62,0.75,0.9,0.9);
-ml2J_legend->AddEntry(ml2J_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+ml2J_legend->AddEntry(ml2J_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 ml2J_legend->AddEntry(ml2J_L300,"#scale[0.9]{LO}","l");
-ml2J_legend->AddEntry(ml2J_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+ml2J_legend->AddEntry(ml2J_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 ml2J_legend->AddEntry(ml2J_L600,"#scale[0.9]{LO}","l");
-ml2J_legend->AddEntry(ml2J_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+ml2J_legend->AddEntry(ml2J_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 ml2J_legend->AddEntry(ml2J_L1000,"#scale[0.9]{LO}","l");
 ml2J_legend->Draw();
 }
@@ -1811,29 +1827,61 @@ ml2J_legend->Draw();
 if(c27){
 c27->cd();
 
-hardqpt_N300->SetTitle("hard q pt #scale[0.8]{(NLO) : High mass}");
+hardqpt_L300->SetTitle("forward parton pt #scale[0.8]{(NLO vs LO)}");
+hardqpt_L300->SetStats(0);
+hardqpt_L300->Rebin(20);
+hardqpt_L300->GetXaxis()->SetRangeUser(0,400);
+hardqpt_L300->GetYaxis()->SetRangeUser(0,25000);
+hardqpt_L300->GetXaxis()->SetTitle("forward parton p_{T} [GeV]");
+hardqpt_L300->SetLineColor(kRed);
+hardqpt_L300->SetLineWidth(3);
+hardqpt_L300->SetLineStyle(7);
+hardqpt_L300->Draw("hist");
+hardqpt_L600->Scale(hardqpt_L300->GetEntries()/hardqpt_L600->GetEntries());
+hardqpt_L600->Rebin(20);
+hardqpt_L600->SetLineColor(kGreen+1);
+hardqpt_L600->SetLineWidth(3);
+hardqpt_L600->SetLineStyle(7);
+hardqpt_L600->Draw("same hist");
+hardqpt_L1000->Scale(hardqpt_L300->GetEntries()/hardqpt_L1000->GetEntries());
+hardqpt_L1000->Rebin(20);
+hardqpt_L1000->SetLineColor(kBlue);
+hardqpt_L1000->SetLineWidth(3);
+hardqpt_L1000->SetLineStyle(7);
+hardqpt_L1000->Draw("same hist");
 hardqpt_N300->SetStats(0);
-hardqpt_N300->Rebin(50);
-//hardqpt_N300->GetXaxis()->SetRangeUser(0,120);
-//hardqpt_N300->GetYaxis()->SetRangeUser(0,30000);
+hardqpt_N300->Scale(hardqpt_L300->GetEntries()/hardqpt_N300->GetEntries());
+hardqpt_N300->Rebin(20);
 hardqpt_N300->SetLineColor(kRed);
 hardqpt_N300->SetLineWidth(2);
-hardqpt_N300->Draw("hist");
-hardqpt_N600->Scale(hardqpt_N300->GetEntries()/hardqpt_N600->GetEntries());
-hardqpt_N600->Rebin(50);
+hardqpt_N300->Draw("same hist");
+hardqpt_N600->Scale(hardqpt_L300->GetEntries()/hardqpt_N600->GetEntries());
+hardqpt_N600->Rebin(20);
 hardqpt_N600->SetLineColor(kGreen+1);
 hardqpt_N600->SetLineWidth(2);
 hardqpt_N600->Draw("same hist");
-hardqpt_N1000->Scale(hardqpt_N300->GetEntries()/hardqpt_N1000->GetEntries());
-hardqpt_N1000->Rebin(50);
+hardqpt_N1000->Scale(hardqpt_L300->GetEntries()/hardqpt_N1000->GetEntries());
+hardqpt_N1000->Rebin(20);
 hardqpt_N1000->SetLineColor(kBlue);
 hardqpt_N1000->SetLineWidth(2);
 hardqpt_N1000->Draw("same hist");
 
-TLegend* hardqpt_legend = new TLegend(0.62,0.75,0.9,0.9);
-hardqpt_legend->AddEntry(hardqpt_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
-hardqpt_legend->AddEntry(hardqpt_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
-hardqpt_legend->AddEntry(hardqpt_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+double hardqptdiff_300 = 100*(hardqpt_N300->GetMean()-hardqpt_L300->GetMean())/hardqpt_L300->GetMean();
+TString hardqptdiff_300_t = Form("%f",hardqptdiff_300);
+double hardqptdiff_600 = 100*(hardqpt_N600->GetMean()-hardqpt_L600->GetMean())/hardqpt_L600->GetMean();
+TString hardqptdiff_600_t = Form("%f",hardqptdiff_600);
+double hardqptdiff_1000 = 100*(hardqpt_N1000->GetMean()-hardqpt_L1000->GetMean())/hardqpt_L1000->GetMean();
+TString hardqptdiff_1000_t = Form("%f",hardqptdiff_1000);
+TLegend* hardqpt_legend = new TLegend(0.62,0.65,0.9,0.9);
+hardqpt_legend->AddEntry(hardqpt_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
+hardqpt_legend->AddEntry(hardqpt_L300,"#scale[0.9]{LO}","l");
+hardqpt_legend->AddEntry((TObject*)0,"#bf{mean p_{T}} diff : "+hardqptdiff_300_t+"%","");
+hardqpt_legend->AddEntry(hardqpt_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
+hardqpt_legend->AddEntry(hardqpt_L600,"#scale[0.9]{LO}","l");
+hardqpt_legend->AddEntry((TObject*)0,"diff : "+hardqptdiff_600_t+"%","");
+hardqpt_legend->AddEntry(hardqpt_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
+hardqpt_legend->AddEntry(hardqpt_L1000,"#scale[0.9]{LO}","l");
+hardqpt_legend->AddEntry((TObject*)0,"diff : "+hardqptdiff_1000_t+"%","");
 hardqpt_legend->Draw();
 }
 
@@ -1841,28 +1889,51 @@ hardqpt_legend->Draw();
 if(c28){
 c28->cd();
 
-hardqeta_N300->SetTitle("hard q #eta #scale[0.8]{(NLO) : High mass}");
+hardqeta_L300->SetTitle("forward parton #eta #scale[0.8]{(NLO vs LO)}");
+hardqeta_L300->SetStats(0);
+hardqeta_L300->Rebin(2);
+hardqeta_L300->GetYaxis()->SetRangeUser(0,10000);
+hardqeta_L300->GetXaxis()->SetTitle("forward parton #eta");
+hardqeta_L300->SetLineColor(kRed);
+hardqeta_L300->SetLineWidth(3);
+hardqeta_L300->SetLineStyle(7);
+hardqeta_L300->Draw("hist");
+hardqeta_L600->Scale(hardqeta_L300->GetEntries()/hardqeta_L600->GetEntries());
+hardqeta_L600->Rebin(2);
+hardqeta_L600->SetLineColor(kGreen+1);
+hardqeta_L600->SetLineWidth(3);
+hardqeta_L600->SetLineStyle(7);
+hardqeta_L600->Draw("same hist");
+hardqeta_L1000->Scale(hardqeta_L300->GetEntries()/hardqeta_L1000->GetEntries());
+hardqeta_L1000->Rebin(2);
+hardqeta_L1000->SetLineColor(kBlue);
+hardqeta_L1000->SetLineWidth(3);
+hardqeta_L1000->SetLineStyle(7);
+hardqeta_L1000->Draw("same hist");
 hardqeta_N300->SetStats(0);
+hardqeta_N300->Scale(hardqeta_L300->GetEntries()/hardqeta_N300->GetEntries());
 hardqeta_N300->Rebin(2);
-hardqeta_N300->GetYaxis()->SetRangeUser(0,1000);
 hardqeta_N300->SetLineColor(kRed);
 hardqeta_N300->SetLineWidth(2);
-hardqeta_N300->Draw("hist");
-hardqeta_N600->Scale(hardqeta_N300->GetEntries()/hardqeta_N600->GetEntries());
+hardqeta_N300->Draw("same hist");
+hardqeta_N600->Scale(hardqeta_L300->GetEntries()/hardqeta_N600->GetEntries());
 hardqeta_N600->Rebin(2);
 hardqeta_N600->SetLineColor(kGreen+1);
 hardqeta_N600->SetLineWidth(2);
 hardqeta_N600->Draw("same hist");
-hardqeta_N1000->Scale(hardqeta_N300->GetEntries()/hardqeta_N1000->GetEntries());
+hardqeta_N1000->Scale(hardqeta_L300->GetEntries()/hardqeta_N1000->GetEntries());
 hardqeta_N1000->Rebin(2);
 hardqeta_N1000->SetLineColor(kBlue);
 hardqeta_N1000->SetLineWidth(2);
 hardqeta_N1000->Draw("same hist");
 
 TLegend* hardqeta_legend = new TLegend(0.62,0.75,0.9,0.9);
-hardqeta_legend->AddEntry(hardqeta_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
-hardqeta_legend->AddEntry(hardqeta_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
-hardqeta_legend->AddEntry(hardqeta_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+hardqeta_legend->AddEntry(hardqeta_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
+hardqeta_legend->AddEntry(hardqeta_L300,"#scale[0.9]{LO}","l");
+hardqeta_legend->AddEntry(hardqeta_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
+hardqeta_legend->AddEntry(hardqeta_L600,"#scale[0.9]{LO}","l");
+hardqeta_legend->AddEntry(hardqeta_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
+hardqeta_legend->AddEntry(hardqeta_L1000,"#scale[0.9]{LO}","l");
 hardqeta_legend->Draw();
 }
 
@@ -1871,11 +1942,12 @@ hardqeta_legend->Draw();
 if(c29){
 c29->cd();
 
-Wq1pt_L300->SetTitle("W_q1 pt #scale[0.8]{(NLO vs LO) : High mass}");
+Wq1pt_L300->SetTitle("W_q1 pt #scale[0.8]{(NLO vs LO)}");
 Wq1pt_L300->SetStats(0);
 Wq1pt_L300->Rebin(20);
-Wq1pt_L300->GetXaxis()->SetRangeUser(0,800);
+Wq1pt_L300->GetXaxis()->SetRangeUser(0,600);
 //Wq1pt_L300->GetYaxis()->SetRangeUser(0,30000);
+Wq1pt_L300->GetXaxis()->SetTitle("W_q1 p_{T} [GeV]");
 Wq1pt_L300->SetLineColor(kRed);
 Wq1pt_L300->SetLineWidth(3);
 Wq1pt_L300->SetLineStyle(7);
@@ -1909,13 +1981,22 @@ Wq1pt_N1000->SetLineColor(kBlue);
 Wq1pt_N1000->SetLineWidth(2);
 Wq1pt_N1000->Draw("same hist");
 
-TLegend* Wq1pt_legend = new TLegend(0.62,0.75,0.9,0.9);
-Wq1pt_legend->AddEntry(Wq1pt_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+double Wq1ptdiff_300 = 100*(Wq1pt_N300->GetMean()-Wq1pt_L300->GetMean())/Wq1pt_L300->GetMean();
+TString Wq1ptdiff_300_t = Form("%f",Wq1ptdiff_300);
+double Wq1ptdiff_600 = 100*(Wq1pt_N600->GetMean()-Wq1pt_L600->GetMean())/Wq1pt_L600->GetMean();
+TString Wq1ptdiff_600_t = Form("%f",Wq1ptdiff_600);
+double Wq1ptdiff_1000 = 100*(Wq1pt_N1000->GetMean()-Wq1pt_L1000->GetMean())/Wq1pt_L1000->GetMean();
+TString Wq1ptdiff_1000_t = Form("%f",Wq1ptdiff_1000);
+TLegend* Wq1pt_legend = new TLegend(0.62,0.65,0.9,0.9);
+Wq1pt_legend->AddEntry(Wq1pt_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 Wq1pt_legend->AddEntry(Wq1pt_L300,"#scale[0.9]{LO}","l");
-Wq1pt_legend->AddEntry(Wq1pt_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+Wq1pt_legend->AddEntry((TObject*)0,"#bf{mean p_{T}} diff : "+Wq1ptdiff_300_t+"%","");
+Wq1pt_legend->AddEntry(Wq1pt_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 Wq1pt_legend->AddEntry(Wq1pt_L600,"#scale[0.9]{LO}","l");
-Wq1pt_legend->AddEntry(Wq1pt_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+Wq1pt_legend->AddEntry((TObject*)0,"diff : "+Wq1ptdiff_600_t+"%","");
+Wq1pt_legend->AddEntry(Wq1pt_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 Wq1pt_legend->AddEntry(Wq1pt_L1000,"#scale[0.9]{LO}","l");
+Wq1pt_legend->AddEntry((TObject*)0,"diff : "+Wq1ptdiff_1000_t+"%","");
 Wq1pt_legend->Draw();
 }
 
@@ -1924,10 +2005,11 @@ Wq1pt_legend->Draw();
 if(c30){
 c30->cd();
 
-Wq1eta_L300->SetTitle("W_q1 #eta #scale[0.8]{(NLO vs LO) : High mass}");
+Wq1eta_L300->SetTitle("W_q1 #eta #scale[0.8]{(NLO vs LO)}");
 Wq1eta_L300->SetStats(0);
 Wq1eta_L300->Rebin(2);
-Wq1eta_L300->GetYaxis()->SetRangeUser(0,13000);
+Wq1eta_L300->GetYaxis()->SetRangeUser(0,15000);
+Wq1eta_L300->GetXaxis()->SetTitle("W_q1 #eta");
 Wq1eta_L300->SetLineColor(kRed);
 Wq1eta_L300->SetLineWidth(3);
 Wq1eta_L300->SetLineStyle(7);
@@ -1962,11 +2044,11 @@ Wq1eta_N1000->SetLineWidth(2);
 Wq1eta_N1000->Draw("same hist");
 
 TLegend* Wq1eta_legend = new TLegend(0.62,0.75,0.9,0.9);
-Wq1eta_legend->AddEntry(Wq1eta_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+Wq1eta_legend->AddEntry(Wq1eta_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 Wq1eta_legend->AddEntry(Wq1eta_L300,"#scale[0.9]{LO}","l");
-Wq1eta_legend->AddEntry(Wq1eta_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+Wq1eta_legend->AddEntry(Wq1eta_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 Wq1eta_legend->AddEntry(Wq1eta_L600,"#scale[0.9]{LO}","l");
-Wq1eta_legend->AddEntry(Wq1eta_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+Wq1eta_legend->AddEntry(Wq1eta_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 Wq1eta_legend->AddEntry(Wq1eta_L1000,"#scale[0.9]{LO}","l");
 Wq1eta_legend->Draw();
 }
@@ -1975,11 +2057,12 @@ Wq1eta_legend->Draw();
 if(c31){
 c31->cd();
 
-Wq2pt_L300->SetTitle("W_q2 pt #scale[0.8]{(NLO vs LO) : High mass}");
+Wq2pt_L300->SetTitle("W_q2 pt #scale[0.8]{(NLO vs LO)}");
 Wq2pt_L300->SetStats(0);
 Wq2pt_L300->Rebin(10);
 Wq2pt_L300->GetXaxis()->SetRangeUser(0,400);
 //Wq2pt_L300->GetYaxis()->SetRangeUser(0,30000);
+Wq2pt_L300->GetXaxis()->SetTitle("W_q2 p_{T} [GeV]");
 Wq2pt_L300->SetLineColor(kRed);
 Wq2pt_L300->SetLineWidth(3);
 Wq2pt_L300->SetLineStyle(7);
@@ -2013,13 +2096,22 @@ Wq2pt_N1000->SetLineColor(kBlue);
 Wq2pt_N1000->SetLineWidth(2);
 Wq2pt_N1000->Draw("same hist");
 
-TLegend* Wq2pt_legend = new TLegend(0.62,0.75,0.9,0.9);
-Wq2pt_legend->AddEntry(Wq2pt_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+double Wq2ptdiff_300 = 100*(Wq2pt_N300->GetMean()-Wq2pt_L300->GetMean())/Wq2pt_L300->GetMean();
+TString Wq2ptdiff_300_t = Form("%f",Wq2ptdiff_300);
+double Wq2ptdiff_600 = 100*(Wq2pt_N600->GetMean()-Wq2pt_L600->GetMean())/Wq2pt_L600->GetMean();
+TString Wq2ptdiff_600_t = Form("%f",Wq2ptdiff_600);
+double Wq2ptdiff_1000 = 100*(Wq2pt_N1000->GetMean()-Wq2pt_L1000->GetMean())/Wq2pt_L1000->GetMean();
+TString Wq2ptdiff_1000_t = Form("%f",Wq2ptdiff_1000);
+TLegend* Wq2pt_legend = new TLegend(0.62,0.65,0.9,0.9);
+Wq2pt_legend->AddEntry(Wq2pt_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 Wq2pt_legend->AddEntry(Wq2pt_L300,"#scale[0.9]{LO}","l");
-Wq2pt_legend->AddEntry(Wq2pt_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+Wq2pt_legend->AddEntry((TObject*)0,"#bf{mean p_{T}} diff : "+Wq2ptdiff_300_t+"%","");
+Wq2pt_legend->AddEntry(Wq2pt_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 Wq2pt_legend->AddEntry(Wq2pt_L600,"#scale[0.9]{LO}","l");
-Wq2pt_legend->AddEntry(Wq2pt_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+Wq2pt_legend->AddEntry((TObject*)0,"diff : "+Wq2ptdiff_600_t+"%","");
+Wq2pt_legend->AddEntry(Wq2pt_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 Wq2pt_legend->AddEntry(Wq2pt_L1000,"#scale[0.9]{LO}","l");
+Wq2pt_legend->AddEntry((TObject*)0,"diff : "+Wq2ptdiff_1000_t+"%","");
 Wq2pt_legend->Draw();
 }
 
@@ -2028,10 +2120,11 @@ Wq2pt_legend->Draw();
 if(c32){
 c32->cd();
 
-Wq2eta_L300->SetTitle("W_q2 #eta #scale[0.8]{(NLO vs LO) : High mass}");
+Wq2eta_L300->SetTitle("W_q2 #eta #scale[0.8]{(NLO vs LO)}");
 Wq2eta_L300->SetStats(0);
 Wq2eta_L300->Rebin(2);
-Wq2eta_L300->GetYaxis()->SetRangeUser(0,12000);
+Wq2eta_L300->GetYaxis()->SetRangeUser(0,15000);
+Wq2eta_L300->GetXaxis()->SetTitle("W_q2 #eta");
 Wq2eta_L300->SetLineColor(kRed);
 Wq2eta_L300->SetLineWidth(3);
 Wq2eta_L300->SetLineStyle(7);
@@ -2066,11 +2159,11 @@ Wq2eta_N1000->SetLineWidth(2);
 Wq2eta_N1000->Draw("same hist");
 
 TLegend* Wq2eta_legend = new TLegend(0.62,0.75,0.9,0.9);
-Wq2eta_legend->AddEntry(Wq2eta_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+Wq2eta_legend->AddEntry(Wq2eta_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 Wq2eta_legend->AddEntry(Wq2eta_L300,"#scale[0.9]{LO}","l");
-Wq2eta_legend->AddEntry(Wq2eta_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+Wq2eta_legend->AddEntry(Wq2eta_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 Wq2eta_legend->AddEntry(Wq2eta_L600,"#scale[0.9]{LO}","l");
-Wq2eta_legend->AddEntry(Wq2eta_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+Wq2eta_legend->AddEntry(Wq2eta_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 Wq2eta_legend->AddEntry(Wq2eta_L1000,"#scale[0.9]{LO}","l");
 Wq2eta_legend->Draw();
 }
@@ -2079,10 +2172,11 @@ Wq2eta_legend->Draw();
 if(c33){
 c33->cd();
 
-dRjj_L300->SetTitle("dR(jj) #scale[0.8]{(NLO vs LO) : High mass}");
+dRjj_L300->SetTitle("dR(jj) #scale[0.8]{(NLO vs LO)}");
 dRjj_L300->SetStats(0);
 dRjj_L300->Rebin(2);
 dRjj_L300->GetYaxis()->SetRangeUser(0,30000);
+dRjj_L300->GetXaxis()->SetTitle("#DeltaR(jj)");
 dRjj_L300->SetLineColor(kRed);
 dRjj_L300->SetLineWidth(3);
 dRjj_L300->SetLineStyle(7);
@@ -2117,11 +2211,11 @@ dRjj_N1000->SetLineWidth(2);
 dRjj_N1000->Draw("same hist");
 
 TLegend* dRjj_legend = new TLegend(0.62,0.75,0.9,0.9);
-dRjj_legend->AddEntry(dRjj_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+dRjj_legend->AddEntry(dRjj_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 dRjj_legend->AddEntry(dRjj_L300,"#scale[0.9]{LO}","l");
-dRjj_legend->AddEntry(dRjj_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+dRjj_legend->AddEntry(dRjj_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 dRjj_legend->AddEntry(dRjj_L600,"#scale[0.9]{LO}","l");
-dRjj_legend->AddEntry(dRjj_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+dRjj_legend->AddEntry(dRjj_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 dRjj_legend->AddEntry(dRjj_L1000,"#scale[0.9]{LO}","l");
 dRjj_legend->Draw();
 }
@@ -2130,10 +2224,11 @@ dRjj_legend->Draw();
 if(c34){
 c34->cd();
 
-dRqq_L300->SetTitle("dR(qq) #scale[0.8]{(NLO vs LO) : High mass}");
+dRqq_L300->SetTitle("dR(q_{W}q_{W}) #scale[0.8]{(NLO vs LO)}");
 dRqq_L300->SetStats(0);
 dRqq_L300->Rebin(2);
 dRqq_L300->GetYaxis()->SetRangeUser(0,50000);
+dRqq_L300->GetXaxis()->SetTitle("#DeltaR(q_{W}q_{W})");
 dRqq_L300->SetLineColor(kRed);
 dRqq_L300->SetLineWidth(3);
 dRqq_L300->SetLineStyle(7);
@@ -2168,11 +2263,11 @@ dRqq_N1000->SetLineWidth(2);
 dRqq_N1000->Draw("same hist");
 
 TLegend* dRqq_legend = new TLegend(0.62,0.75,0.9,0.9);
-dRqq_legend->AddEntry(dRqq_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+dRqq_legend->AddEntry(dRqq_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 dRqq_legend->AddEntry(dRqq_L300,"#scale[0.9]{LO}","l");
-dRqq_legend->AddEntry(dRqq_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+dRqq_legend->AddEntry(dRqq_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 dRqq_legend->AddEntry(dRqq_L600,"#scale[0.9]{LO}","l");
-dRqq_legend->AddEntry(dRqq_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+dRqq_legend->AddEntry(dRqq_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 dRqq_legend->AddEntry(dRqq_L1000,"#scale[0.9]{LO}","l");
 dRqq_legend->Draw();
 }
@@ -2183,7 +2278,7 @@ dRqq_legend->Draw();
 if(c35){
 c35->cd();
 
-W2pt_L300->SetTitle("W2 pt #scale[0.8]{(NLO vs LO) : High mass}");
+W2pt_L300->SetTitle("W2 pt #scale[0.8]{(NLO vs LO)}");
 W2pt_L300->SetStats(0);
 W2pt_L300->Rebin(20);
 W2pt_L300->GetXaxis()->SetRangeUser(0,1000);
@@ -2222,11 +2317,11 @@ W2pt_N1000->SetLineWidth(2);
 W2pt_N1000->Draw("same hist");
 
 TLegend* W2pt_legend = new TLegend(0.62,0.75,0.9,0.9);
-W2pt_legend->AddEntry(W2pt_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+W2pt_legend->AddEntry(W2pt_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 W2pt_legend->AddEntry(W2pt_L300,"#scale[0.9]{LO}","l");
-W2pt_legend->AddEntry(W2pt_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+W2pt_legend->AddEntry(W2pt_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 W2pt_legend->AddEntry(W2pt_L600,"#scale[0.9]{LO}","l");
-W2pt_legend->AddEntry(W2pt_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+W2pt_legend->AddEntry(W2pt_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 W2pt_legend->AddEntry(W2pt_L1000,"#scale[0.9]{LO}","l");
 W2pt_legend->Draw();
 }
@@ -2238,7 +2333,7 @@ W2pt_legend->Draw();
 if(c36){
 c36->cd();
 
-W2eta_L300->SetTitle("W2 eta #scale[0.8]{(NLO vs LO) : High mass}");
+W2eta_L300->SetTitle("W2 eta #scale[0.8]{(NLO vs LO)}");
 W2eta_L300->SetStats(0);
 W2eta_L300->Rebin(2);
 W2eta_L300->GetYaxis()->SetRangeUser(0,12000);
@@ -2276,11 +2371,11 @@ W2eta_N1000->SetLineWidth(2);
 W2eta_N1000->Draw("same hist");
 
 TLegend* W2eta_legend = new TLegend(0.62,0.75,0.9,0.9);
-W2eta_legend->AddEntry(W2eta_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+W2eta_legend->AddEntry(W2eta_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 W2eta_legend->AddEntry(W2eta_L300,"#scale[0.9]{LO}","l");
-W2eta_legend->AddEntry(W2eta_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+W2eta_legend->AddEntry(W2eta_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 W2eta_legend->AddEntry(W2eta_L600,"#scale[0.9]{LO}","l");
-W2eta_legend->AddEntry(W2eta_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+W2eta_legend->AddEntry(W2eta_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 W2eta_legend->AddEntry(W2eta_L1000,"#scale[0.9]{LO}","l");
 W2eta_legend->Draw();
 }
@@ -2289,7 +2384,7 @@ W2eta_legend->Draw();
 if(c37){
 c37->cd();
 
-W2mass_L300->SetTitle("W2 mass #scale[0.8]{(NLO vs LO) : High mass}");
+W2mass_L300->SetTitle("W2 mass #scale[0.8]{(NLO vs LO)}");
 W2mass_L300->SetStats(0);
 W2mass_L300->Rebin(2);
 W2mass_L300->GetXaxis()->SetRangeUser(0,150);
@@ -2328,11 +2423,11 @@ W2mass_N1000->SetLineWidth(2);
 W2mass_N1000->Draw("same hist");
 
 TLegend* W2mass_legend = new TLegend(0.62,0.75,0.9,0.9);
-W2mass_legend->AddEntry(W2mass_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+W2mass_legend->AddEntry(W2mass_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 W2mass_legend->AddEntry(W2mass_L300,"#scale[0.9]{LO}","l");
-W2mass_legend->AddEntry(W2mass_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+W2mass_legend->AddEntry(W2mass_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 W2mass_legend->AddEntry(W2mass_L600,"#scale[0.9]{LO}","l");
-W2mass_legend->AddEntry(W2mass_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+W2mass_legend->AddEntry(W2mass_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 W2mass_legend->AddEntry(W2mass_L1000,"#scale[0.9]{LO}","l");
 W2mass_legend->Draw();
 }
@@ -2341,7 +2436,7 @@ W2mass_legend->Draw();
 if(c38){
 c38->cd();
 
-MET_L300->SetTitle("MET #scale[0.8]{(NLO vs LO) : High mass}");
+MET_L300->SetTitle("MET #scale[0.8]{(NLO vs LO)}");
 MET_L300->SetStats(0);
 MET_L300->GetXaxis()->SetRangeUser(0,5);
 //MET_L300->GetYaxis()->SetRangeUser(0,8500);
@@ -2374,55 +2469,55 @@ MET_N1000->SetLineWidth(2);
 MET_N1000->Draw("same hist");
 
 TLegend* MET_legend = new TLegend(0.62,0.75,0.9,0.9);
-MET_legend->AddEntry(MET_N300,"Sch #mu#mu m_{N}=300GeV, NLO","l");
+MET_legend->AddEntry(MET_N300,"Tch #mu#mu m_{N}=300GeV, NLO","l");
 MET_legend->AddEntry(MET_L300,"#scale[0.9]{LO}","l");
-MET_legend->AddEntry(MET_N600,"Sch #mu#mu m_{N}=600GeV, NLO","l");
+MET_legend->AddEntry(MET_N600,"Tch #mu#mu m_{N}=600GeV, NLO","l");
 MET_legend->AddEntry(MET_L600,"#scale[0.9]{LO}","l");
-MET_legend->AddEntry(MET_N1000,"Sch #mu#mu m_{N}=1000GeV, NLO","l");
+MET_legend->AddEntry(MET_N1000,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
 MET_legend->AddEntry(MET_L1000,"#scale[0.9]{LO}","l");
 MET_legend->Draw();
 }
 
 
 
-//c1->SaveAs("Tch_kinematics/mlljj.pdf");
-//c2->SaveAs("Tch_kinematics/ml1jj.pdf");
-//c3->SaveAs("Tch_kinematics/ml2jj.pdf");
-//c4->SaveAs("Tch_kinematics/N_pt.pdf");
-//c5->SaveAs("Tch_kinematics/N_eta.pdf");
-//c6->SaveAs("Tch_kinematics/N_energy.pdf");
-//c7->SaveAs("Tch_kinematics/Nl_pt.pdf");
-////c8->SaveAs("Tch_kinematics/Nl_pt_NLO.pdf");
-//c9->SaveAs("Tch_kinematics/Nl_eta.pdf");
-//c10->SaveAs("Tch_kinematics/W1_pt.pdf");
-//c11->SaveAs("Tch_kinematics/W1_eta.pdf");
-//c12->SaveAs("Tch_kinematics/W1_mass.pdf");
-//c13->SaveAs("Tch_kinematics/W1_energy.pdf");
-//c14->SaveAs("Tch_kinematics/Wl_pt.pdf");
-//c15->SaveAs("Tch_kinematics/Wl_eta.pdf");
-//c16->SaveAs("Tch_kinematics/j1_pt.pdf");
-//c17->SaveAs("Tch_kinematics/j1_eta.pdf");
-//c18->SaveAs("Tch_kinematics/j2_pt.pdf");
-//c19->SaveAs("Tch_kinematics/j2_eta.pdf");
-//c20->SaveAs("Tch_kinematics/fatjet_pt.pdf");
-//c21->SaveAs("Tch_kinematics/fatjet_eta.pdf");
-//c22->SaveAs("Tch_kinematics/fatjet_mass.pdf");
-//c23->SaveAs("Tch_kinematics/dijet_mass.pdf");
-//c24->SaveAs("Tch_kinematics/mllJ.pdf");
-//c25->SaveAs("Tch_kinematics/ml1J.pdf");
-//c26->SaveAs("Tch_kinematics/ml2J.pdf");
-//c27->SaveAs("Tch_kinematics/hard_q_pt.pdf");
-//c28->SaveAs("Tch_kinematics/hard_q_eta.pdf");
-//c29->SaveAs("Tch_kinematics/W_q1_pt.pdf");
-//c30->SaveAs("Tch_kinematics/W_q1_eta.pdf");
-//c31->SaveAs("Tch_kinematics/W_q2_pt.pdf");
-//c32->SaveAs("Tch_kinematics/W_q2_eta.pdf");
-//c33->SaveAs("Tch_kinematics/dRjj.pdf");
-//c34->SaveAs("Tch_kinematics/dRqq.pdf");
-//c35->SaveAs("Tch_kinematics/W2_pt.pdf");
-//c36->SaveAs("Tch_kinematics/W2_eta.pdf");
-//c37->SaveAs("Tch_kinematics/W2_mass.pdf");
-//c38->SaveAs("Tch_kinematics/MET.pdf");
+c1->SaveAs("Tch_kinematics/mlljj.png");
+//c2->SaveAs("Tch_kinematics/ml1jj.png");
+//c3->SaveAs("Tch_kinematics/ml2jj.png");
+c4->SaveAs("Tch_kinematics/N_pt.png");
+c5->SaveAs("Tch_kinematics/N_eta.png");
+//c6->SaveAs("Tch_kinematics/N_energy.png");
+c7->SaveAs("Tch_kinematics/Nl_pt.png");
+////c8->SaveAs("Tch_kinematics/Nl_pt_NLO.png");
+c9->SaveAs("Tch_kinematics/Nl_eta.png");
+//c10->SaveAs("Tch_kinematics/W1_pt.png");
+//c11->SaveAs("Tch_kinematics/W1_eta.png");
+//c12->SaveAs("Tch_kinematics/W1_mass.png");
+//c13->SaveAs("Tch_kinematics/W1_energy.png");
+c14->SaveAs("Tch_kinematics/gammal_pt.png");
+c15->SaveAs("Tch_kinematics/gammal_eta.png");
+c16->SaveAs("Tch_kinematics/j1_pt.png");
+c17->SaveAs("Tch_kinematics/j1_eta.png");
+c18->SaveAs("Tch_kinematics/j2_pt.png");
+c19->SaveAs("Tch_kinematics/j2_eta.png");
+c20->SaveAs("Tch_kinematics/fatjet_pt.png");
+c21->SaveAs("Tch_kinematics/fatjet_eta.png");
+c22->SaveAs("Tch_kinematics/fatjet_mass.png");
+c23->SaveAs("Tch_kinematics/dijet_mass.png");
+c24->SaveAs("Tch_kinematics/mllJ.png");
+c25->SaveAs("Tch_kinematics/ml1J.png");
+c26->SaveAs("Tch_kinematics/ml2J.png");
+c27->SaveAs("Tch_kinematics/forward_parton_pt.png");
+c28->SaveAs("Tch_kinematics/forward_parton_eta.png");
+c29->SaveAs("Tch_kinematics/W_q1_pt.png");
+c30->SaveAs("Tch_kinematics/W_q1_eta.png");
+c31->SaveAs("Tch_kinematics/W_q2_pt.png");
+c32->SaveAs("Tch_kinematics/W_q2_eta.png");
+c33->SaveAs("Tch_kinematics/dRjj.png");
+c34->SaveAs("Tch_kinematics/dRqq.png");
+//c35->SaveAs("Tch_kinematics/W2_pt.png");
+//c36->SaveAs("Tch_kinematics/W2_eta.png");
+//c37->SaveAs("Tch_kinematics/W2_mass.png");
+//c38->SaveAs("Tch_kinematics/MET.png");
 
 
 
