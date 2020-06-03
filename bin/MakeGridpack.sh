@@ -106,7 +106,7 @@ else
     SCRIPT=MG_MakeGridpack_${PROCESSNAME}.sh
     echo "#!/bin/bash" > $SCRIPT
     echo "cd $MG_RUN_DIR" >>$SCRIPT
-    echo time env -i 'HOME=$HOME' NB_CORE=$NCORE bash -l -c \"source /cvmfs/cms.cern.ch/cmsset_default.sh\; ./gridpack_generation.sh $PROCESSNAME Card/$PROCESSNAME\" >>$SCRIPT
+    echo time env -i 'HOME=$HOME' NB_CORE=$NCORE bash -l -c \"source /cvmfs/cms.cern.ch/cmsset_default.sh\; ./gridpack_generation.sh $PROCESSNAME Card/$PROCESSNAME\" >>$SCRIPT 
     echo "mv ${PROCESSNAME}.log ${PROCESSNAME}_slc?_amd??_gcc???_CMSSW_*_tarball.tar.xz $GRIDPATH/" >>$SCRIPT
     echo "rm -rf ${PROCESSNAME}" >>$SCRIPT
     echo "cd $GRIDPATH" >>$SCRIPT

@@ -27,5 +27,5 @@ masses = ["300","600","1000","1500","2000"]
 
 for channel in channels:
   for mass in masses:
-    os.system("bin/MakeHist_CollectJobs.sh"+" "+"MG"+" "+"HeavyMajoranaNeutrino_SSDiLepton_Tchannel_NLO_{0}_M{1}_325100".format(channel, mass)+" "+"script/HNtype1_Tch.cc")
-    os.system("bin/MakeHist_CollectJobs.sh"+" "+"MG"+" "+"HeavyMajoranaNeutrino_SSDiLepton_Tchannel_LO_{0}_M{1}_325100".format(channel, mass)+" "+"script/HNtype1_Tch.cc")
+    os.system("bin/MakeHist.sh"+" "+"MG"+" "+"HeavyMajoranaNeutrino_SSDiLepton_Tchannel_NLO_{0}_M{1}_325100".format(channel, mass)+" "+"script/HNtype1_Tch.cc")
+    os.system("bin/MakeHist.sh"+" "+"MG"+" "+"HeavyMajoranaNeutrino_SSDiLepton_Tchannel_LO_{0}_M{1}_325100".format(channel, mass)+" "+"script/HNtype1_Tch.cc")

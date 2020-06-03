@@ -657,20 +657,14 @@ void loop(TString infile,TString outfile){
 
       for(int i=0; i<leptons.size(); i++){
         FillHist("leptons_pt",leptons.at(i)->pt(),1,1000,0,1000);
-      }
-      for(int i=0; i<leptons.size(); i++){
         FillHist("leptons_eta",leptons.at(i)->eta(),1,50,-5,5);
       }
       for(int i=0; i<jets_lepveto.size(); i++){
         FillHist("jets_pt",jets_lepveto.at(i)->pt(),1,1000,0,1000);
-      }
-      for(int i=0; i<jets_lepveto.size(); i++){
         FillHist("jets_eta",jets_lepveto.at(i)->eta(),1,50,-5,5);
       }
       for(int i=0; i<fatjets_lepveto.size(); i++){
         FillHist("fatjets_pt",fatjets_lepveto.at(i)->pt(),1,1000,0,1000);
-      }
-      for(int i=0; i<fatjets_lepveto.size(); i++){
         FillHist("fatjets_eta",fatjets_lepveto.at(i)->eta(),1,50,-5,5);
       }
 

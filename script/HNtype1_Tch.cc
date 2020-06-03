@@ -205,15 +205,18 @@ void loop(TString infile,TString outfile){
       if(gens[i].pdgId()==9900012) last_HN=&gens[i];
       if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==hard_partons.at(0)||gens[i].mother()==hard_photon)){
         hard_l=&gens[i]; //JH : XXX If hard_l is just reco::GenParticle* (w/o const), then it doesn't get &gens[i]
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the hard_l : " << endl;
+        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the hard_l" << endl;
       }
       else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==last_HN)){ //NOTE The mother should be last_HN
         HN_l=&gens[i];
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the HN_l : " << endl;
+        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the HN_l" << endl;
       }
       else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(abs(gens[i].mother()->pdgId())==24)){
         W_l=&gens[i];
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the W_l : " << endl;
+        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the W_l" << endl;
+      }
+      else if((abs(gens[i].pdgId())==5||abs(gens[i].pdgId())==6)){
+        cout << "!!heavy quark!! : " << Ptr2Idx(&gens[i],gens) << endl; //JH just to check
       }
 
       if(gens[i].isPromptFinalState()){
@@ -232,6 +235,9 @@ void loop(TString infile,TString outfile){
     if(hard_l) hard_l = FindLastCopy(gens,hard_l);
     if(W_l) W_l = FindLastCopy(gens,W_l); 
     HN_l = FindLastCopy(gens,HN_l);  //NOTE No need this for last_HN; The code itself assigns the last HN to last_HN.
+
+    cout << "how many weights : " << weights.size() << endl;
+    cout << "event weight : " << weights[0] << endl;
 
     cout << "N of hard process particles : " << Nhard << endl;
 
@@ -302,6 +308,11 @@ void loop(TString infile,TString outfile){
 
     reco::GenJet* leading_jet;
     reco::GenJet* subleading_jet;
+    vector<reco::GenJet*> jets_forward;
+    vector<reco::GenJet*> jets_forward_j2veto;
+    vector<reco::GenJet*> jets_forward_alt_dR;
+    vector<reco::GenJet*> jets_forward_alt;
+    vector<reco::GenJet*> jets_forward_alt_j2veto;
 
     if(jets_lepveto.size()>0){
       
@@ -328,11 +339,11 @@ void loop(TString infile,TString outfile){
       cout << "subleading jet info" << endl << subleading_jet->print() << endl;
 
       //now pick up the forward jet and inspect the constituents
-      vector<reco::GenJet*> jets_forward;
   
       for(int i=0;i<jets_lepveto.size();i++){
         bool HasForwardParton = false;
-        for(int j=0;j<forward_partons.size();j++){
+        //for(int j=0;j<forward_partons.size();j++){
+        for(int j=0;j<1;j++){ //JH : use first forward parton just for now
           if(deltaR(*jets_lepveto.at(i),*forward_partons.at(j))<0.1){
             HasForwardParton = true;
             break;
@@ -342,28 +353,56 @@ void loop(TString infile,TString outfile){
         else continue;
       }
 
-      cout << "N of forward jets : " << jets_forward.size() << endl;
-      if(jets_forward.size()>0) cout << "forward jet 1 info" << endl << jets_forward.at(0)->print() << endl;
-      if(jets_forward.size()>1) cout << "forward jet 2 info" << endl << jets_forward.at(1)->print() << endl;
-
-      //pick up the forward jet with dR = 0.4
-      vector<reco::GenJet*> jets_forward_dR0p4;
-  
-      for(int i=0;i<jets_lepveto.size();i++){
-        bool HasForwardParton = false;
-        for(int j=0;j<forward_partons.size();j++){
-          if(deltaR(*jets_lepveto.at(i),*forward_partons.at(j))<0.4){
-            HasForwardParton = true;
-            break;
-          }
-        }
-        if(HasForwardParton) jets_forward_dR0p4.push_back(jets_lepveto.at(i));
-        else continue;
+      //j2 veto
+      for(int i=0;i<jets_forward.size();i++){
+        if(jets_forward.at(i)!=subleading_jet) jets_forward_j2veto.push_back(jets_forward.at(i));
       }
 
-      cout << "N of forward jets(dR=0.4) : " << jets_forward_dR0p4.size() << endl;
-      //if(jets_forward_dR0p4.size()>0) cout << "forward jet(dR=0.4) 1 info" << endl << jets_forward_dR0p4.at(0)->print() << endl;
-      //if(jets_forward_dR0p4.size()>1) cout << "forward jet(dR=0.4) 2 info" << endl << jets_forward_dR0p4.at(1)->print() << endl;
+      FillHist("forward_jet_matched",jets_forward.size(),1,5,0,5);
+      FillHist("forward_jet_matched_j2veto",jets_forward_j2veto.size(),1,5,0,5);
+      cout << "N of forward_jet_matched : " << jets_forward.size() << endl;
+      cout << "N of forward_jet_matched_j2veto : " << jets_forward_j2veto.size() << endl;
+
+      //cout << "N of forward jets : " << jets_forward.size() << endl;
+      //if(jets_forward.size()>0) cout << "forward jet 1 info" << endl << jets_forward.at(0)->print() << endl;
+      //if(jets_forward.size()>1) cout << "forward jet 2 info" << endl << jets_forward.at(1)->print() << endl;
+
+      //pick up the forward jet with alt selection
+  
+      for(int i=0;i<jets_lepveto.size();i++){
+        //for(int j=0;j<forward_partons.size();j++){
+        for(int j=0;j<1;j++){ // JH : just for now
+          if(deltaR(*jets_lepveto.at(i),*forward_partons.at(j))<0.3){
+            jets_forward_alt_dR.push_back(jets_lepveto.at(i));
+          }
+        }
+      }
+      if(jets_forward_alt_dR.size()>1){
+        double tmpDiff = 10000.;
+        int cand = 0;
+        for(int i=0;i<jets_forward_alt_dR.size();i++){
+          if(fabs(jets_forward_alt_dR.at(i)->pt()-forward_partons.at(0)->pt())<tmpDiff){
+            tmpDiff = fabs(jets_forward_alt_dR.at(i)->pt()-forward_partons.at(0)->pt());
+            cand = i;
+          }
+        }
+        jets_forward_alt.push_back(jets_forward_alt_dR.at(cand));
+      }
+      else if(jets_forward_alt_dR.size()==1) jets_forward_alt.push_back(jets_forward_alt_dR.at(0));
+
+      //j2 veto
+      if(jets_forward_alt.at(0)!=subleading_jet) jets_forward_alt_j2veto.push_back(jets_forward_alt.at(0));
+
+      FillHist("forward_jet_alt_dR_matched",jets_forward_alt_dR.size(),1,5,0,5);
+      FillHist("forward_jet_alt_matched",jets_forward_alt.size(),1,5,0,5);
+      FillHist("forward_jet_alt_matched_j2veto",jets_forward_alt_j2veto.size(),1,5,0,5);
+      cout << "N of forward_jet_alt_dR_matched : " << jets_forward_alt_dR.size() << endl;
+      cout << "N of forward_jet_alt_matched : " << jets_forward_alt.size() << endl;
+      cout << "N of forward_jet_alt_matched_j2veto : " << jets_forward_alt_j2veto.size() << endl;
+
+      //cout << "N of forward jets(alt selection) : " << jets_forward_alt.size() << endl;
+      //if(jets_forward_alt.size()>0) cout << "forward jet(alt selection) 1 info" << endl << jets_forward_alt.at(0)->print() << endl;
+      //if(jets_forward_alt.size()>1) cout << "forward jet(alt selection) 2 info" << endl << jets_forward_alt.at(1)->print() << endl;
 
       //See if subleading jet contains forward parton
       int HasForwardParton = 0;
@@ -422,10 +461,10 @@ void loop(TString infile,TString outfile){
 
       //MakeTLorentzVectors
 
-      //========prompt incoming particles========//
-      TLorentzVector vec_init_q1=MakeTLorentzVector(hard_partons.at(0));
-      TLorentzVector vec_init_q2=MakeTLorentzVector(hard_partons.at(1));
-      TLorentzVector vec_init_diparton=vec_init_q1+vec_init_q2;
+      //========prompt incoming particles========// 
+      //TLorentzVector vec_init_q1=MakeTLorentzVector(hard_partons.at(0));
+      //TLorentzVector vec_init_q2=MakeTLorentzVector(hard_partons.at(1));
+      //TLorentzVector vec_init_diparton=vec_init_q1+vec_init_q2;
 
       //========onshell Ws========//
       TLorentzVector vec_on_W1, vec_on_W2;
@@ -474,6 +513,9 @@ void loop(TString infile,TString outfile){
       TLorentzVector vec_j0, vec_j1;
       if(jets_lepveto.size()>0) vec_j0=arr_jets[0];
       if(jets_lepveto.size()>1) vec_j1=arr_jets[1];
+      TLorentzVector vec_forward_j, vec_forward_j_alt;
+      if(jets_forward_j2veto.size()>0) vec_forward_j=MakeTLorentzVector(jets_forward_j2veto.at(0));
+      if(jets_forward_alt_j2veto.size()>0) vec_forward_j_alt=MakeTLorentzVector(jets_forward_alt_j2veto.at(0));
       TLorentzVector vec_fatjet;
       if(fatjets_lepveto.size()>0) vec_fatjet=arr_fatjets[0];
       TLorentzVector vec_MET=MakeTLorentzVector(MET);
@@ -487,275 +529,524 @@ void loop(TString infile,TString outfile){
       TLorentzVector vec_l1_dijet=vec_l1+vec_dijet;
       TLorentzVector vec_SS2l_fatjet=vec_l0+vec_l1+vec_fatjet;
       TLorentzVector vec_SS2l_dijet=vec_l0+vec_l1+vec_dijet;
+      TLorentzVector vec_l0_q0=vec_l0+vec_N_q0;
 
       //histograms
+      
+      double weight;
+      if(weights[0]>0) weight = 1;
+      else weight = -1;
 
       if(hard_Ws.size()==0){
-        FillHist("offshell_W1_m",vec_off_W1.M(),1,2000,0,2000);
-        FillHist("offshell_W1_pt",vec_off_W1.Pt(),1,2000,0,2000);
-        FillHist("offshell_W1_E",vec_off_W1.E(),1,2000,0,2000);
-        FillHist("offshell_W1_eta",vec_off_W1.Eta(),1,50,-5,5);
-        FillHist("offshell_W2_m",vec_off_W2.M(),1,2000,0,2000);
-        FillHist("offshell_W2_pt",vec_off_W2.Pt(),1,2000,0,2000);
-        FillHist("offshell_W2_E",vec_off_W2.E(),1,2000,0,2000);
-        FillHist("offshell_W2_eta",vec_off_W2.Eta(),1,50,-5,5);
-        FillHist("W1_m",vec_off_W1.M(),1,2000,0,2000);
-        FillHist("W1_pt",vec_off_W1.Pt(),1,2000,0,2000);
-        FillHist("W1_E",vec_off_W1.E(),1,2000,0,2000);
-        FillHist("W1_eta",vec_off_W1.Eta(),1,50,-5,5);
-        FillHist("W2_m",vec_off_W2.M(),1,2000,0,2000);
-        FillHist("W2_pt",vec_off_W2.Pt(),1,2000,0,2000);
-        FillHist("W2_E",vec_off_W2.E(),1,2000,0,2000);
-        FillHist("W2_eta",vec_off_W2.Eta(),1,50,-5,5);
-        FillHist("W_m",vec_off_W1.M(),1,2000,0,2000);
-        FillHist("W_pt",vec_off_W1.Pt(),1,2000,0,2000);
-        FillHist("W_E",vec_off_W1.E(),1,2000,0,2000);
-        FillHist("W_eta",vec_off_W1.Eta(),1,50,-5,5);
-        FillHist("W_m",vec_off_W2.M(),1,2000,0,2000);
-        FillHist("W_pt",vec_off_W2.Pt(),1,2000,0,2000);
-        FillHist("W_E",vec_off_W2.E(),1,2000,0,2000);
-        FillHist("W_eta",vec_off_W2.Eta(),1,50,-5,5);
+        FillHist("unweighted_offshell_W1_m",vec_off_W1.M(),1,2000,0,2000);
+        FillHist("unweighted_offshell_W1_pt",vec_off_W1.Pt(),1,2000,0,2000);
+        FillHist("unweighted_offshell_W1_E",vec_off_W1.E(),1,2000,0,2000);
+        FillHist("unweighted_offshell_W1_eta",vec_off_W1.Eta(),1,50,-5,5);
+        FillHist("unweighted_offshell_W2_m",vec_off_W2.M(),1,2000,0,2000);
+        FillHist("unweighted_offshell_W2_pt",vec_off_W2.Pt(),1,2000,0,2000);
+        FillHist("unweighted_offshell_W2_E",vec_off_W2.E(),1,2000,0,2000);
+        FillHist("unweighted_offshell_W2_eta",vec_off_W2.Eta(),1,50,-5,5);
+        FillHist("unweighted_W1_m",vec_off_W1.M(),1,2000,0,2000);
+        FillHist("unweighted_W1_pt",vec_off_W1.Pt(),1,2000,0,2000);
+        FillHist("unweighted_W1_E",vec_off_W1.E(),1,2000,0,2000);
+        FillHist("unweighted_W1_eta",vec_off_W1.Eta(),1,50,-5,5);
+        FillHist("unweighted_W2_m",vec_off_W2.M(),1,2000,0,2000);
+        FillHist("unweighted_W2_pt",vec_off_W2.Pt(),1,2000,0,2000);
+        FillHist("unweighted_W2_E",vec_off_W2.E(),1,2000,0,2000);
+        FillHist("unweighted_W2_eta",vec_off_W2.Eta(),1,50,-5,5);
+        FillHist("unweighted_W_m",vec_off_W1.M(),1,2000,0,2000);
+        FillHist("unweighted_W_pt",vec_off_W1.Pt(),1,2000,0,2000);
+        FillHist("unweighted_W_E",vec_off_W1.E(),1,2000,0,2000);
+        FillHist("unweighted_W_eta",vec_off_W1.Eta(),1,50,-5,5);
+        FillHist("unweighted_W_m",vec_off_W2.M(),1,2000,0,2000);
+        FillHist("unweighted_W_pt",vec_off_W2.Pt(),1,2000,0,2000);
+        FillHist("unweighted_W_E",vec_off_W2.E(),1,2000,0,2000);
+        FillHist("unweighted_W_eta",vec_off_W2.Eta(),1,50,-5,5);
+        FillHist("offshell_W1_m",vec_off_W1.M(),weight,2000,0,2000);
+        FillHist("offshell_W1_pt",vec_off_W1.Pt(),weight,2000,0,2000);
+        FillHist("offshell_W1_E",vec_off_W1.E(),weight,2000,0,2000);
+        FillHist("offshell_W1_eta",vec_off_W1.Eta(),weight,50,-5,5);
+        FillHist("offshell_W2_m",vec_off_W2.M(),weight,2000,0,2000);
+        FillHist("offshell_W2_pt",vec_off_W2.Pt(),weight,2000,0,2000);
+        FillHist("offshell_W2_E",vec_off_W2.E(),weight,2000,0,2000);
+        FillHist("offshell_W2_eta",vec_off_W2.Eta(),weight,50,-5,5);
+        FillHist("W1_m",vec_off_W1.M(),weight,2000,0,2000);
+        FillHist("W1_pt",vec_off_W1.Pt(),weight,2000,0,2000);
+        FillHist("W1_E",vec_off_W1.E(),weight,2000,0,2000);
+        FillHist("W1_eta",vec_off_W1.Eta(),weight,50,-5,5);
+        FillHist("W2_m",vec_off_W2.M(),weight,2000,0,2000);
+        FillHist("W2_pt",vec_off_W2.Pt(),weight,2000,0,2000);
+        FillHist("W2_E",vec_off_W2.E(),weight,2000,0,2000);
+        FillHist("W2_eta",vec_off_W2.Eta(),weight,50,-5,5);
+        FillHist("W_m",vec_off_W1.M(),weight,2000,0,2000);
+        FillHist("W_pt",vec_off_W1.Pt(),weight,2000,0,2000);
+        FillHist("W_E",vec_off_W1.E(),weight,2000,0,2000);
+        FillHist("W_eta",vec_off_W1.Eta(),weight,50,-5,5);
+        FillHist("W_m",vec_off_W2.M(),weight,2000,0,2000);
+        FillHist("W_pt",vec_off_W2.Pt(),weight,2000,0,2000);
+        FillHist("W_E",vec_off_W2.E(),weight,2000,0,2000);
+        FillHist("W_eta",vec_off_W2.Eta(),weight,50,-5,5);
       }
       else if(hard_Ws.size()==1){
         if(vec_on_W1.E()&&!vec_on_W2.E()){
-          FillHist("onshell_W1_m",vec_on_W1.M(),1,2000,0,2000);
-          FillHist("onshell_W1_pt",vec_on_W1.Pt(),1,2000,0,2000);
-          FillHist("onshell_W1_E",vec_on_W1.E(),1,2000,0,2000);
-          FillHist("onshell_W1_eta",vec_on_W1.Eta(),1,50,-5,5);
-          FillHist("offshell_W2_m",vec_off_W2.M(),1,2000,0,2000);
-          FillHist("offshell_W2_pt",vec_off_W2.Pt(),1,2000,0,2000);
-          FillHist("offshell_W2_E",vec_off_W2.E(),1,2000,0,2000);
-          FillHist("offshell_W2_eta",vec_off_W2.Eta(),1,50,-5,5);
-          FillHist("W1_m",vec_on_W1.M(),1,2000,0,2000);
-          FillHist("W1_pt",vec_on_W1.Pt(),1,2000,0,2000);
-          FillHist("W1_E",vec_on_W1.E(),1,2000,0,2000);
-          FillHist("W1_eta",vec_on_W1.Eta(),1,50,-5,5);
-          FillHist("W2_m",vec_off_W2.M(),1,2000,0,2000);
-          FillHist("W2_pt",vec_off_W2.Pt(),1,2000,0,2000);
-          FillHist("W2_E",vec_off_W2.E(),1,2000,0,2000);
-          FillHist("W2_eta",vec_off_W2.Eta(),1,50,-5,5);
-          FillHist("W_m",vec_on_W1.M(),1,2000,0,2000);
-          FillHist("W_pt",vec_on_W1.Pt(),1,2000,0,2000);
-          FillHist("W_E",vec_on_W1.E(),1,2000,0,2000);
-          FillHist("W_eta",vec_on_W1.Eta(),1,50,-5,5);
-          FillHist("W_m",vec_off_W2.M(),1,2000,0,2000);
-          FillHist("W_pt",vec_off_W2.Pt(),1,2000,0,2000);
-          FillHist("W_E",vec_off_W2.E(),1,2000,0,2000);
-          FillHist("W_eta",vec_off_W2.Eta(),1,50,-5,5);
+          FillHist("unweighted_onshell_W1_m",vec_on_W1.M(),1,2000,0,2000);
+          FillHist("unweighted_onshell_W1_pt",vec_on_W1.Pt(),1,2000,0,2000);
+          FillHist("unweighted_onshell_W1_E",vec_on_W1.E(),1,2000,0,2000);
+          FillHist("unweighted_onshell_W1_eta",vec_on_W1.Eta(),1,50,-5,5);
+          FillHist("unweighted_offshell_W2_m",vec_off_W2.M(),1,2000,0,2000);
+          FillHist("unweighted_offshell_W2_pt",vec_off_W2.Pt(),1,2000,0,2000);
+          FillHist("unweighted_offshell_W2_E",vec_off_W2.E(),1,2000,0,2000);
+          FillHist("unweighted_offshell_W2_eta",vec_off_W2.Eta(),1,50,-5,5);
+          FillHist("unweighted_W1_m",vec_on_W1.M(),1,2000,0,2000);
+          FillHist("unweighted_W1_pt",vec_on_W1.Pt(),1,2000,0,2000);
+          FillHist("unweighted_W1_E",vec_on_W1.E(),1,2000,0,2000);
+          FillHist("unweighted_W1_eta",vec_on_W1.Eta(),1,50,-5,5);
+          FillHist("unweighted_W2_m",vec_off_W2.M(),1,2000,0,2000);
+          FillHist("unweighted_W2_pt",vec_off_W2.Pt(),1,2000,0,2000);
+          FillHist("unweighted_W2_E",vec_off_W2.E(),1,2000,0,2000);
+          FillHist("unweighted_W2_eta",vec_off_W2.Eta(),1,50,-5,5);
+          FillHist("unweighted_W_m",vec_on_W1.M(),1,2000,0,2000);
+          FillHist("unweighted_W_pt",vec_on_W1.Pt(),1,2000,0,2000);
+          FillHist("unweighted_W_E",vec_on_W1.E(),1,2000,0,2000);
+          FillHist("unweighted_W_eta",vec_on_W1.Eta(),1,50,-5,5);
+          FillHist("unweighted_W_m",vec_off_W2.M(),1,2000,0,2000);
+          FillHist("unweighted_W_pt",vec_off_W2.Pt(),1,2000,0,2000);
+          FillHist("unweighted_W_E",vec_off_W2.E(),1,2000,0,2000);
+          FillHist("unweighted_W_eta",vec_off_W2.Eta(),1,50,-5,5);
+          FillHist("onshell_W1_m",vec_on_W1.M(),weight,2000,0,2000);
+          FillHist("onshell_W1_pt",vec_on_W1.Pt(),weight,2000,0,2000);
+          FillHist("onshell_W1_E",vec_on_W1.E(),weight,2000,0,2000);
+          FillHist("onshell_W1_eta",vec_on_W1.Eta(),weight,50,-5,5);
+          FillHist("offshell_W2_m",vec_off_W2.M(),weight,2000,0,2000);
+          FillHist("offshell_W2_pt",vec_off_W2.Pt(),weight,2000,0,2000);
+          FillHist("offshell_W2_E",vec_off_W2.E(),weight,2000,0,2000);
+          FillHist("offshell_W2_eta",vec_off_W2.Eta(),weight,50,-5,5);
+          FillHist("W1_m",vec_on_W1.M(),weight,2000,0,2000);
+          FillHist("W1_pt",vec_on_W1.Pt(),weight,2000,0,2000);
+          FillHist("W1_E",vec_on_W1.E(),weight,2000,0,2000);
+          FillHist("W1_eta",vec_on_W1.Eta(),weight,50,-5,5);
+          FillHist("W2_m",vec_off_W2.M(),weight,2000,0,2000);
+          FillHist("W2_pt",vec_off_W2.Pt(),weight,2000,0,2000);
+          FillHist("W2_E",vec_off_W2.E(),weight,2000,0,2000);
+          FillHist("W2_eta",vec_off_W2.Eta(),weight,50,-5,5);
+          FillHist("W_m",vec_on_W1.M(),weight,2000,0,2000);
+          FillHist("W_pt",vec_on_W1.Pt(),weight,2000,0,2000);
+          FillHist("W_E",vec_on_W1.E(),weight,2000,0,2000);
+          FillHist("W_eta",vec_on_W1.Eta(),weight,50,-5,5);
+          FillHist("W_m",vec_off_W2.M(),weight,2000,0,2000);
+          FillHist("W_pt",vec_off_W2.Pt(),weight,2000,0,2000);
+          FillHist("W_E",vec_off_W2.E(),weight,2000,0,2000);
+          FillHist("W_eta",vec_off_W2.Eta(),weight,50,-5,5);
         }
         else if(!vec_on_W1.E()&&vec_on_W2.E()){
-          FillHist("offshell_W1_m",vec_off_W1.M(),1,2000,0,2000);
-          FillHist("offshell_W1_pt",vec_off_W1.Pt(),1,2000,0,2000);
-          FillHist("offshell_W1_E",vec_off_W1.E(),1,2000,0,2000);
-          FillHist("offshell_W1_eta",vec_off_W1.Eta(),1,50,-5,5);
-          FillHist("onshell_W2_m",vec_on_W2.M(),1,2000,0,2000);
-          FillHist("onshell_W2_pt",vec_on_W2.Pt(),1,2000,0,2000);
-          FillHist("onshell_W2_E",vec_on_W2.E(),1,2000,0,2000);
-          FillHist("onshell_W2_eta",vec_on_W2.Eta(),1,50,-5,5);
-          FillHist("W1_m",vec_off_W1.M(),1,2000,0,2000);
-          FillHist("W1_pt",vec_off_W1.Pt(),1,2000,0,2000);
-          FillHist("W1_E",vec_off_W1.E(),1,2000,0,2000);
-          FillHist("W1_eta",vec_off_W1.Eta(),1,50,-5,5);
-          FillHist("W2_m",vec_on_W2.M(),1,2000,0,2000);
-          FillHist("W2_pt",vec_on_W2.Pt(),1,2000,0,2000);
-          FillHist("W2_E",vec_on_W2.E(),1,2000,0,2000);
-          FillHist("W2_eta",vec_on_W2.Eta(),1,50,-5,5);
-          FillHist("W_m",vec_off_W1.M(),1,2000,0,2000);
-          FillHist("W_pt",vec_off_W1.Pt(),1,2000,0,2000);
-          FillHist("W_E",vec_off_W1.E(),1,2000,0,2000);
-          FillHist("W_eta",vec_off_W1.Eta(),1,50,-5,5);
-          FillHist("W_m",vec_on_W2.M(),1,2000,0,2000);
-          FillHist("W_pt",vec_on_W2.Pt(),1,2000,0,2000);
-          FillHist("W_E",vec_on_W2.E(),1,2000,0,2000);
-          FillHist("W_eta",vec_on_W2.Eta(),1,50,-5,5);
+          FillHist("unweighted_offshell_W1_m",vec_off_W1.M(),1,2000,0,2000);
+          FillHist("unweighted_offshell_W1_pt",vec_off_W1.Pt(),1,2000,0,2000);
+          FillHist("unweighted_offshell_W1_E",vec_off_W1.E(),1,2000,0,2000);
+          FillHist("unweighted_offshell_W1_eta",vec_off_W1.Eta(),1,50,-5,5);
+          FillHist("unweighted_onshell_W2_m",vec_on_W2.M(),1,2000,0,2000);
+          FillHist("unweighted_onshell_W2_pt",vec_on_W2.Pt(),1,2000,0,2000);
+          FillHist("unweighted_onshell_W2_E",vec_on_W2.E(),1,2000,0,2000);
+          FillHist("unweighted_onshell_W2_eta",vec_on_W2.Eta(),1,50,-5,5);
+          FillHist("unweighted_W1_m",vec_off_W1.M(),1,2000,0,2000);
+          FillHist("unweighted_W1_pt",vec_off_W1.Pt(),1,2000,0,2000);
+          FillHist("unweighted_W1_E",vec_off_W1.E(),1,2000,0,2000);
+          FillHist("unweighted_W1_eta",vec_off_W1.Eta(),1,50,-5,5);
+          FillHist("unweighted_W2_m",vec_on_W2.M(),1,2000,0,2000);
+          FillHist("unweighted_W2_pt",vec_on_W2.Pt(),1,2000,0,2000);
+          FillHist("unweighted_W2_E",vec_on_W2.E(),1,2000,0,2000);
+          FillHist("unweighted_W2_eta",vec_on_W2.Eta(),1,50,-5,5);
+          FillHist("unweighted_W_m",vec_off_W1.M(),1,2000,0,2000);
+          FillHist("unweighted_W_pt",vec_off_W1.Pt(),1,2000,0,2000);
+          FillHist("unweighted_W_E",vec_off_W1.E(),1,2000,0,2000);
+          FillHist("unweighted_W_eta",vec_off_W1.Eta(),1,50,-5,5);
+          FillHist("unweighted_W_m",vec_on_W2.M(),1,2000,0,2000);
+          FillHist("unweighted_W_pt",vec_on_W2.Pt(),1,2000,0,2000);
+          FillHist("unweighted_W_E",vec_on_W2.E(),1,2000,0,2000);
+          FillHist("unweighted_W_eta",vec_on_W2.Eta(),1,50,-5,5);
+          FillHist("offshell_W1_m",vec_off_W1.M(),weight,2000,0,2000);
+          FillHist("offshell_W1_pt",vec_off_W1.Pt(),weight,2000,0,2000);
+          FillHist("offshell_W1_E",vec_off_W1.E(),weight,2000,0,2000);
+          FillHist("offshell_W1_eta",vec_off_W1.Eta(),weight,50,-5,5);
+          FillHist("onshell_W2_m",vec_on_W2.M(),weight,2000,0,2000);
+          FillHist("onshell_W2_pt",vec_on_W2.Pt(),weight,2000,0,2000);
+          FillHist("onshell_W2_E",vec_on_W2.E(),weight,2000,0,2000);
+          FillHist("onshell_W2_eta",vec_on_W2.Eta(),weight,50,-5,5);
+          FillHist("W1_m",vec_off_W1.M(),weight,2000,0,2000);
+          FillHist("W1_pt",vec_off_W1.Pt(),weight,2000,0,2000);
+          FillHist("W1_E",vec_off_W1.E(),weight,2000,0,2000);
+          FillHist("W1_eta",vec_off_W1.Eta(),weight,50,-5,5);
+          FillHist("W2_m",vec_on_W2.M(),weight,2000,0,2000);
+          FillHist("W2_pt",vec_on_W2.Pt(),weight,2000,0,2000);
+          FillHist("W2_E",vec_on_W2.E(),weight,2000,0,2000);
+          FillHist("W2_eta",vec_on_W2.Eta(),weight,50,-5,5);
+          FillHist("W_m",vec_off_W1.M(),weight,2000,0,2000);
+          FillHist("W_pt",vec_off_W1.Pt(),weight,2000,0,2000);
+          FillHist("W_E",vec_off_W1.E(),weight,2000,0,2000);
+          FillHist("W_eta",vec_off_W1.Eta(),weight,50,-5,5);
+          FillHist("W_m",vec_on_W2.M(),weight,2000,0,2000);
+          FillHist("W_pt",vec_on_W2.Pt(),weight,2000,0,2000);
+          FillHist("W_E",vec_on_W2.E(),weight,2000,0,2000);
+          FillHist("W_eta",vec_on_W2.Eta(),weight,50,-5,5);
         }
       }
       else if(hard_Ws.size()==2){
-        FillHist("onshell_W1_m",vec_on_W1.M(),1,2000,0,2000);
-        FillHist("onshell_W1_pt",vec_on_W1.Pt(),1,2000,0,2000);
-        FillHist("onshell_W1_E",vec_on_W1.E(),1,2000,0,2000);
-        FillHist("onshell_W1_eta",vec_on_W1.Eta(),1,50,-5,5);
-        FillHist("onshell_W2_m",vec_on_W2.M(),1,2000,0,2000);
-        FillHist("onshell_W2_pt",vec_on_W2.Pt(),1,2000,0,2000);
-        FillHist("onshell_W2_E",vec_on_W2.E(),1,2000,0,2000);
-        FillHist("onshell_W2_eta",vec_on_W2.Eta(),1,50,-5,5);
-        FillHist("W1_m",vec_on_W1.M(),1,2000,0,2000);
-        FillHist("W1_pt",vec_on_W1.Pt(),1,2000,0,2000);
-        FillHist("W1_E",vec_on_W1.E(),1,2000,0,2000);
-        FillHist("W1_eta",vec_on_W1.Eta(),1,50,-5,5);
-        FillHist("W2_m",vec_on_W2.M(),1,2000,0,2000);
-        FillHist("W2_pt",vec_on_W2.Pt(),1,2000,0,2000);
-        FillHist("W2_E",vec_on_W2.E(),1,2000,0,2000);
-        FillHist("W2_eta",vec_on_W2.Eta(),1,50,-5,5);
-        FillHist("W_m",vec_on_W1.M(),1,2000,0,2000);
-        FillHist("W_pt",vec_on_W1.Pt(),1,2000,0,2000);
-        FillHist("W_E",vec_on_W1.E(),1,2000,0,2000);
-        FillHist("W_eta",vec_on_W1.Eta(),1,50,-5,5);
-        FillHist("W_m",vec_on_W2.M(),1,2000,0,2000);
-        FillHist("W_pt",vec_on_W2.Pt(),1,2000,0,2000);
-        FillHist("W_E",vec_on_W2.E(),1,2000,0,2000);
-        FillHist("W_eta",vec_on_W2.Eta(),1,50,-5,5);
+        FillHist("unweighted_onshell_W1_m",vec_on_W1.M(),1,2000,0,2000);
+        FillHist("unweighted_onshell_W1_pt",vec_on_W1.Pt(),1,2000,0,2000);
+        FillHist("unweighted_onshell_W1_E",vec_on_W1.E(),1,2000,0,2000);
+        FillHist("unweighted_onshell_W1_eta",vec_on_W1.Eta(),1,50,-5,5);
+        FillHist("unweighted_onshell_W2_m",vec_on_W2.M(),1,2000,0,2000);
+        FillHist("unweighted_onshell_W2_pt",vec_on_W2.Pt(),1,2000,0,2000);
+        FillHist("unweighted_onshell_W2_E",vec_on_W2.E(),1,2000,0,2000);
+        FillHist("unweighted_onshell_W2_eta",vec_on_W2.Eta(),1,50,-5,5);
+        FillHist("unweighted_W1_m",vec_on_W1.M(),1,2000,0,2000);
+        FillHist("unweighted_W1_pt",vec_on_W1.Pt(),1,2000,0,2000);
+        FillHist("unweighted_W1_E",vec_on_W1.E(),1,2000,0,2000);
+        FillHist("unweighted_W1_eta",vec_on_W1.Eta(),1,50,-5,5);
+        FillHist("unweighted_W2_m",vec_on_W2.M(),1,2000,0,2000);
+        FillHist("unweighted_W2_pt",vec_on_W2.Pt(),1,2000,0,2000);
+        FillHist("unweighted_W2_E",vec_on_W2.E(),1,2000,0,2000);
+        FillHist("unweighted_W2_eta",vec_on_W2.Eta(),1,50,-5,5);
+        FillHist("unweighted_W_m",vec_on_W1.M(),1,2000,0,2000);
+        FillHist("unweighted_W_pt",vec_on_W1.Pt(),1,2000,0,2000);
+        FillHist("unweighted_W_E",vec_on_W1.E(),1,2000,0,2000);
+        FillHist("unweighted_W_eta",vec_on_W1.Eta(),1,50,-5,5);
+        FillHist("unweighted_W_m",vec_on_W2.M(),1,2000,0,2000);
+        FillHist("unweighted_W_pt",vec_on_W2.Pt(),1,2000,0,2000);
+        FillHist("unweighted_W_E",vec_on_W2.E(),1,2000,0,2000);
+        FillHist("unweighted_W_eta",vec_on_W2.Eta(),1,50,-5,5);
+        FillHist("onshell_W1_m",vec_on_W1.M(),weight,2000,0,2000);
+        FillHist("onshell_W1_pt",vec_on_W1.Pt(),weight,2000,0,2000);
+        FillHist("onshell_W1_E",vec_on_W1.E(),weight,2000,0,2000);
+        FillHist("onshell_W1_eta",vec_on_W1.Eta(),weight,50,-5,5);
+        FillHist("onshell_W2_m",vec_on_W2.M(),weight,2000,0,2000);
+        FillHist("onshell_W2_pt",vec_on_W2.Pt(),weight,2000,0,2000);
+        FillHist("onshell_W2_E",vec_on_W2.E(),weight,2000,0,2000);
+        FillHist("onshell_W2_eta",vec_on_W2.Eta(),weight,50,-5,5);
+        FillHist("W1_m",vec_on_W1.M(),weight,2000,0,2000);
+        FillHist("W1_pt",vec_on_W1.Pt(),weight,2000,0,2000);
+        FillHist("W1_E",vec_on_W1.E(),weight,2000,0,2000);
+        FillHist("W1_eta",vec_on_W1.Eta(),weight,50,-5,5);
+        FillHist("W2_m",vec_on_W2.M(),weight,2000,0,2000);
+        FillHist("W2_pt",vec_on_W2.Pt(),weight,2000,0,2000);
+        FillHist("W2_E",vec_on_W2.E(),weight,2000,0,2000);
+        FillHist("W2_eta",vec_on_W2.Eta(),weight,50,-5,5);
+        FillHist("W_m",vec_on_W1.M(),weight,2000,0,2000);
+        FillHist("W_pt",vec_on_W1.Pt(),weight,2000,0,2000);
+        FillHist("W_E",vec_on_W1.E(),weight,2000,0,2000);
+        FillHist("W_eta",vec_on_W1.Eta(),weight,50,-5,5);
+        FillHist("W_m",vec_on_W2.M(),weight,2000,0,2000);
+        FillHist("W_pt",vec_on_W2.Pt(),weight,2000,0,2000);
+        FillHist("W_E",vec_on_W2.E(),weight,2000,0,2000);
+        FillHist("W_eta",vec_on_W2.Eta(),weight,50,-5,5);
       }
 
-      FillHist("last_HN_m",vec_last_HN.M(),1,2100,0,2100);
-      FillHist("last_HN_pt",vec_last_HN.Pt(),1,2000,0,2000);
-      FillHist("last_HN_E",vec_last_HN.E(),1,3000,0,3000);
-      FillHist("last_HN_eta",vec_last_HN.Eta(),1,50,-5,5);
+      FillHist("unweighted_last_HN_m",vec_last_HN.M(),1,2100,0,2100);
+      FillHist("unweighted_last_HN_pt",vec_last_HN.Pt(),1,2000,0,2000);
+      FillHist("unweighted_last_HN_E",vec_last_HN.E(),1,3000,0,3000);
+      FillHist("unweighted_last_HN_eta",vec_last_HN.Eta(),1,50,-5,5);
+      FillHist("last_HN_m",vec_last_HN.M(),weight,2100,0,2100);
+      FillHist("last_HN_pt",vec_last_HN.Pt(),weight,2000,0,2000);
+      FillHist("last_HN_E",vec_last_HN.E(),weight,3000,0,3000);
+      FillHist("last_HN_eta",vec_last_HN.Eta(),weight,50,-5,5);
 
       if(forward_partons.size()>0){
-        FillHist("forward_parton1_m",vec_forward_parton1.M(),1,2000,0,2000);
-        FillHist("forward_parton1_pt",vec_forward_parton1.Pt(),1,2000,0,2000);
-        FillHist("forward_parton1_E",vec_forward_parton1.E(),1,2000,0,2000);
-        FillHist("forward_parton1_eta",vec_forward_parton1.Eta(),1,50,-5,5);
+        FillHist("unweighted_forward_parton1_m",vec_forward_parton1.M(),1,2000,0,2000);
+        FillHist("unweighted_forward_parton1_pt",vec_forward_parton1.Pt(),1,2000,0,2000);
+        FillHist("unweighted_forward_parton1_E",vec_forward_parton1.E(),1,2000,0,2000);
+        FillHist("unweighted_forward_parton1_eta",vec_forward_parton1.Eta(),1,50,-5,5);
+        FillHist("forward_parton1_m",vec_forward_parton1.M(),weight,2000,0,2000);
+        FillHist("forward_parton1_pt",vec_forward_parton1.Pt(),weight,2000,0,2000);
+        FillHist("forward_parton1_E",vec_forward_parton1.E(),weight,2000,0,2000);
+        FillHist("forward_parton1_eta",vec_forward_parton1.Eta(),weight,50,-5,5);
         if(forward_partons.at(0)->pdgId()==21){
-          FillHist("forward_gluon1_m",vec_forward_parton1.M(),1,2000,0,2000);
-          FillHist("forward_gluon1_pt",vec_forward_parton1.Pt(),1,2000,0,2000);
-          FillHist("forward_gluon1_E",vec_forward_parton1.E(),1,2000,0,2000);
-          FillHist("forward_gluon1_eta",vec_forward_parton1.Eta(),1,50,-5,5);
+          FillHist("unweighted_forward_gluon1_m",vec_forward_parton1.M(),1,2000,0,2000);
+          FillHist("unweighted_forward_gluon1_pt",vec_forward_parton1.Pt(),1,2000,0,2000);
+          FillHist("unweighted_forward_gluon1_E",vec_forward_parton1.E(),1,2000,0,2000);
+          FillHist("unweighted_forward_gluon1_eta",vec_forward_parton1.Eta(),1,50,-5,5);
+          FillHist("forward_gluon1_m",vec_forward_parton1.M(),weight,2000,0,2000);
+          FillHist("forward_gluon1_pt",vec_forward_parton1.Pt(),weight,2000,0,2000);
+          FillHist("forward_gluon1_E",vec_forward_parton1.E(),weight,2000,0,2000);
+          FillHist("forward_gluon1_eta",vec_forward_parton1.Eta(),weight,50,-5,5);
         }
         else{
-          FillHist("forward_q1_m",vec_forward_parton1.M(),1,2000,0,2000);
-          FillHist("forward_q1_pt",vec_forward_parton1.Pt(),1,2000,0,2000);
-          FillHist("forward_q1_E",vec_forward_parton1.E(),1,2000,0,2000);
-          FillHist("forward_q1_eta",vec_forward_parton1.Eta(),1,50,-5,5);
+          FillHist("unweighted_forward_q1_m",vec_forward_parton1.M(),1,2000,0,2000);
+          FillHist("unweighted_forward_q1_pt",vec_forward_parton1.Pt(),1,2000,0,2000);
+          FillHist("unweighted_forward_q1_E",vec_forward_parton1.E(),1,2000,0,2000);
+          FillHist("unweighted_forward_q1_eta",vec_forward_parton1.Eta(),1,50,-5,5);
+          FillHist("forward_q1_m",vec_forward_parton1.M(),weight,2000,0,2000);
+          FillHist("forward_q1_pt",vec_forward_parton1.Pt(),weight,2000,0,2000);
+          FillHist("forward_q1_E",vec_forward_parton1.E(),weight,2000,0,2000);
+          FillHist("forward_q1_eta",vec_forward_parton1.Eta(),weight,50,-5,5);
         }
       }
       if(forward_partons.size()>1){
-        FillHist("forward_parton2_m",vec_forward_parton2.M(),1,2000,0,2000);
-        FillHist("forward_parton2_pt",vec_forward_parton2.Pt(),1,2000,0,2000);
-        FillHist("forward_parton2_E",vec_forward_parton2.E(),1,2000,0,2000);
-        FillHist("forward_parton2_eta",vec_forward_parton2.Eta(),1,50,-5,5);
+        FillHist("unweighted_forward_parton2_m",vec_forward_parton2.M(),1,2000,0,2000);
+        FillHist("unweighted_forward_parton2_pt",vec_forward_parton2.Pt(),1,2000,0,2000);
+        FillHist("unweighted_forward_parton2_E",vec_forward_parton2.E(),1,2000,0,2000);
+        FillHist("unweighted_forward_parton2_eta",vec_forward_parton2.Eta(),1,50,-5,5);
+        FillHist("forward_parton2_m",vec_forward_parton2.M(),weight,2000,0,2000);
+        FillHist("forward_parton2_pt",vec_forward_parton2.Pt(),weight,2000,0,2000);
+        FillHist("forward_parton2_E",vec_forward_parton2.E(),weight,2000,0,2000);
+        FillHist("forward_parton2_eta",vec_forward_parton2.Eta(),weight,50,-5,5);
         if(forward_partons.at(1)->pdgId()==21){
-          FillHist("forward_gluon2_m",vec_forward_parton2.M(),1,2000,0,2000);
-          FillHist("forward_gluon2_pt",vec_forward_parton2.Pt(),1,2000,0,2000);
-          FillHist("forward_gluon2_E",vec_forward_parton2.E(),1,2000,0,2000);
-          FillHist("forward_gluon2_eta",vec_forward_parton2.Eta(),1,50,-5,5);
+          FillHist("unweighted_forward_gluon2_m",vec_forward_parton2.M(),1,2000,0,2000);
+          FillHist("unweighted_forward_gluon2_pt",vec_forward_parton2.Pt(),1,2000,0,2000);
+          FillHist("unweighted_forward_gluon2_E",vec_forward_parton2.E(),1,2000,0,2000);
+          FillHist("unweighted_forward_gluon2_eta",vec_forward_parton2.Eta(),1,50,-5,5);
+          FillHist("forward_gluon2_m",vec_forward_parton2.M(),weight,2000,0,2000);
+          FillHist("forward_gluon2_pt",vec_forward_parton2.Pt(),weight,2000,0,2000);
+          FillHist("forward_gluon2_E",vec_forward_parton2.E(),weight,2000,0,2000);
+          FillHist("forward_gluon2_eta",vec_forward_parton2.Eta(),weight,50,-5,5);
         }
         else{
-          FillHist("forward_q2_m",vec_forward_parton2.M(),1,2000,0,2000);
-          FillHist("forward_q2_pt",vec_forward_parton2.Pt(),1,2000,0,2000);
-          FillHist("forward_q2_E",vec_forward_parton2.E(),1,2000,0,2000);
-          FillHist("forward_q2_eta",vec_forward_parton2.Eta(),1,50,-5,5);
+          FillHist("unweighted_forward_q2_m",vec_forward_parton2.M(),1,2000,0,2000);
+          FillHist("unweighted_forward_q2_pt",vec_forward_parton2.Pt(),1,2000,0,2000);
+          FillHist("unweighted_forward_q2_E",vec_forward_parton2.E(),1,2000,0,2000);
+          FillHist("unweighted_forward_q2_eta",vec_forward_parton2.Eta(),1,50,-5,5);
+          FillHist("forward_q2_m",vec_forward_parton2.M(),weight,2000,0,2000);
+          FillHist("forward_q2_pt",vec_forward_parton2.Pt(),weight,2000,0,2000);
+          FillHist("forward_q2_E",vec_forward_parton2.E(),weight,2000,0,2000);
+          FillHist("forward_q2_eta",vec_forward_parton2.Eta(),weight,50,-5,5);
         }
       }
 
-      FillHist("N_q0_m",vec_N_q0.M(),1,2000,0,2000);
-      FillHist("N_q0_pt",vec_N_q0.Pt(),1,2000,0,2000);
-      FillHist("N_q0_E",vec_N_q0.E(),1,3000,0,3000);
-      FillHist("N_q0_eta",vec_N_q0.Eta(),1,50,-5,5);
-      FillHist("N_q1_m",vec_N_q1.M(),1,2000,0,2000);
-      FillHist("N_q1_pt",vec_N_q1.Pt(),1,2000,0,2000);
-      FillHist("N_q1_E",vec_N_q1.E(),1,3000,0,3000);
-      FillHist("N_q1_eta",vec_N_q1.Eta(),1,50,-5,5);
+      FillHist("unweighted_N_q0_m",vec_N_q0.M(),1,2000,0,2000);
+      FillHist("unweighted_N_q0_pt",vec_N_q0.Pt(),1,2000,0,2000);
+      FillHist("unweighted_N_q0_E",vec_N_q0.E(),1,3000,0,3000);
+      FillHist("unweighted_N_q0_eta",vec_N_q0.Eta(),1,50,-5,5);
+      FillHist("unweighted_N_q1_m",vec_N_q1.M(),1,2000,0,2000);
+      FillHist("unweighted_N_q1_pt",vec_N_q1.Pt(),1,2000,0,2000);
+      FillHist("unweighted_N_q1_E",vec_N_q1.E(),1,3000,0,3000);
+      FillHist("unweighted_N_q1_eta",vec_N_q1.Eta(),1,50,-5,5);
+      FillHist("N_q0_m",vec_N_q0.M(),weight,2000,0,2000);
+      FillHist("N_q0_pt",vec_N_q0.Pt(),weight,2000,0,2000);
+      FillHist("N_q0_E",vec_N_q0.E(),weight,3000,0,3000);
+      FillHist("N_q0_eta",vec_N_q0.Eta(),weight,50,-5,5);
+      FillHist("N_q1_m",vec_N_q1.M(),weight,2000,0,2000);
+      FillHist("N_q1_pt",vec_N_q1.Pt(),weight,2000,0,2000);
+      FillHist("N_q1_E",vec_N_q1.E(),weight,3000,0,3000);
+      FillHist("N_q1_eta",vec_N_q1.Eta(),weight,50,-5,5);
 
       if(fatjets_lepveto.size()>0){
-        FillHist("fatjet_m",vec_fatjet.M(),1,2000,0,2000);
-        FillHist("fatjet_pt",vec_fatjet.Pt(),1,2000,0,2000);
-        FillHist("fatjet_E",vec_fatjet.E(),1,3000,0,3000);
-        FillHist("fatjet_eta",vec_fatjet.Eta(),1,50,-5,5);
-        FillHist("(l0+fatjet)_m",vec_l0_fatjet.M(),1,3000,0,3000);
-        FillHist("(l0+fatjet)_pt",vec_l0_fatjet.Pt(),1,3000,0,3000);
-        FillHist("(l0+fatjet)_E",vec_l0_fatjet.E(),1,3000,0,3000);
-        FillHist("(l0+fatjet)_eta",vec_l0_fatjet.Eta(),1,50,-5,5);
-        FillHist("(l1+fatjet)_m",vec_l1_fatjet.M(),1,2000,0,2000);
-        FillHist("(l1+fatjet)_pt",vec_l1_fatjet.Pt(),1,1000,0,1000);
-        FillHist("(l1+fatjet)_E",vec_l1_fatjet.E(),1,3000,0,3000);
-        FillHist("(l1+fatjet)_eta",vec_l1_fatjet.Eta(),1,50,-5,5);
-        FillHist("(SS2l+fatjet)_m",vec_SS2l_fatjet.M(),1,2000,0,2000);
-        FillHist("(SS2l+fatjet)_pt",vec_SS2l_fatjet.Pt(),1,1000,0,1000);
-        FillHist("(SS2l+fatjet)_E",vec_SS2l_fatjet.E(),1,3000,0,3000);
-        FillHist("(SS2l+fatjet)_eta",vec_SS2l_fatjet.Eta(),1,50,-5,5);
+        FillHist("unweighted_fatjet_m",vec_fatjet.M(),1,2000,0,2000);
+        FillHist("unweighted_fatjet_pt",vec_fatjet.Pt(),1,2000,0,2000);
+        FillHist("unweighted_fatjet_E",vec_fatjet.E(),1,3000,0,3000);
+        FillHist("unweighted_fatjet_eta",vec_fatjet.Eta(),1,50,-5,5);
+        FillHist("unweighted_(l0+fatjet)_m",vec_l0_fatjet.M(),1,3000,0,3000);
+        FillHist("unweighted_(l0+fatjet)_pt",vec_l0_fatjet.Pt(),1,3000,0,3000);
+        FillHist("unweighted_(l0+fatjet)_E",vec_l0_fatjet.E(),1,3000,0,3000);
+        FillHist("unweighted_(l0+fatjet)_eta",vec_l0_fatjet.Eta(),1,50,-5,5);
+        FillHist("unweighted_(l1+fatjet)_m",vec_l1_fatjet.M(),1,2000,0,2000);
+        FillHist("unweighted_(l1+fatjet)_pt",vec_l1_fatjet.Pt(),1,1000,0,1000);
+        FillHist("unweighted_(l1+fatjet)_E",vec_l1_fatjet.E(),1,3000,0,3000);
+        FillHist("unweighted_(l1+fatjet)_eta",vec_l1_fatjet.Eta(),1,50,-5,5);
+        FillHist("unweighted_(SS2l+fatjet)_m",vec_SS2l_fatjet.M(),1,2000,0,2000);
+        FillHist("unweighted_(SS2l+fatjet)_pt",vec_SS2l_fatjet.Pt(),1,1000,0,1000);
+        FillHist("unweighted_(SS2l+fatjet)_E",vec_SS2l_fatjet.E(),1,3000,0,3000);
+        FillHist("unweighted_(SS2l+fatjet)_eta",vec_SS2l_fatjet.Eta(),1,50,-5,5);
+        FillHist("fatjet_m",vec_fatjet.M(),weight,2000,0,2000);
+        FillHist("fatjet_pt",vec_fatjet.Pt(),weight,2000,0,2000);
+        FillHist("fatjet_E",vec_fatjet.E(),weight,3000,0,3000);
+        FillHist("fatjet_eta",vec_fatjet.Eta(),weight,50,-5,5);
+        FillHist("(l0+fatjet)_m",vec_l0_fatjet.M(),weight,3000,0,3000);
+        FillHist("(l0+fatjet)_pt",vec_l0_fatjet.Pt(),weight,3000,0,3000);
+        FillHist("(l0+fatjet)_E",vec_l0_fatjet.E(),weight,3000,0,3000);
+        FillHist("(l0+fatjet)_eta",vec_l0_fatjet.Eta(),weight,50,-5,5);
+        FillHist("(l1+fatjet)_m",vec_l1_fatjet.M(),weight,2000,0,2000);
+        FillHist("(l1+fatjet)_pt",vec_l1_fatjet.Pt(),weight,1000,0,1000);
+        FillHist("(l1+fatjet)_E",vec_l1_fatjet.E(),weight,3000,0,3000);
+        FillHist("(l1+fatjet)_eta",vec_l1_fatjet.Eta(),weight,50,-5,5);
+        FillHist("(SS2l+fatjet)_m",vec_SS2l_fatjet.M(),weight,2000,0,2000);
+        FillHist("(SS2l+fatjet)_pt",vec_SS2l_fatjet.Pt(),weight,1000,0,1000);
+        FillHist("(SS2l+fatjet)_E",vec_SS2l_fatjet.E(),weight,3000,0,3000);
+        FillHist("(SS2l+fatjet)_eta",vec_SS2l_fatjet.Eta(),weight,50,-5,5);
       }
       if(jets_lepveto.size()>1){
-        FillHist("dijet_m",vec_dijet.M(),1,2500,0,2500);
-        FillHist("dijet_pt",vec_dijet.Pt(),1,1000,0,1000);
-        FillHist("dijet_E",vec_dijet.E(),1,3000,0,3000);
-        FillHist("dijet_eta",vec_dijet.Eta(),1,50,-5,5);
-        FillHist("(l0+dijet)_m",vec_l0_dijet.M(),1,3500,0,3500);
-        FillHist("(l0+dijet)_pt",vec_l0_dijet.Pt(),1,2000,0,2000);
-        FillHist("(l0+dijet)_E",vec_l0_dijet.E(),1,3000,0,3000);
-        FillHist("(l0+dijet)_eta",vec_l0_dijet.Eta(),1,50,-5,5);
-        FillHist("(l1+dijet)_m",vec_l1_dijet.M(),1,3000,0,3000);
-        FillHist("(l1+dijet)_pt",vec_l1_dijet.Pt(),1,1000,0,1000);
-        FillHist("(l1+dijet)_E",vec_l1_dijet.E(),1,3000,0,3000);
-        FillHist("(l1+dijet)_eta",vec_l1_dijet.Eta(),1,50,-5,5);
-        FillHist("(SS2l+dijet)_m",vec_SS2l_dijet.M(),1,3500,0,3500);
-        FillHist("(SS2l+dijet)_pt",vec_SS2l_dijet.Pt(),1,2000,0,2000);
-        FillHist("(SS2l+dijet)_E",vec_SS2l_dijet.E(),1,3000,0,3000);
-        FillHist("(SS2l+dijet)_eta",vec_SS2l_dijet.Eta(),1,50,-5,5);
+        FillHist("unweighted_dijet_m",vec_dijet.M(),1,2500,0,2500);
+        FillHist("unweighted_dijet_pt",vec_dijet.Pt(),1,1000,0,1000);
+        FillHist("unweighted_dijet_E",vec_dijet.E(),1,3000,0,3000);
+        FillHist("unweighted_dijet_eta",vec_dijet.Eta(),1,50,-5,5);
+        FillHist("unweighted_(l0+dijet)_m",vec_l0_dijet.M(),1,3500,0,3500);
+        FillHist("unweighted_(l0+dijet)_pt",vec_l0_dijet.Pt(),1,2000,0,2000);
+        FillHist("unweighted_(l0+dijet)_E",vec_l0_dijet.E(),1,3000,0,3000);
+        FillHist("unweighted_(l0+dijet)_eta",vec_l0_dijet.Eta(),1,50,-5,5);
+        FillHist("unweighted_(l1+dijet)_m",vec_l1_dijet.M(),1,3000,0,3000);
+        FillHist("unweighted_(l1+dijet)_pt",vec_l1_dijet.Pt(),1,1000,0,1000);
+        FillHist("unweighted_(l1+dijet)_E",vec_l1_dijet.E(),1,3000,0,3000);
+        FillHist("unweighted_(l1+dijet)_eta",vec_l1_dijet.Eta(),1,50,-5,5);
+        FillHist("unweighted_(SS2l+dijet)_m",vec_SS2l_dijet.M(),1,3500,0,3500);
+        FillHist("unweighted_(SS2l+dijet)_pt",vec_SS2l_dijet.Pt(),1,2000,0,2000);
+        FillHist("unweighted_(SS2l+dijet)_E",vec_SS2l_dijet.E(),1,3000,0,3000);
+        FillHist("unweighted_(SS2l+dijet)_eta",vec_SS2l_dijet.Eta(),1,50,-5,5);
+        FillHist("dijet_m",vec_dijet.M(),weight,2500,0,2500);
+        FillHist("dijet_pt",vec_dijet.Pt(),weight,1000,0,1000);
+        FillHist("dijet_E",vec_dijet.E(),weight,3000,0,3000);
+        FillHist("dijet_eta",vec_dijet.Eta(),weight,50,-5,5);
+        FillHist("(l0+dijet)_m",vec_l0_dijet.M(),weight,3500,0,3500);
+        FillHist("(l0+dijet)_pt",vec_l0_dijet.Pt(),weight,2000,0,2000);
+        FillHist("(l0+dijet)_E",vec_l0_dijet.E(),weight,3000,0,3000);
+        FillHist("(l0+dijet)_eta",vec_l0_dijet.Eta(),weight,50,-5,5);
+        FillHist("(l1+dijet)_m",vec_l1_dijet.M(),weight,3000,0,3000);
+        FillHist("(l1+dijet)_pt",vec_l1_dijet.Pt(),weight,1000,0,1000);
+        FillHist("(l1+dijet)_E",vec_l1_dijet.E(),weight,3000,0,3000);
+        FillHist("(l1+dijet)_eta",vec_l1_dijet.Eta(),weight,50,-5,5);
+        FillHist("(SS2l+dijet)_m",vec_SS2l_dijet.M(),weight,3500,0,3500);
+        FillHist("(SS2l+dijet)_pt",vec_SS2l_dijet.Pt(),weight,2000,0,2000);
+        FillHist("(SS2l+dijet)_E",vec_SS2l_dijet.E(),weight,3000,0,3000);
+        FillHist("(SS2l+dijet)_eta",vec_SS2l_dijet.Eta(),weight,50,-5,5);
       }
+      if(jets_forward_j2veto.size()>0){
+        FillHist("unweighted_forward_jet_m",vec_forward_j.M(),1,2000,0,2000);
+        FillHist("unweighted_forward_jet_pt",vec_forward_j.Pt(),1,2000,0,2000);
+        FillHist("unweighted_forward_jet_E",vec_forward_j.E(),1,2000,0,2000);
+        FillHist("unweighted_forward_jet_eta",vec_forward_j.Eta(),1,50,-5,5);
+        FillHist("forward_jet_m",vec_forward_j.M(),weight,2000,0,2000);
+        FillHist("forward_jet_pt",vec_forward_j.Pt(),weight,2000,0,2000);
+        FillHist("forward_jet_E",vec_forward_j.E(),weight,2000,0,2000);
+        FillHist("forward_jet_eta",vec_forward_j.Eta(),weight,50,-5,5);
+      }
+      if(jets_forward_alt_j2veto.size()>0){
+        FillHist("unweighted_forward_jet_alt_m",vec_forward_j_alt.M(),1,2000,0,2000);
+        FillHist("unweighted_forward_jet_alt_pt",vec_forward_j_alt.Pt(),1,2000,0,2000);
+        FillHist("unweighted_forward_jet_alt_E",vec_forward_j_alt.E(),1,2000,0,2000);
+        FillHist("unweighted_forward_jet_alt_eta",vec_forward_j_alt.Eta(),1,50,-5,5);
+        FillHist("forward_jet_alt_m",vec_forward_j_alt.M(),weight,2000,0,2000);
+        FillHist("forward_jet_alt_pt",vec_forward_j_alt.Pt(),weight,2000,0,2000);
+        FillHist("forward_jet_alt_E",vec_forward_j_alt.E(),weight,2000,0,2000);
+        FillHist("forward_jet_alt_eta",vec_forward_j_alt.Eta(),weight,50,-5,5);
+      }
+      FillHist("unweighted_(l0+q0)_m",vec_l0_q0.M(),1,3500,0,3500);
+      FillHist("(l0+q0)_m",vec_l0_q0.M(),weight,3500,0,3500);
 
       if(hard_l){
-        FillHist("hard_l_pt",vec_hard_l.Pt(),1,2000,0,2000);
-        FillHist("hard_l_E",vec_hard_l.E(),1,2000,0,2000);
-        FillHist("hard_l_eta",vec_hard_l.Eta(),1,50,-5,5);
-        FillHist("hard_l_charge",GetCharge(hard_l),1,3,-1,2);
+        FillHist("unweighted_hard_l_pt",vec_hard_l.Pt(),1,2000,0,2000);
+        FillHist("unweighted_hard_l_E",vec_hard_l.E(),1,2000,0,2000);
+        FillHist("unweighted_hard_l_eta",vec_hard_l.Eta(),1,50,-5,5);
+        FillHist("unweighted_hard_l_charge",GetCharge(hard_l),1,3,-1,2);
+        FillHist("hard_l_pt",vec_hard_l.Pt(),weight,2000,0,2000);
+        FillHist("hard_l_E",vec_hard_l.E(),weight,2000,0,2000);
+        FillHist("hard_l_eta",vec_hard_l.Eta(),weight,50,-5,5);
+        FillHist("hard_l_charge",GetCharge(hard_l),weight,3,-1,2);
       }
-      FillHist("HN_l_pt",vec_HN_l.Pt(),1,2000,0,2000);
-      FillHist("HN_l_E",vec_HN_l.E(),1,2000,0,2000);
-      FillHist("HN_l_eta",vec_HN_l.Eta(),1,50,-5,5);
-      FillHist("HN_l_charge",GetCharge(HN_l),1,3,-1,2);
+      FillHist("unweighted_HN_l_pt",vec_HN_l.Pt(),1,2000,0,2000);
+      FillHist("unweighted_HN_l_E",vec_HN_l.E(),1,2000,0,2000);
+      FillHist("unweighted_HN_l_eta",vec_HN_l.Eta(),1,50,-5,5);
+      FillHist("unweighted_HN_l_charge",GetCharge(HN_l),1,3,-1,2);
+      FillHist("HN_l_pt",vec_HN_l.Pt(),weight,2000,0,2000);
+      FillHist("HN_l_E",vec_HN_l.E(),weight,2000,0,2000);
+      FillHist("HN_l_eta",vec_HN_l.Eta(),weight,50,-5,5);
+      FillHist("HN_l_charge",GetCharge(HN_l),weight,3,-1,2);
       if(W_l){
-        FillHist("W_l_pt",vec_W_l.Pt(),1,2000,0,2000);
-        FillHist("W_l_E",vec_W_l.E(),1,2000,0,2000);
-        FillHist("W_l_eta",vec_W_l.Eta(),1,50,-5,5);
-        FillHist("W_l_charge",GetCharge(W_l),1,3,-1,2);
+        FillHist("unweighted_W_l_pt",vec_W_l.Pt(),1,2000,0,2000);
+        FillHist("unweighted_W_l_E",vec_W_l.E(),1,2000,0,2000);
+        FillHist("unweighted_W_l_eta",vec_W_l.Eta(),1,50,-5,5);
+        FillHist("unweighted_W_l_charge",GetCharge(W_l),1,3,-1,2);
+        FillHist("W_l_pt",vec_W_l.Pt(),weight,2000,0,2000);
+        FillHist("W_l_E",vec_W_l.E(),weight,2000,0,2000);
+        FillHist("W_l_eta",vec_W_l.Eta(),weight,50,-5,5);
+        FillHist("W_l_charge",GetCharge(W_l),weight,3,-1,2);
       }
-      FillHist("l0_pt",vec_l0.Pt(),1,2000,0,2000);
-      FillHist("l0_E",vec_l0.E(),1,2000,0,2000);
-      FillHist("l0_eta",vec_l0.Eta(),1,50,-5,5);
-      FillHist("l1_pt",vec_l1.Pt(),1,1000,0,1000);
-      FillHist("l1_E",vec_l1.E(),1,1000,0,1000);
-      FillHist("l1_eta",vec_l1.Eta(),1,50,-5,5);
+      FillHist("unweighted_l0_pt",vec_l0.Pt(),1,2000,0,2000);
+      FillHist("unweighted_l0_E",vec_l0.E(),1,2000,0,2000);
+      FillHist("unweighted_l0_eta",vec_l0.Eta(),1,50,-5,5);
+      FillHist("unweighted_l1_pt",vec_l1.Pt(),1,1000,0,1000);
+      FillHist("unweighted_l1_E",vec_l1.E(),1,1000,0,1000);
+      FillHist("unweighted_l1_eta",vec_l1.Eta(),1,50,-5,5);
+      FillHist("l0_pt",vec_l0.Pt(),weight,2000,0,2000);
+      FillHist("l0_E",vec_l0.E(),weight,2000,0,2000);
+      FillHist("l0_eta",vec_l0.Eta(),weight,50,-5,5);
+      FillHist("l1_pt",vec_l1.Pt(),weight,1000,0,1000);
+      FillHist("l1_E",vec_l1.E(),weight,1000,0,1000);
+      FillHist("l1_eta",vec_l1.Eta(),weight,50,-5,5);
       if(jets_lepveto.size()>0){
-        FillHist("j0_m",vec_j0.M(),1,2000,0,2000);
-        FillHist("j0_pt",vec_j0.Pt(),1,2000,0,2000);
-        FillHist("j0_E",vec_j0.E(),1,2000,0,2000);
-        FillHist("j0_eta",vec_j0.Eta(),1,50,-5,5);
+        FillHist("unweighted_j0_m",vec_j0.M(),1,2000,0,2000);
+        FillHist("unweighted_j0_pt",vec_j0.Pt(),1,2000,0,2000);
+        FillHist("unweighted_j0_E",vec_j0.E(),1,2000,0,2000);
+        FillHist("unweighted_j0_eta",vec_j0.Eta(),1,50,-5,5);
+        FillHist("j0_m",vec_j0.M(),weight,2000,0,2000);
+        FillHist("j0_pt",vec_j0.Pt(),weight,2000,0,2000);
+        FillHist("j0_E",vec_j0.E(),weight,2000,0,2000);
+        FillHist("j0_eta",vec_j0.Eta(),weight,50,-5,5);
       }
       if(jets_lepveto.size()>1){
-        FillHist("j1_m",vec_j1.M(),1,2000,0,2000);
-        FillHist("j1_pt",vec_j1.Pt(),1,2000,0,2000);
-        FillHist("j1_E",vec_j1.E(),1,2000,0,2000);
-        FillHist("j1_eta",vec_j1.Eta(),1,50,-5,5);
-        FillHist("DeltaR(jj)",vec_j0.DeltaR(vec_j1),1,50,0,5);
+        FillHist("unweighted_j1_m",vec_j1.M(),1,2000,0,2000);
+        FillHist("unweighted_j1_pt",vec_j1.Pt(),1,2000,0,2000);
+        FillHist("unweighted_j1_E",vec_j1.E(),1,2000,0,2000);
+        FillHist("unweighted_j1_eta",vec_j1.Eta(),1,50,-5,5);
+        FillHist("unweighted_DeltaR(jj)",vec_j0.DeltaR(vec_j1),1,50,0,5);
+        FillHist("j1_m",vec_j1.M(),weight,2000,0,2000);
+        FillHist("j1_pt",vec_j1.Pt(),weight,2000,0,2000);
+        FillHist("j1_E",vec_j1.E(),weight,2000,0,2000);
+        FillHist("j1_eta",vec_j1.Eta(),weight,50,-5,5);
+        FillHist("DeltaR(jj)",vec_j0.DeltaR(vec_j1),weight,50,0,5);
       }
-      FillHist("DeltaR(qq)",vec_N_q0.DeltaR(vec_N_q1),1,50,0,5);
-      FillHist("METv_m",vec_MET.M(),1,2000,0,2000);
-      FillHist("METv_pt",vec_MET.Pt(),1,2000,0,2000);
-      FillHist("METv_E",vec_MET.E(),1,2000,0,2000);
-      FillHist("METv_eta",vec_MET.Eta(),1,50,-5,5);
-      FillHist("diparton_m",vec_init_diparton.M(),1,2000,0,2000);
-      FillHist("diparton_pt",vec_init_diparton.Pt(),1,2000,0,2000);
-      FillHist("diparton_E",vec_init_diparton.E(),1,2000,0,2000);
-      FillHist("diparton_eta",vec_init_diparton.Eta(),1,4000,-2.0e+11,2.0e+11);
-      FillHist("diparton_pz",vec_init_diparton.Pz(),1,4000,-2000,2000);
+      FillHist("unweighted_DeltaR(qq)",vec_N_q0.DeltaR(vec_N_q1),1,50,0,5);
+      FillHist("unweighted_DeltaR(q0forwardparton)",vec_N_q0.DeltaR(vec_forward_parton1),1,50,0,5);
+      FillHist("unweighted_DeltaR(q1forwardparton)",vec_N_q1.DeltaR(vec_forward_parton1),1,50,0,5);
+      FillHist("unweighted_DeltaR(q0fatjet)",vec_N_q0.DeltaR(vec_fatjet),1,50,0,5);
+      FillHist("unweighted_DeltaR(q1fatjet)",vec_N_q1.DeltaR(vec_fatjet),1,50,0,5);
+      FillHist("unweighted_DeltaR(Wfatjet)",vec_on_W2.DeltaR(vec_fatjet),weight,50,0,5);
+      FillHist("unweighted_DeltaR(j1forwardparton)",vec_j1.DeltaR(vec_forward_parton1),1,50,0,5);
+      FillHist("unweighted_METv_m",vec_MET.M(),1,2000,0,2000);
+      FillHist("unweighted_METv_pt",vec_MET.Pt(),1,2000,0,2000);
+      FillHist("unweighted_METv_E",vec_MET.E(),1,2000,0,2000);
+      FillHist("unweighted_METv_eta",vec_MET.Eta(),1,50,-5,5);
+      //FillHist("unweighted_diparton_m",vec_init_diparton.M(),1,2000,0,2000);
+      //FillHist("unweighted_diparton_pt",vec_init_diparton.Pt(),1,2000,0,2000);
+      //FillHist("unweighted_diparton_E",vec_init_diparton.E(),1,2000,0,2000);
+      //FillHist("unweighted_diparton_eta",vec_init_diparton.Eta(),1,4000,-2.0e+11,2.0e+11);
+      //FillHist("unweighted_diparton_pz",vec_init_diparton.Pz(),1,4000,-2000,2000);
+      FillHist("DeltaR(qq)",vec_N_q0.DeltaR(vec_N_q1),weight,50,0,5);
+      FillHist("DeltaR(q0forwardparton)",vec_N_q0.DeltaR(vec_forward_parton1),weight,50,0,5);
+      FillHist("DeltaR(q1forwardparton)",vec_N_q1.DeltaR(vec_forward_parton1),weight,50,0,5);
+      FillHist("DeltaR(q0fatjet)",vec_N_q0.DeltaR(vec_fatjet),weight,50,0,5);
+      FillHist("DeltaR(q1fatjet)",vec_N_q1.DeltaR(vec_fatjet),weight,50,0,5);
+      FillHist("DeltaR(Wfatjet)",vec_on_W2.DeltaR(vec_fatjet),weight,50,0,5);
+      FillHist("DeltaR(j1forwardparton)",vec_j1.DeltaR(vec_forward_parton1),weight,50,0,5);
+      FillHist("METv_m",vec_MET.M(),weight,2000,0,2000);
+      FillHist("METv_pt",vec_MET.Pt(),weight,2000,0,2000);
+      FillHist("METv_E",vec_MET.E(),weight,2000,0,2000);
+      FillHist("METv_eta",vec_MET.Eta(),weight,50,-5,5);
+      //FillHist("diparton_m",vec_init_diparton.M(),weight,2000,0,2000);
+      //FillHist("diparton_pt",vec_init_diparton.Pt(),weight,2000,0,2000);
+      //FillHist("diparton_E",vec_init_diparton.E(),weight,2000,0,2000);
+      //FillHist("diparton_eta",vec_init_diparton.Eta(),weight,4000,-2.0e+11,2.0e+11);
+      //FillHist("diparton_pz",vec_init_diparton.Pz(),weight,4000,-2000,2000);
 
       //int IsSameCharge = GetCharge(hard_l)*GetCharge(HN_l);
-      //FillHist("IsSameChargeLepton",IsSameCharge,1,3,-1,2);
+      //FillHist("unweighted_IsSameChargeLepton",IsSameCharge,1,3,-1,2);
+      //FillHist("IsSameChargeLepton",IsSameCharge,weight,3,-1,2);
+      int IsForwardHarderthanq1 = vec_forward_parton1.Pt()>vec_N_q1.Pt();
+      FillHist("unweighted_IsForwardHarderthanq1",IsForwardHarderthanq1,1,2,0,2);
+      FillHist("IsForwardHarderthanq1",IsForwardHarderthanq1,weight,2,0,2);
 
-      FillHist("nlep",leptons.size(),1,5,0,5);
-      FillHist("njet",jets_lepveto.size(),1,50,0,50);
-      FillHist("nfatjet",fatjets_lepveto.size(),1,50,0,50);
+      FillHist("unweighted_nlep",leptons.size(),1,5,0,5);
+      FillHist("unweighted_njet",jets_lepveto.size(),1,50,0,50);
+      FillHist("unweighted_nfatjet",fatjets_lepveto.size(),1,50,0,50);
+      FillHist("nlep",leptons.size(),weight,5,0,5);
+      FillHist("njet",jets_lepveto.size(),weight,50,0,50);
+      FillHist("nfatjet",fatjets_lepveto.size(),weight,50,0,50);
 
       for(int i=0; i<leptons.size(); i++){
-        FillHist("leptons_pt",leptons.at(i)->pt(),1,1000,0,1000);
-      }
-      for(int i=0; i<leptons.size(); i++){
-        FillHist("leptons_eta",leptons.at(i)->eta(),1,50,-5,5);
-      }
-      for(int i=0; i<jets_lepveto.size(); i++){
-        FillHist("jets_pt",jets_lepveto.at(i)->pt(),1,1000,0,1000);
+        FillHist("unweighted_leptons_pt",leptons.at(i)->pt(),1,1000,0,1000);
+        FillHist("unweighted_leptons_eta",leptons.at(i)->eta(),1,50,-5,5);
+        FillHist("leptons_pt",leptons.at(i)->pt(),weight,1000,0,1000);
+        FillHist("leptons_eta",leptons.at(i)->eta(),weight,50,-5,5);
       }
       for(int i=0; i<jets_lepveto.size(); i++){
-        FillHist("jets_eta",jets_lepveto.at(i)->eta(),1,50,-5,5);
+        FillHist("unweighted_jets_pt",jets_lepveto.at(i)->pt(),1,1000,0,1000);
+        FillHist("unweighted_jets_eta",jets_lepveto.at(i)->eta(),1,50,-5,5);
+        FillHist("jets_pt",jets_lepveto.at(i)->pt(),weight,1000,0,1000);
+        FillHist("jets_eta",jets_lepveto.at(i)->eta(),weight,50,-5,5);
       }
       for(int i=0; i<fatjets_lepveto.size(); i++){
-        FillHist("fatjets_pt",fatjets_lepveto.at(i)->pt(),1,1000,0,1000);
+        FillHist("unweighted_fatjets_pt",fatjets_lepveto.at(i)->pt(),1,1000,0,1000);
+        FillHist("unweighted_fatjets_eta",fatjets_lepveto.at(i)->eta(),1,50,-5,5);
+        FillHist("fatjets_pt",fatjets_lepveto.at(i)->pt(),weight,1000,0,1000);
+        FillHist("fatjets_eta",fatjets_lepveto.at(i)->eta(),weight,50,-5,5);
       }
-      for(int i=0; i<fatjets_lepveto.size(); i++){
-        FillHist("fatjets_eta",fatjets_lepveto.at(i)->eta(),1,50,-5,5);
-      }
+
+      FillHist("weight",weights[0],1,2000,-1.0e-06,1.0e-06);
 
     }
     else{
