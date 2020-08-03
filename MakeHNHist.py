@@ -5,7 +5,7 @@ ptcuts = ["ptcut5","ptcut10","ptcut20"]
 channels = ["MuMu"]
 masses_NLO = ["40","50","60","70","75","85","90","300","500","600","1000"]
 masses_LO = ["40","50","60","70","75","300","500","600","1000"]
-masses = ["300","600","1000","1500","2000"]
+masses = ["300","600","1000"]
 
 #for ptcut in ptcuts:
 #  for channel in channels:

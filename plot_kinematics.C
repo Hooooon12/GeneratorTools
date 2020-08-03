@@ -1,36 +1,36 @@
-void plot_kinematics(TString channel, TString var, TString title, int xran, int yran, int rebin){
+void plot_kinematics(TString script, TString channel, TString var, TString title, int xran1, int xran2, int yran, int rebin, TString SaveAs = "n"){
 
-TString LO_filename1 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+channel+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M300_325100.root";
-TString LO_filename2 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+channel+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M600_325100.root";
-TString LO_filename3 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+channel+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M1000_325100.root";
-TString LO_filename4 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+channel+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M1500_325100.root";
-TString LO_filename5 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+channel+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M2000_325100.root";
-TFile* LO_file1 = new TFile(LO_filename1);
-TFile* LO_file2 = new TFile(LO_filename2);
-TFile* LO_file3 = new TFile(LO_filename3);
-TFile* LO_file4 = new TFile(LO_filename4);
-TFile* LO_file5 = new TFile(LO_filename5);
-TH1D* LO_var1 = (TH1D*)LO_file1->Get(var);
-TH1D* LO_var2 = (TH1D*)LO_file2->Get(var);
-TH1D* LO_var3 = (TH1D*)LO_file3->Get(var);
-TH1D* LO_var4 = (TH1D*)LO_file4->Get(var);
-TH1D* LO_var5 = (TH1D*)LO_file5->Get(var);
-
-TString NLO_filename1 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+channel+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M300_325100.root";
-TString NLO_filename2 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+channel+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M600_325100.root";
-TString NLO_filename3 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+channel+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M1000_325100.root";
-TString NLO_filename4 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+channel+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M1500_325100.root";
-TString NLO_filename5 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+channel+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M2000_325100.root";
-TFile* NLO_file1 = new TFile(NLO_filename1);
-TFile* NLO_file2 = new TFile(NLO_filename2);
-TFile* NLO_file3 = new TFile(NLO_filename3);
-TFile* NLO_file4 = new TFile(NLO_filename4);
-TFile* NLO_file5 = new TFile(NLO_filename5);
-TH1D* NLO_var1 = (TH1D*)NLO_file1->Get(var);
-TH1D* NLO_var2 = (TH1D*)NLO_file2->Get(var);
-TH1D* NLO_var3 = (TH1D*)NLO_file3->Get(var);
-TH1D* NLO_var4 = (TH1D*)NLO_file4->Get(var);
-TH1D* NLO_var5 = (TH1D*)NLO_file5->Get(var);
+  TString LO_filename1 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M300_325100.root";
+  TString LO_filename2 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M600_325100.root";
+  TString LO_filename3 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M1000_325100.root";
+  //TString LO_filename4 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M1500_325100.root";
+  //TString LO_filename5 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M2000_325100.root";
+  TFile* LO_file1 = new TFile(LO_filename1);
+  TFile* LO_file2 = new TFile(LO_filename2);
+  TFile* LO_file3 = new TFile(LO_filename3);
+  //TFile* LO_file4 = new TFile(LO_filename4);
+  //TFile* LO_file5 = new TFile(LO_filename5);
+  TH1D* LO_var1 = (TH1D*)LO_file1->Get(var);
+  TH1D* LO_var2 = (TH1D*)LO_file2->Get(var);
+  TH1D* LO_var3 = (TH1D*)LO_file3->Get(var);
+  //TH1D* LO_var4 = (TH1D*)LO_file4->Get(var);
+  //TH1D* LO_var5 = (TH1D*)LO_file5->Get(var);
+  
+  TString NLO_filename1 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M300_325100.root";
+  TString NLO_filename2 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M600_325100.root";
+  TString NLO_filename3 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M1000_325100.root";
+  //TString NLO_filename4 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M1500_325100.root";
+  //TString NLO_filename5 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M2000_325100.root";
+  TFile* NLO_file1 = new TFile(NLO_filename1);
+  TFile* NLO_file2 = new TFile(NLO_filename2);
+  TFile* NLO_file3 = new TFile(NLO_filename3);
+  //TFile* NLO_file4 = new TFile(NLO_filename4);
+  //TFile* NLO_file5 = new TFile(NLO_filename5);
+  TH1D* NLO_var1 = (TH1D*)NLO_file1->Get(var);
+  TH1D* NLO_var2 = (TH1D*)NLO_file2->Get(var);
+  TH1D* NLO_var3 = (TH1D*)NLO_file3->Get(var);
+  //TH1D* NLO_var4 = (TH1D*)NLO_file4->Get(var);
+  //TH1D* NLO_var5 = (TH1D*)NLO_file5->Get(var);
 
   if(channel=="Schannel") {}
   
@@ -44,9 +44,10 @@ TH1D* NLO_var5 = (TH1D*)NLO_file5->Get(var);
     LO_var1->SetTitle(title+" #scale[0.8]{(LO vs NLO)}");
     LO_var1->SetStats(0);
     LO_var1->Rebin(rebin);
-    LO_var1->GetXaxis()->SetRangeUser(0,xran);
+    LO_var1->GetXaxis()->SetRangeUser(xran1,xran2);
     LO_var1->GetYaxis()->SetRangeUser(0,yran);
-    LO_var1->GetXaxis()->SetTitle(title);
+    if(var.Contains("pt")) LO_var1->GetXaxis()->SetTitle(title+" [GeV]");
+    else LO_var1->GetXaxis()->SetTitle(title);
     LO_var1->SetLineColor(kRed);
     LO_var1->SetLineWidth(3);
     LO_var1->SetLineStyle(7);
@@ -80,15 +81,38 @@ TH1D* NLO_var5 = (TH1D*)NLO_file5->Get(var);
     NLO_var3->SetLineWidth(2);
     NLO_var3->Draw("same hist");
     
-    TLegend* legend = new TLegend(0.62,0.75,0.9,0.9);
-    legend->AddEntry(NLO_var1,"Tch #mu#mu m_{N}=300GeV, NLO","l");
-    legend->AddEntry(LO_var1,"#scale[0.9]{LO}","l");
-    legend->AddEntry(NLO_var2,"Tch #mu#mu m_{N}=600GeV, NLO","l");
-    legend->AddEntry(LO_var2,"#scale[0.9]{LO}","l");
-    legend->AddEntry(NLO_var3,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
-    legend->AddEntry(LO_var3,"#scale[0.9]{LO}","l");
-    legend->Draw();
-  
+    TLegend* legend;
+    if(var.Contains("pt")){
+      double ptdiff_1 = 100*(NLO_var1->GetMean()-LO_var1->GetMean())/LO_var1->GetMean();
+      TString ptdiff_1_t = Form("%f",ptdiff_1);
+      double ptdiff_2 = 100*(NLO_var2->GetMean()-LO_var2->GetMean())/LO_var2->GetMean();
+      TString ptdiff_2_t = Form("%f",ptdiff_2);
+      double ptdiff_3 = 100*(NLO_var3->GetMean()-LO_var3->GetMean())/LO_var3->GetMean();
+      TString ptdiff_3_t = Form("%f",ptdiff_3);
+      legend = new TLegend(0.62,0.65,0.9,0.9);
+      legend->AddEntry(NLO_var1,"Tch #mu#mu m_{N}=300GeV, NLO","l");
+      legend->AddEntry(LO_var1,"#scale[0.9]{LO}","l");
+      legend->AddEntry((TObject*)0,"#bf{mean p_{T}} diff : "+ptdiff_1_t+"%","");
+      legend->AddEntry(NLO_var2,"Tch #mu#mu m_{N}=600GeV, NLO","l");
+      legend->AddEntry(LO_var2,"#scale[0.9]{LO}","l");
+      legend->AddEntry((TObject*)0,"#bf{mean p_{T}} diff : "+ptdiff_2_t+"%","");
+      legend->AddEntry(NLO_var3,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
+      legend->AddEntry(LO_var3,"#scale[0.9]{LO}","l");
+      legend->AddEntry((TObject*)0,"#bf{mean p_{T}} diff : "+ptdiff_3_t+"%","");
+      legend->Draw();
+    }
+    else{
+      legend = new TLegend(0.62,0.75,0.9,0.9);
+      legend->AddEntry(NLO_var1,"Tch #mu#mu m_{N}=300GeV, NLO","l");
+      legend->AddEntry(LO_var1,"#scale[0.9]{LO}","l");
+      legend->AddEntry(NLO_var2,"Tch #mu#mu m_{N}=600GeV, NLO","l");
+      legend->AddEntry(LO_var2,"#scale[0.9]{LO}","l");
+      legend->AddEntry(NLO_var3,"Tch #mu#mu m_{N}=1000GeV, NLO","l");
+      legend->AddEntry(LO_var3,"#scale[0.9]{LO}","l");
+      legend->Draw();
+    }
+
+    if(SaveAs=="y") c1->SaveAs("Tch_kinematics/"+var+".png");
   }
 
 }
