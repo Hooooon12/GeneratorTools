@@ -187,6 +187,10 @@ void loop(TString infile,TString outfile){
       FillHist("sumw",i,weights[i],200,0,200);
     }
 
+    double weight;
+    if(weights[0]>0) weight = 1;
+    else weight = -1;
+
     const reco::GenParticle *hard_HN=NULL;
     const reco::GenParticle *last_HN=NULL;
     const reco::GenParticle *hard_l=NULL,*HN_l=NULL,*W_l=NULL,*forward_parton=NULL;
