@@ -1,5 +1,0 @@
-import model sm-no_b_mass
-
-generate p p > t t~ / h @0
-
-output tt_LO0 -nojpeg
