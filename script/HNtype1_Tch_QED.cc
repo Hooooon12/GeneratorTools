@@ -130,8 +130,11 @@ class formatted_output //JH : thanks to https://stackoverflow.com/questions/7248
     }
 };
 void PrintGen(const reco::GenParticle& gen, const vector<reco::GenParticle>& gens){
-  formatted_output new_cout(cout,5);
-  new_cout<<Ptr2Idx((reco::GenParticle*)&gen,gens)<<gen.pdgId()<<gen.status()<<Ptr2Idx((reco::GenParticle*)gen.mother(0),gens)<<Ptr2Idx((reco::GenParticle*)gen.mother(1),gens)<<Ptr2Idx((reco::GenParticle*)gen.daughter(0),gens)<<Ptr2Idx((reco::GenParticle*)gen.daughter(1),gens)<<gen.isHardProcess();
+  formatted_output new_cout5(cout,5);
+  formatted_output new_cout13(cout,13);
+  new_cout5<<Ptr2Idx((reco::GenParticle*)&gen,gens)<<gen.pdgId()<<gen.status()<<Ptr2Idx((reco::GenParticle*)gen.mother(0),gens)<<Ptr2Idx((reco::GenParticle*)gen.mother(1),gens)<<Ptr2Idx((reco::GenParticle*)gen.daughter(0),gens)<<Ptr2Idx((reco::GenParticle*)gen.daughter(1),gens);
+  new_cout13<<gen.px()<<gen.py()<<gen.pz()<<gen.energy()<<gen.pt()<<gen.eta()<<gen.phi();
+  new_cout5<<gen.isHardProcess();
   cout<<"<"<<endl;
 }
 void PrintGen(const reco::GenParticle& gen){
@@ -261,30 +264,51 @@ void loop(TString infile,TString outfile){
     if(W_l) W_l = FindLastCopy(gens,W_l); 
     if(HN_l) HN_l = FindLastCopy(gens,HN_l);  //NOTE No need this for last_HN; The code itself assigns the last HN to last_HN.
 
+    TLorentzVector vec_photon=MakeTLorentzVector(hard_photons.at(0));
     photon_mother=(reco::GenParticle*)hard_photons.at(0)->mother();
     if(photon_mother->daughter(0)->pdgId()!=22) photon_sister=(reco::GenParticle*)photon_mother->daughter(0);
-    else if(photon_mother->daughter(1)->pdgId()!=22) photon_sister=(reco::GenParticle*)photon_mother->daughter(1);
+    else if(photon_mother->daughter(1)) photon_sister=(reco::GenParticle*)photon_mother->daughter(1); //JH : if photon_mother has 2 daughters, then one of the two must be a quark
+    else{ //JH : photon_mother was actually a photon
+      cout << "!!photon_mother was actually a photon!!" << endl;
+      TLorentzVector vec_photon_mother=MakeTLorentzVector(photon_mother);
+      TLorentzVector vec_Q=vec_photon_mother-vec_photon;
+      cout << "check the Q : " << vec_Q.M() << endl;
+      FillHist("check_the_Q",vec_Q.M(),1,20,-1,1); 
+      cout << "assigning new photon_mother..." << endl;
+      vector<int> photon_history = TrackGenSelfHistory(gens, photon_mother);
+      photon_mother=&gens.at(photon_history[1]);
+      photon_sister=(reco::GenParticle*)photon_mother->daughter(1);
+    }
+
+    if(!photon_sister) cout << "!!photon_sister UNDETECTED!!" << endl;
     
     int IsPhotonFromProton = 0;
     int IsPhotonFromProton1 = 0;
     int IsPhotonFromProton2 = 0;
     int IsPhotonFromProton3 = 0;
     if(photon_mother->pdgId()==2212) IsPhotonFromProton1 = 1;
-    vector<int> photon_history = TrackGenSelfHistory(gens, photon_mother);
-    photon_grandma=&gens.at(photon_history[1]);
-    if(photon_grandma->pdgId()==2212) IsPhotonFromProton2 = 1;
-    vector<int> photon_history2 = TrackGenSelfHistory(gens, photon_grandma);
-    photon_grandgrandma=&gens.at(photon_history2[1]);
-    if(photon_grandgrandma->pdgId()==2212) IsPhotonFromProton3 = 1;
+    else{
+      vector<int> photon_history = TrackGenSelfHistory(gens, photon_mother);
+      photon_grandma=&gens.at(photon_history[1]);
+      if(photon_grandma->pdgId()==2212) IsPhotonFromProton2 = 1;
+      else{
+        vector<int> photon_history = TrackGenSelfHistory(gens, photon_grandma);
+        photon_grandgrandma=&gens.at(photon_history[1]);
+        if(photon_grandgrandma->pdgId()==2212) IsPhotonFromProton3 = 1;
+      }
+    }
     if(IsPhotonFromProton1||IsPhotonFromProton2||IsPhotonFromProton3) IsPhotonFromProton = 1;
 
     cout << "IsPhotonFromProton (up to 3 generation) : " << IsPhotonFromProton << endl;
-    cout << "photon's mother id : " << photon_mother->pdgId() << ", status : " << photon_mother->status() << ",  px : " << photon_mother->px() << ", py : " << photon_mother->py() << ", pz : " << photon_mother->pz() << ", E : " << photon_mother->energy() << ", pt : " << photon_mother->pt() << ", eta : " << photon_mother->eta() << ", phi : " << photon_mother->phi() << endl;
-    cout << "photon's sister id : " << photon_sister->pdgId() << ", status : " << photon_sister->status() << ",  px : " << photon_sister->px() << ", py : " << photon_sister->py() << ", pz : " << photon_sister->pz() << ", E : " << photon_sister->energy() << ", pt : " << photon_sister->pt() << ", eta : " << photon_sister->eta() << ", phi : " << photon_sister->phi() << endl;
+    if(!IsPhotonFromProton) cout << "!!No photon from proton!!" << endl;
+    cout << "photon's mother idx : " << Ptr2Idx(photon_mother,gens) << ", id : " << photon_mother->pdgId() << ", status : " << photon_mother->status() << ",  px : " << photon_mother->px() << ", py : " << photon_mother->py() << ", pz : " << photon_mother->pz() << ", E : " << photon_mother->energy() << ", pt : " << photon_mother->pt() << ", eta : " << photon_mother->eta() << ", phi : " << photon_mother->phi() << endl;
+    cout << "photon's sister idx : " << Ptr2Idx(photon_sister,gens) << ", id : " << photon_sister->pdgId() << ", status : " << photon_sister->status() << ",  px : " << photon_sister->px() << ", py : " << photon_sister->py() << ", pz : " << photon_sister->pz() << ", E : " << photon_sister->energy() << ", pt : " << photon_sister->pt() << ", eta : " << photon_sister->eta() << ", phi : " << photon_sister->phi() << endl;
     TLorentzVector vec_photon_mother=MakeTLorentzVector(photon_mother);
     TLorentzVector vec_photon_sister=MakeTLorentzVector(photon_sister);
-    TLorentzVector vec_Q2=vec_photon_mother-vec_photon_sister;
-    cout << "photon's Q^2 : " << vec_Q2.M() << endl;
+    TLorentzVector vec_Q=vec_photon_mother-vec_photon_sister;
+    cout << "photon's Q : " << vec_Q.M() << endl;
+    if(vec_Q.M()>0) cout << "!!photon has positive Q!!" << endl;
+    cout << "photon's Q^2 : " << pow(vec_Q.M(),2) << endl;
 
     cout << "how many weights : " << weights.size() << endl;
     cout << "event weight : " << weights[0] << endl;
@@ -294,9 +318,9 @@ void loop(TString infile,TString outfile){
     cout << "detected hard_l : " << Ptr2Idx(hard_l,gens) << endl;
     cout << "detected HN_l : " << Ptr2Idx(HN_l,gens) << endl;
     cout << "detected W_l : " << Ptr2Idx(W_l,gens) << endl;
-    cout << "!!!!!!!!!!!!!hard_l charge : " << GetCharge(hard_l) << "!!!!!!!!!!!!!" << endl;
-    cout << "!!!!!!!!!!!!!HN_l charge : " << GetCharge(HN_l) << "!!!!!!!!!!!!!" << endl;
-    cout << "!!!!!!!!!!!!!W_l charge : " << GetCharge(W_l) << "!!!!!!!!!!!!!" << endl;
+    cout << "!!hard_l charge : " << GetCharge(hard_l) << "!!" << endl;
+    cout << "!!HN_l charge : " << GetCharge(HN_l) << "!!" << endl;
+    cout << "!!W_l charge : " << GetCharge(W_l) << "!!" << endl;
 
     cout << "detected hard_partons : " << endl;
     for(int i=0;i<hard_partons.size();i++) cout << Ptr2Idx(hard_partons.at(i),gens) << endl;
@@ -315,7 +339,7 @@ void loop(TString infile,TString outfile){
     //  cout << "W eta : " << hard_Ws.at(0)->eta() << endl; //NOTE W eta extremely changes from hard_W to last_W
     //} //JH : W1 and W2 are meaningless in Tchannel
 
-    cout<<"  Idx  PID  sts mtr1 mtr2  dt1  dt2  hrdp"<<endl;
+    cout<<"  Idx  PID  sts mtr1 mtr2  dt1  dt2           px           py           pz            E           pt          eta          phi  hrdp"<<endl;
     PrintGens(gens);
 
     //clean the jets
@@ -356,20 +380,20 @@ void loop(TString infile,TString outfile){
     cout << "N of fatjets : " << fatjets.size() << endl;
     cout << "N of lepton vetoed fatjets : " << fatjets_lepveto.size() << endl;
 
+    //Now select meaningful jets among the (fat)jets_lepvetos
+
     reco::GenJet* leading_jet;
     reco::GenJet* subleading_jet;
+    vector<reco::GenJet*> jets_forward_dR03;
     vector<reco::GenJet*> jets_forward;
     vector<reco::GenJet*> jets_forward_j2veto;
-    vector<reco::GenJet*> jets_forward_alt_dR;
-    vector<reco::GenJet*> jets_forward_alt;
-    vector<reco::GenJet*> jets_forward_alt_j2veto;
-    vector<reco::GenJet*> jets_forward_alt_alt_dR;
-    vector<reco::GenJet*> jets_forward_alt_alt;
-    vector<reco::GenJet*> jets_forward_alt_alt_j2veto;
+    vector<reco::GenJet*> jets_second_forward_dR03;
+    vector<reco::GenJet*> jets_second_forward;
+    reco::GenJet* second_forward_jet=NULL; //XXX why this cannot call print()?
 
+    //pick up the (sub)leading jet and inspect the jet constituents
     if(jets_lepveto.size()>0){
       
-      //pick up the (sub)leading jet and inspect the jet constituents
       leading_jet = jets_lepveto.at(0);
   
       for(int i=0; i<jets_lepveto.size(); i++){
@@ -391,22 +415,36 @@ void loop(TString infile,TString outfile){
       //cout << "leading jet info" << endl << leading_jet->print() << endl;
       //cout << "subleading jet info" << endl << subleading_jet->print() << endl;
 
-      //now pick up the forward jet and inspect the constituents
-  
+
+      //pick up the forward jet with dR 0.3 matching first, then the closest pt jet will be chosen 
       for(int i=0;i<jets_lepveto.size();i++){
-        bool HasForwardParton = false;
         //for(int j=0;j<forward_partons.size();j++){
-        for(int j=0;j<1;j++){ //JH : use first forward parton just for now
-          if(deltaR(*jets_lepveto.at(i),*forward_partons.at(j))<0.1){
-            HasForwardParton = true;
-            break;
+        for(int j=0;j<1;j++){ // JH : just for now
+          if(deltaR(*jets_lepveto.at(i),*forward_partons.at(j))<0.3){
+            jets_forward_dR03.push_back(jets_lepveto.at(i));
           }
         }
-        if(HasForwardParton) jets_forward.push_back(jets_lepveto.at(i));
-        else continue;
+      } //dR 0.3 matching done
+      if(jets_forward_dR03.size()>1){
+        double tmpDiff = 10000.;
+        int cand = 0;
+        for(int i=0;i<jets_forward_dR03.size();i++){
+          if(fabs(jets_forward_dR03.at(i)->pt()-forward_partons.at(0)->pt())<tmpDiff){
+            tmpDiff = fabs(jets_forward_dR03.at(i)->pt()-forward_partons.at(0)->pt());
+            cand = i;
+          }
+        }
+        jets_forward.push_back(jets_forward_dR03.at(cand));
       }
+      else if(jets_forward_dR03.size()==1) jets_forward.push_back(jets_forward_dR03.at(0));
 
-      //j2 veto
+      //cout << "N of forward jets : " << jets_forward.size() << endl;
+      //if(jets_forward.size()>0) cout << "forward jet 1 info" << endl << jets_forward.at(0)->print() << endl;
+      //if(jets_forward.size()>1) cout << "forward jet 2 info" << endl << jets_forward.at(1)->print() << endl;
+
+/*
+
+      //remove forward jet which have subleading jet inside
       for(int i=0;i<jets_forward.size();i++){
         if(jets_forward.at(i)!=subleading_jet) jets_forward_j2veto.push_back(jets_forward.at(i));
       }
@@ -416,80 +454,38 @@ void loop(TString infile,TString outfile){
       cout << "N of forward_jet_matched : " << jets_forward.size() << endl;
       cout << "N of forward_jet_matched_j2veto : " << jets_forward_j2veto.size() << endl;
 
-      //cout << "N of forward jets : " << jets_forward.size() << endl;
-      //if(jets_forward.size()>0) cout << "forward jet 1 info" << endl << jets_forward.at(0)->print() << endl;
-      //if(jets_forward.size()>1) cout << "forward jet 2 info" << endl << jets_forward.at(1)->print() << endl;
+*/
 
-      //pick up the forward jet with alt selection
-      //dR 0.3 matcing first, then the closest pt jet will be chosen 
+      //pick up the SECOND forward jet with dR 0.3 matching first, then the closest pt jet will be chosen 
       for(int i=0;i<jets_lepveto.size();i++){
-        //for(int j=0;j<forward_partons.size();j++){
-        for(int j=0;j<1;j++){ // JH : just for now
-          if(deltaR(*jets_lepveto.at(i),*forward_partons.at(j))<0.3){
-            jets_forward_alt_dR.push_back(jets_lepveto.at(i));
-          }
+        if(deltaR(*jets_lepveto.at(i),*photon_sister)<0.3){
+          jets_second_forward_dR03.push_back(jets_lepveto.at(i));
         }
       } //dR 0.3 matching done
-      if(jets_forward_alt_dR.size()>1){
+      if(jets_second_forward_dR03.size()>1){
         double tmpDiff = 10000.;
         int cand = 0;
-        for(int i=0;i<jets_forward_alt_dR.size();i++){
-          if(fabs(jets_forward_alt_dR.at(i)->pt()-forward_partons.at(0)->pt())<tmpDiff){
-            tmpDiff = fabs(jets_forward_alt_dR.at(i)->pt()-forward_partons.at(0)->pt());
+        for(int i=0;i<jets_second_forward_dR03.size();i++){
+          if(fabs(jets_second_forward_dR03.at(i)->pt()-photon_sister->pt())<tmpDiff){
+            tmpDiff = fabs(jets_second_forward_dR03.at(i)->pt()-photon_sister->pt());
             cand = i;
           }
         }
-        jets_forward_alt.push_back(jets_forward_alt_dR.at(cand));
+        jets_second_forward.push_back(jets_second_forward_dR03.at(cand));
+        second_forward_jet = jets_second_forward_dR03.at(cand);
       }
-      else if(jets_forward_alt_dR.size()==1) jets_forward_alt.push_back(jets_forward_alt_dR.at(0));
-
-      //j2 veto
-      if(jets_forward_alt.size()>0&&jets_forward_alt.at(0)!=subleading_jet) jets_forward_alt_j2veto.push_back(jets_forward_alt.at(0));
-
-      FillHist("forward_jet_alt_dR_matched",jets_forward_alt_dR.size(),weight,5,0,5);
-      FillHist("forward_jet_alt_matched",jets_forward_alt.size(),weight,5,0,5);
-      FillHist("forward_jet_alt_matched_j2veto",jets_forward_alt_j2veto.size(),weight,5,0,5);
-      cout << "N of forward_jet_alt_dR_matched : " << jets_forward_alt_dR.size() << endl;
-      cout << "N of forward_jet_alt_matched : " << jets_forward_alt.size() << endl;
-      cout << "N of forward_jet_alt_matched_j2veto : " << jets_forward_alt_j2veto.size() << endl;
-
-      //cout << "N of forward jets(alt selection) : " << jets_forward_alt.size() << endl;
-      //if(jets_forward_alt.size()>0) cout << "forward jet(alt selection) 1 info" << endl << jets_forward_alt.at(0)->print() << endl;
-      //if(jets_forward_alt.size()>1) cout << "forward jet(alt selection) 2 info" << endl << jets_forward_alt.at(1)->print() << endl;
-
-      //pick up the forward jet with alt-alt selection
-      //dR 0.4 matcing first, then the closest pt jet will be chosen 
-      for(int i=0;i<jets_lepveto.size();i++){
-        //for(int j=0;j<forward_partons.size();j++){
-        for(int j=0;j<1;j++){ // JH : just for now
-          if(deltaR(*jets_lepveto.at(i),*forward_partons.at(j))<0.4){
-            jets_forward_alt_alt_dR.push_back(jets_lepveto.at(i));
-          }
-        }
-      } //dR 0.4 matching done
-      if(jets_forward_alt_dR.size()>1){
-        double tmpDiff = 10000.;
-        int cand = 0;
-        for(int i=0;i<jets_forward_alt_alt_dR.size();i++){
-          if(fabs(jets_forward_alt_alt_dR.at(i)->pt()-forward_partons.at(0)->pt())<tmpDiff){
-            tmpDiff = fabs(jets_forward_alt_alt_dR.at(i)->pt()-forward_partons.at(0)->pt());
-            cand = i;
-          }
-        }
-        jets_forward_alt_alt.push_back(jets_forward_alt_alt_dR.at(cand));
+      else if(jets_second_forward_dR03.size()==1){
+        jets_second_forward.push_back(jets_second_forward_dR03.at(0));
+        second_forward_jet = jets_second_forward_dR03.at(0);
       }
-      else if(jets_forward_alt_alt_dR.size()==1) jets_forward_alt_alt.push_back(jets_forward_alt_alt_dR.at(0));
 
-      //j2 veto
-      if(jets_forward_alt_alt.size()>0&&jets_forward_alt_alt.at(0)!=subleading_jet) jets_forward_alt_alt_j2veto.push_back(jets_forward_alt_alt.at(0));
-
-      FillHist("forward_jet_alt_alt_dR_matched",jets_forward_alt_alt_dR.size(),weight,5,0,5);
-      FillHist("forward_jet_alt_alt_matched",jets_forward_alt_alt.size(),weight,5,0,5);
-      FillHist("forward_jet_alt_alt_matched_j2veto",jets_forward_alt_alt_j2veto.size(),weight,5,0,5);
-      cout << "N of forward_jet_alt_alt_dR_matched : " << jets_forward_alt_alt_dR.size() << endl;
-      cout << "N of forward_jet_alt_alt_matched : " << jets_forward_alt_alt.size() << endl;
-      cout << "N of forward_jet_alt_alt_matched_j2veto : " << jets_forward_alt_alt_j2veto.size() << endl;
-
+      if(second_forward_jet){
+        cout << "SECOND forward jet info :" << endl;
+        cout << second_forward_jet << endl;
+        cout << second_forward_jet->pt() << endl;
+        jets_second_forward.at(0)->print();
+      }
+      else cout << "!!SECOND forward jet UNDETECTED!!" << endl;
 
       //See if subleading jet contains forward parton
       int HasForwardParton = 0;
@@ -500,6 +496,7 @@ void loop(TString infile,TString outfile){
         }
       }
       FillHist("j2_contains_forward",HasForwardParton,weight,2,0,2);
+
     }
 
     //See if fatjet contains forward parton
@@ -512,13 +509,13 @@ void loop(TString infile,TString outfile){
     }
     FillHist("fatjet_contains_forward",HasForwardParton,weight,2,0,2);
 
-    if(fatjets_lepveto.size()>0) cout << "fatjet info" << endl << fatjets_lepveto.at(0)->print() << endl;
+    //if(fatjets_lepveto.size()>0) cout << "fatjet info" << endl << fatjets_lepveto.at(0)->print() << endl;
 
-    if(leptons.size()!=2){
-      cout << "@@@@@@@@detected lepton number : " << leptons.size() << "@@@@@@@@" << endl;
-      for(int i=0; i<leptons.size(); i++) PrintGen(leptons.at(i));
-      PrintGens(gens);
-    }
+    //if(leptons.size()!=2){
+    //  cout << "@@@@@@@@detected lepton number : " << leptons.size() << "@@@@@@@@" << endl;
+    //  for(int i=0; i<leptons.size(); i++) PrintGen(leptons.at(i));
+    //  PrintGens(gens);
+    //}
 
     if(true){ 
       
@@ -536,15 +533,15 @@ void loop(TString infile,TString outfile){
       sort(arr_jets,arr_jets+jets_lepveto.size(),PtCompare);
       sort(arr_fatjets,arr_fatjets+fatjets_lepveto.size(),PtCompare);
       
-      for(int i=0;i<leptons.size();i++){
-        cout << "vector leptons pt : " << leptons.at(i)->pt() << endl;
-      }
-      for(int i=0;i<leptons.size();i++){
-        cout << "sorted array leptons pt : " << arr_leptons[i].Pt() << endl;
-      }
-      for(int i=0;i<jets_lepveto.size();i++){
-        cout << "sorted array lepton vetoed jets pt : " << arr_jets[i].Pt() << endl;
-      }
+      //for(int i=0;i<leptons.size();i++){
+      //  cout << "vector leptons pt : " << leptons.at(i)->pt() << endl;
+      //}
+      //for(int i=0;i<leptons.size();i++){
+      //  cout << "sorted array leptons pt : " << arr_leptons[i].Pt() << endl;
+      //}
+      //for(int i=0;i<jets_lepveto.size();i++){
+      //  cout << "sorted array lepton vetoed jets pt : " << arr_jets[i].Pt() << endl;
+      //}
 
       //MakeTLorentzVectors
 
@@ -600,9 +597,9 @@ void loop(TString infile,TString outfile){
       TLorentzVector vec_j1, vec_j2;
       if(jets_lepveto.size()>0) vec_j1=arr_jets[0];
       if(jets_lepveto.size()>1) vec_j2=arr_jets[1];
-      TLorentzVector vec_forward_j, vec_forward_j_alt;
-      if(jets_forward_j2veto.size()>0) vec_forward_j=MakeTLorentzVector(jets_forward_j2veto.at(0));
-      if(jets_forward_alt_j2veto.size()>0) vec_forward_j_alt=MakeTLorentzVector(jets_forward_alt_j2veto.at(0));
+      TLorentzVector vec_forward_j, vec_second_forward_j;
+      if(jets_forward.size()>0) vec_forward_j=MakeTLorentzVector(jets_forward.at(0));
+      if(second_forward_jet) vec_second_forward_j=MakeTLorentzVector(second_forward_jet);
       TLorentzVector vec_fatjet;
       if(fatjets_lepveto.size()>0) vec_fatjet=arr_fatjets[0];
       TLorentzVector vec_MET=MakeTLorentzVector(MET);
@@ -619,6 +616,8 @@ void loop(TString infile,TString outfile){
       TLorentzVector vec_l1_q1=vec_l1+vec_N_q1;
 
       //histograms
+
+/*
 
       //W kinematics
       if(hard_Ws.size()==0){
@@ -728,6 +727,8 @@ void loop(TString infile,TString outfile){
         FillHist("W_eta",vec_on_W2.Eta(),weight,100,-5,5);
       }
 
+*/
+
       //N kinematics
       FillHist("last_HN_m",vec_last_HN.M(),weight,2100,0,2100);
       FillHist("last_HN_pt",vec_last_HN.Pt(),weight,2000,0,2000);
@@ -747,10 +748,10 @@ void loop(TString infile,TString outfile){
           FillHist("forward_gluon1_eta",vec_forward_parton1.Eta(),weight,100,-5,5);
         }
         else{
-          FillHist("forward_q2_m",vec_forward_parton1.M(),weight,2000,0,2000);
-          FillHist("forward_q2_pt",vec_forward_parton1.Pt(),weight,2000,0,2000);
-          FillHist("forward_q2_E",vec_forward_parton1.E(),weight,2000,0,2000);
-          FillHist("forward_q2_eta",vec_forward_parton1.Eta(),weight,100,-5,5);
+          FillHist("forward_q1_m",vec_forward_parton1.M(),weight,2000,0,2000);
+          FillHist("forward_q1_pt",vec_forward_parton1.Pt(),weight,2000,0,2000);
+          FillHist("forward_q1_E",vec_forward_parton1.E(),weight,2000,0,2000);
+          FillHist("forward_q1_eta",vec_forward_parton1.Eta(),weight,100,-5,5);
         }
       }
       if(forward_partons.size()>1){
@@ -771,6 +772,8 @@ void loop(TString infile,TString outfile){
           FillHist("forward_q2_eta",vec_forward_parton2.Eta(),weight,100,-5,5);
         }
       }
+
+/*
 
       //N parton kinematics
       FillHist("N_q1_m",vec_N_q1.M(),weight,2000,0,2000);
@@ -808,7 +811,10 @@ void loop(TString infile,TString outfile){
         FillHist("(SS2l+fatjet)_eta",vec_SS2l_fatjet.Eta(),weight,100,-5,5);
       }
 
+*/
+
       //jet kinematics
+/*
       if(jets_lepveto.size()>1){
         FillHist("dijet_m",vec_dijet.M(),weight,2500,0,2500);
         FillHist("dijet_pt",vec_dijet.Pt(),weight,1000,0,1000);
@@ -827,19 +833,16 @@ void loop(TString infile,TString outfile){
         FillHist("(SS2l+dijet)_E",vec_SS2l_dijet.E(),weight,3000,0,3000);
         FillHist("(SS2l+dijet)_eta",vec_SS2l_dijet.Eta(),weight,100,-5,5);
       }
-      if(jets_forward_j2veto.size()>0){
+*/
+      if(jets_forward.size()>0){
         FillHist("forward_jet_m",vec_forward_j.M(),weight,2000,0,2000);
         FillHist("forward_jet_pt",vec_forward_j.Pt(),weight,2000,0,2000);
         FillHist("forward_jet_E",vec_forward_j.E(),weight,2000,0,2000);
         FillHist("forward_jet_eta",vec_forward_j.Eta(),weight,100,-5,5);
       }
-      if(jets_forward_alt_j2veto.size()>0){
-        FillHist("forward_jet_alt_m",vec_forward_j_alt.M(),weight,2000,0,2000);
-        FillHist("forward_jet_alt_pt",vec_forward_j_alt.Pt(),weight,2000,0,2000);
-        FillHist("forward_jet_alt_E",vec_forward_j_alt.E(),weight,2000,0,2000);
-        FillHist("forward_jet_alt_eta",vec_forward_j_alt.Eta(),weight,100,-5,5);
-      }
-      FillHist("(l1+q1)_m",vec_l1_q1.M(),weight,3500,0,3500);
+      //FillHist("(l1+q1)_m",vec_l1_q1.M(),weight,3500,0,3500);
+
+/*
 
       //lepton kinematics
       if(hard_l){
@@ -878,6 +881,7 @@ void loop(TString infile,TString outfile){
         FillHist("l2_sel_E",vec_l2.E(),weight,1000,0,1000);
         FillHist("l2_sel_eta",vec_l2.Eta(),weight,100,-5,5);
       }
+
       if(jets_lepveto.size()>0){
         FillHist("j1_m",vec_j1.M(),weight,2000,0,2000);
         FillHist("j1_pt",vec_j1.Pt(),weight,2000,0,2000);
@@ -962,15 +966,25 @@ void loop(TString infile,TString outfile){
       //weight
       FillHist("weight",weights[0],1,2000,-1.0e-06,1.0e-06);
 
-      //photon information
+*/
+
+      //photon-related information
       if(IsPhotonFromProton1) FillHist("IsPhotonFromProton",1,1,4,0,4);
       else if(IsPhotonFromProton2) FillHist("IsPhotonFromProton",2,1,4,0,4);
       else if(IsPhotonFromProton3) FillHist("IsPhotonFromProton",3,1,4,0,4);
       else FillHist("IsPhotonFromProton",0,1,4,0,4);
-      FillHist("Q2",vec_Q2.M(),1,13000,-6500,6500); 
-      FillHist("2nd_forward_parton_pt",vec_photon_sister.Pt(),1,1000,0,10);
-      FillHist("2nd_forward_parton_eta",vec_photon_sister.Eta(),1,4000,-2.0e+11,2.0e+11);
-      FillHist("2nd_forward_parton_phi",vec_photon_sister.Phi(),1,630,-3.15,3.15);
+      FillHist("Q",vec_Q.M(),1,2500,-2000,500); 
+      FillHist("Q2",pow(vec_Q.M(),2),1,40000,0,4000000); 
+      FillHist("second_forward_parton_pt",vec_photon_sister.Pt(),1,1000,0,1000);
+      FillHist("second_forward_parton_eta",vec_photon_sister.Eta(),1,100,-5,5);
+      FillHist("second_forward_parton_phi",vec_photon_sister.Phi(),1,63,-3.15,3.15);
+      FillHist("photon_pt",vec_photon.Pt(),1,10,0,10);
+      FillHist("photon_E",vec_photon.E(),1,6500,0,6500);
+      if(second_forward_jet){
+        FillHist("second_forward_jet_pt",vec_second_forward_j.Pt(),weight,2000,0,2000);
+        FillHist("second_forward_jet_eta",vec_second_forward_j.Eta(),weight,100,-5,5);
+        FillHist("second_forward_jet_phi",vec_second_forward_j.Phi(),1,63,-3.15,3.15);
+      }
 
     }
     else{

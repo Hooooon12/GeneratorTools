@@ -80,4 +80,4 @@ do
 done
 echo ""
 
-hadd -f $GENERATORTOOLS_BASE/Hist/$(basename ${ROOTSCRIPT%.*})_${GENERATOR}_${PROCESSNAME}.root $EVENT_DIR/hists.root
+hadd -f $GENERATORTOOLS_BASE/Hist/$(basename ${ROOTSCRIPT%.*})_${GENERATOR}_${PROCESSNAME}_${TUNE}.root $EVENT_DIR/hists.root

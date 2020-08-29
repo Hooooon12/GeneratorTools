@@ -809,14 +809,14 @@ void loop(TString infile,TString outfile){
           FillHist("forward_gluon1_eta",vec_forward_parton1.Eta(),weight,100,-5,5);
         }
         else{
-          FillHist("unweighted_forward_q2_m",vec_forward_parton1.M(),1,2000,0,2000);
-          FillHist("unweighted_forward_q2_pt",vec_forward_parton1.Pt(),1,2000,0,2000);
-          FillHist("unweighted_forward_q2_E",vec_forward_parton1.E(),1,2000,0,2000);
-          FillHist("unweighted_forward_q2_eta",vec_forward_parton1.Eta(),1,100,-5,5);
-          FillHist("forward_q2_m",vec_forward_parton1.M(),weight,2000,0,2000);
-          FillHist("forward_q2_pt",vec_forward_parton1.Pt(),weight,2000,0,2000);
-          FillHist("forward_q2_E",vec_forward_parton1.E(),weight,2000,0,2000);
-          FillHist("forward_q2_eta",vec_forward_parton1.Eta(),weight,100,-5,5);
+          FillHist("unweighted_forward_q1_m",vec_forward_parton1.M(),1,2000,0,2000);
+          FillHist("unweighted_forward_q1_pt",vec_forward_parton1.Pt(),1,2000,0,2000);
+          FillHist("unweighted_forward_q1_E",vec_forward_parton1.E(),1,2000,0,2000);
+          FillHist("unweighted_forward_q1_eta",vec_forward_parton1.Eta(),1,100,-5,5);
+          FillHist("forward_q1_m",vec_forward_parton1.M(),weight,2000,0,2000);
+          FillHist("forward_q1_pt",vec_forward_parton1.Pt(),weight,2000,0,2000);
+          FillHist("forward_q1_E",vec_forward_parton1.E(),weight,2000,0,2000);
+          FillHist("forward_q1_eta",vec_forward_parton1.Eta(),weight,100,-5,5);
         }
       }
       if(forward_partons.size()>1){
