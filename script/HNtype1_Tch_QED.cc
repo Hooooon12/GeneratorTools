@@ -69,6 +69,27 @@ const reco::GenParticle* FindLastCopy(const vector<reco::GenParticle>& gens,cons
   }
   return last;
 }
+int Ptr2IntIdx(const reco::GenParticle* gen,const vector<reco::GenParticle>& gens){
+  int idx = -1;
+  for(int i=0;i<gens.size();i++){
+    if(&gens[i]==gen) idx = i;
+  }
+  return idx;
+}
+vector<int> TrackGenSelfHistory(const vector<reco::GenParticle>& gens,const reco::GenParticle *me){
+  int myindex = Ptr2IntIdx(me,gens);
+  int mypid = gens.at(myindex).pdgId();
+
+  int currentidx = myindex;
+  int motheridx = Ptr2IntIdx((reco::GenParticle*)me->mother(),gens); //JH NOTE mother() returns const reco::Candidate * which cannot be reconciled with const reco::GenParticle*
+
+  while(gens.at(motheridx).pdgId() == mypid){
+    currentidx = motheridx;
+    motheridx = Ptr2IntIdx((reco::GenParticle*)gens.at(motheridx).mother(),gens); //JH : one generation up
+  }
+  vector<int> out = {currentidx, motheridx};
+  return out;
+}
 bool PtCompare(TLorentzVector v1, TLorentzVector v2){
   return v1.Pt() > v2.Pt(); 
 }
@@ -194,6 +215,7 @@ void loop(TString infile,TString outfile){
     const reco::GenParticle *hard_HN=NULL;
     const reco::GenParticle *last_HN=NULL;
     const reco::GenParticle *hard_l=NULL,*HN_l=NULL,*W_l=NULL;
+    const reco::GenParticle *photon_grandgrandma=NULL,*photon_grandma=NULL,*photon_mother=NULL,*photon_sister=NULL;
     vector<const reco::GenParticle*> leptons,hard_partons,N_partons,hard_Ws,forward_partons,hard_photons;
     int Nhard=0;
     for(int i=0;i<gens.size();i++){
@@ -204,7 +226,7 @@ void loop(TString infile,TString outfile){
         if(abs(gens[i].pdgId())==24) hard_Ws.push_back(&gens[i]);
         else if(abs(gens[i].pdgId())<=4||gens[i].pdgId()==21) hard_partons.push_back(&gens[i]);
         else if(gens[i].pdgId()==9900014) hard_HN=&gens[i]; 
-        else if(gens[i].pdgId()==22) hard_photons.push_back(&gens[i]); //JH : H to gammagamma
+        else if(gens[i].pdgId()==22) hard_photons.push_back(&gens[i]); //JH : need to consider H to gammagamma
       }
       if(gens[i].pdgId()==9900014) last_HN=&gens[i];
       if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==hard_partons.at(0)||gens[i].mother()==hard_photons.at(0))){
@@ -227,7 +249,6 @@ void loop(TString infile,TString outfile){
         if(abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13) leptons.push_back(&gens[i]);
       }
     }
-    
     for(int i=0;i<hard_partons.size();i++){
       if(abs((hard_partons.at(i)->mother())->pdgId())==24||(hard_partons.at(i)->mother())->pdgId()==9900014) N_partons.push_back(hard_partons.at(i));
       if(hard_partons.at(i)->mother(0)==hard_photons.at(0)||hard_partons.at(i)->mother(1)==hard_photons.at(0)) forward_partons.push_back(hard_partons.at(i));
@@ -239,6 +260,31 @@ void loop(TString infile,TString outfile){
     if(hard_l) hard_l = FindLastCopy(gens,hard_l);
     if(W_l) W_l = FindLastCopy(gens,W_l); 
     if(HN_l) HN_l = FindLastCopy(gens,HN_l);  //NOTE No need this for last_HN; The code itself assigns the last HN to last_HN.
+
+    photon_mother=(reco::GenParticle*)hard_photons.at(0)->mother();
+    if(photon_mother->daughter(0)->pdgId()!=22) photon_sister=(reco::GenParticle*)photon_mother->daughter(0);
+    else if(photon_mother->daughter(1)->pdgId()!=22) photon_sister=(reco::GenParticle*)photon_mother->daughter(1);
+    
+    int IsPhotonFromProton = 0;
+    int IsPhotonFromProton1 = 0;
+    int IsPhotonFromProton2 = 0;
+    int IsPhotonFromProton3 = 0;
+    if(photon_mother->pdgId()==2212) IsPhotonFromProton1 = 1;
+    vector<int> photon_history = TrackGenSelfHistory(gens, photon_mother);
+    photon_grandma=&gens.at(photon_history[1]);
+    if(photon_grandma->pdgId()==2212) IsPhotonFromProton2 = 1;
+    vector<int> photon_history2 = TrackGenSelfHistory(gens, photon_grandma);
+    photon_grandgrandma=&gens.at(photon_history2[1]);
+    if(photon_grandgrandma->pdgId()==2212) IsPhotonFromProton3 = 1;
+    if(IsPhotonFromProton1||IsPhotonFromProton2||IsPhotonFromProton3) IsPhotonFromProton = 1;
+
+    cout << "IsPhotonFromProton (up to 3 generation) : " << IsPhotonFromProton << endl;
+    cout << "photon's mother id : " << photon_mother->pdgId() << ", status : " << photon_mother->status() << ",  px : " << photon_mother->px() << ", py : " << photon_mother->py() << ", pz : " << photon_mother->pz() << ", E : " << photon_mother->energy() << ", pt : " << photon_mother->pt() << ", eta : " << photon_mother->eta() << ", phi : " << photon_mother->phi() << endl;
+    cout << "photon's sister id : " << photon_sister->pdgId() << ", status : " << photon_sister->status() << ",  px : " << photon_sister->px() << ", py : " << photon_sister->py() << ", pz : " << photon_sister->pz() << ", E : " << photon_sister->energy() << ", pt : " << photon_sister->pt() << ", eta : " << photon_sister->eta() << ", phi : " << photon_sister->phi() << endl;
+    TLorentzVector vec_photon_mother=MakeTLorentzVector(photon_mother);
+    TLorentzVector vec_photon_sister=MakeTLorentzVector(photon_sister);
+    TLorentzVector vec_Q2=vec_photon_mother-vec_photon_sister;
+    cout << "photon's Q^2 : " << vec_Q2.M() << endl;
 
     cout << "how many weights : " << weights.size() << endl;
     cout << "event weight : " << weights[0] << endl;
@@ -915,6 +961,16 @@ void loop(TString infile,TString outfile){
 
       //weight
       FillHist("weight",weights[0],1,2000,-1.0e-06,1.0e-06);
+
+      //photon information
+      if(IsPhotonFromProton1) FillHist("IsPhotonFromProton",1,1,4,0,4);
+      else if(IsPhotonFromProton2) FillHist("IsPhotonFromProton",2,1,4,0,4);
+      else if(IsPhotonFromProton3) FillHist("IsPhotonFromProton",3,1,4,0,4);
+      else FillHist("IsPhotonFromProton",0,1,4,0,4);
+      FillHist("Q2",vec_Q2.M(),1,13000,-6500,6500); 
+      FillHist("2nd_forward_parton_pt",vec_photon_sister.Pt(),1,1000,0,10);
+      FillHist("2nd_forward_parton_eta",vec_photon_sister.Eta(),1,4000,-2.0e+11,2.0e+11);
+      FillHist("2nd_forward_parton_phi",vec_photon_sister.Phi(),1,630,-3.15,3.15);
 
     }
     else{
