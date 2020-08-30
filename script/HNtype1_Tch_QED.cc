@@ -1018,6 +1018,7 @@ void loop(TString infile,TString outfile){
       FillHist("photon_mother_reco_py",vec_photon_mother_reco.Py(),1,2000,-1000,1000);
       FillHist("photon_mother_reco_pz",vec_photon_mother_reco.Pz(),1,13000,-6500,6500);
       FillHist("photon_mother_reco_pz_abs",fabs(vec_photon_mother_reco.Pz()),1,6500,0,6500);
+      FillHist("drDiff",vec_photon_mother.DeltaR(vec_photon_mother_reco),1,50,0,5);
       FillHist("PxDiff",fabs(vec_photon_mother_reco.Px()-vec_photon_mother.Px()),1,1000,0,1000);
       FillHist("PyDiff",fabs(vec_photon_mother_reco.Py()-vec_photon_mother.Py()),1,1000,0,1000);
       FillHist("PzDiff",fabs(vec_photon_mother_reco.Pz()-vec_photon_mother.Pz()),1,1000,0,1000);
