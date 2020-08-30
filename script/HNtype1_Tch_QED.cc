@@ -850,8 +850,6 @@ void loop(TString infile,TString outfile){
       }
       //FillHist("(l1+q1)_m",vec_l1_q1.M(),weight,3500,0,3500);
 
-/*
-
       //lepton kinematics
       if(hard_l){
         FillHist("hard_l_pt",vec_hard_l.Pt(),weight,2000,0,2000);
@@ -859,6 +857,9 @@ void loop(TString infile,TString outfile){
         FillHist("hard_l_eta",vec_hard_l.Eta(),weight,100,-5,5);
         FillHist("hard_l_charge",GetCharge(hard_l),weight,3,-1,2);
       }
+
+/*
+
       if(HN_l){
         FillHist("HN_l_pt",vec_HN_l.Pt(),weight,2000,0,2000);
         FillHist("HN_l_E",vec_HN_l.E(),weight,2000,0,2000);
