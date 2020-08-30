@@ -391,6 +391,8 @@ void loop(TString infile,TString outfile){
     vector<reco::GenJet*> jets_second_forward;
     reco::GenJet* second_forward_jet=NULL; //XXX why this cannot call print()?
 
+/*
+
     //pick up the (sub)leading jet and inspect the jet constituents
     if(jets_lepveto.size()>0){
       
@@ -415,6 +417,7 @@ void loop(TString infile,TString outfile){
       //cout << "leading jet info" << endl << leading_jet->print() << endl;
       //cout << "subleading jet info" << endl << subleading_jet->print() << endl;
 
+*/
 
       //pick up the forward jet with dR 0.3 matching first, then the closest pt jet will be chosen 
       for(int i=0;i<jets_lepveto.size();i++){
@@ -483,9 +486,12 @@ void loop(TString infile,TString outfile){
         cout << "SECOND forward jet info :" << endl;
         cout << second_forward_jet << endl;
         cout << second_forward_jet->pt() << endl;
-        jets_second_forward.at(0)->print();
+        second_forward_jet->print();
+        jets_second_forward.at(0)->print(); //XXX why this doesn't work???
       }
       else cout << "!!SECOND forward jet UNDETECTED!!" << endl;
+
+/*
 
       //See if subleading jet contains forward parton
       int HasForwardParton = 0;
@@ -516,6 +522,8 @@ void loop(TString infile,TString outfile){
     //  for(int i=0; i<leptons.size(); i++) PrintGen(leptons.at(i));
     //  PrintGens(gens);
     //}
+
+*/
 
     if(true){ 
       
@@ -969,17 +977,63 @@ void loop(TString infile,TString outfile){
 */
 
       //photon-related information
+      TLorentzVector vec_photon_mother_reco=vec_photon+vec_photon_sister;
       if(IsPhotonFromProton1) FillHist("IsPhotonFromProton",1,1,4,0,4);
       else if(IsPhotonFromProton2) FillHist("IsPhotonFromProton",2,1,4,0,4);
       else if(IsPhotonFromProton3) FillHist("IsPhotonFromProton",3,1,4,0,4);
       else FillHist("IsPhotonFromProton",0,1,4,0,4);
       FillHist("Q",vec_Q.M(),1,2500,-2000,500); 
       FillHist("Q2",pow(vec_Q.M(),2),1,40000,0,4000000); 
-      FillHist("second_forward_parton_pt",vec_photon_sister.Pt(),1,1000,0,1000);
+      FillHist("second_forward_parton_pt",vec_photon_sister.Pt(),1,2000,0,2000);
       FillHist("second_forward_parton_eta",vec_photon_sister.Eta(),1,100,-5,5);
       FillHist("second_forward_parton_phi",vec_photon_sister.Phi(),1,63,-3.15,3.15);
+      FillHist("second_forward_parton_px",vec_photon_sister.Px(),1,2000,-1000,1000);
+      FillHist("second_forward_parton_py",vec_photon_sister.Py(),1,2000,-1000,1000);
+      FillHist("second_forward_parton_pz",vec_photon_sister.Pz(),1,13000,-6500,6500);
+      FillHist("second_forward_parton_pz_abs",fabs(vec_photon_sister.Pz()),1,6500,0,6500);
+      FillHist("second_forward_parton_E",vec_photon_sister.E(),1,6500,0,6500);
+      FillHist("second_forward_parton_PID",photon_sister->pdgId(),1,2510,-10,2500);
+      FillHist("photon_mother_pt",vec_photon_mother.Pt(),1,2000,0,2000);
+      FillHist("photon_mother_eta",vec_photon_mother.Eta(),1,100,-5,5);
+      FillHist("photon_mother_phi",vec_photon_mother.Phi(),1,63,-3.15,3.15);
+      FillHist("photon_mother_px",vec_photon_mother.Px(),1,2000,-1000,1000);
+      FillHist("photon_mother_py",vec_photon_mother.Py(),1,2000,-1000,1000);
+      FillHist("photon_mother_pz",vec_photon_mother.Pz(),1,13000,-6500,6500);
+      FillHist("photon_mother_pz_abs",fabs(vec_photon_mother.Pz()),1,6500,0,6500);
+      FillHist("photon_mother_E",vec_photon_mother.E(),1,6500,0,6500);
+      FillHist("photon_mother_PID",photon_mother->pdgId(),1,2510,-10,2500);
       FillHist("photon_pt",vec_photon.Pt(),1,10,0,10);
+      FillHist("photon_eta",vec_photon.Eta(),1,100,-5,5);
+      FillHist("photon_phi",vec_photon.Phi(),1,63,-3.15,3.15);
       FillHist("photon_E",vec_photon.E(),1,6500,0,6500);
+      FillHist("photon_px",vec_photon.Px(),1,2000,-1000,1000);
+      FillHist("photon_py",vec_photon.Py(),1,2000,-1000,1000);
+      FillHist("photon_pz",vec_photon.Pz(),1,13000,-6500,6500);
+      FillHist("photon_pz_abs",fabs(vec_photon.Pz()),1,6500,0,6500);
+      FillHist("photon_mother_reco_pt",vec_photon_mother_reco.Pt(),1,2000,0,2000);
+      FillHist("photon_mother_reco_eta",vec_photon_mother_reco.Eta(),1,100,-5,5);
+      FillHist("photon_mother_reco_phi",vec_photon_mother_reco.Phi(),1,63,-3.15,3.15);
+      FillHist("photon_mother_reco_E",vec_photon_mother_reco.E(),1,6500,0,6500);
+      FillHist("photon_mother_reco_px",vec_photon_mother_reco.Px(),1,2000,-1000,1000);
+      FillHist("photon_mother_reco_py",vec_photon_mother_reco.Py(),1,2000,-1000,1000);
+      FillHist("photon_mother_reco_pz",vec_photon_mother_reco.Pz(),1,13000,-6500,6500);
+      FillHist("photon_mother_reco_pz_abs",fabs(vec_photon_mother_reco.Pz()),1,6500,0,6500);
+      FillHist("PxDiff",fabs(vec_photon_mother_reco.Px()-vec_photon_mother.Px()),1,1000,0,1000);
+      FillHist("PyDiff",fabs(vec_photon_mother_reco.Py()-vec_photon_mother.Py()),1,1000,0,1000);
+      FillHist("PzDiff",fabs(vec_photon_mother_reco.Pz()-vec_photon_mother.Pz()),1,1000,0,1000);
+      FillHist("EnergyDiff",fabs(vec_photon_mother_reco.E()-vec_photon_mother.E()),1,1000,0,1000);
+      //if(fabs(vec_photon_mother_reco.Px()-vec_photon_mother.Px())<1.) FillHist("IsPxWellRecoed",1,1,2,0,2);
+      //else FillHist("IsPxWellRecoed",0,1,2,0,2);
+      //if(fabs(vec_photon_mother_reco.Py()-vec_photon_mother.Py())<1.) FillHist("IsPyWellRecoed",1,1,2,0,2);
+      //else FillHist("IsPyWellRecoed",0,1,2,0,2);
+      //if(fabs(vec_photon_mother_reco.Pz()-vec_photon_mother.Pz())<1.) FillHist("IsPzWellRecoed",1,1,2,0,2);
+      //else FillHist("IsPzWellRecoed",0,1,2,0,2);
+      //if(fabs(vec_photon_mother_reco.E()-vec_photon_mother.E())<1.) FillHist("IsEnergyWellRecoed",1,1,2,0,2);
+      //else FillHist("IsEnergyWellRecoed",0,1,2,0,2);
+      if(jets_forward.size()>0&&second_forward_jet){
+        if(jets_forward.at(0)->pt()==second_forward_jet->pt()&&jets_forward.at(0)->eta()==second_forward_jet->eta()) FillHist("IsForwardsAreSame",1,1,2,0,2);
+        else FillHist("IsForwardsAreSame",0,1,2,0,2);
+      }
       if(second_forward_jet){
         FillHist("second_forward_jet_pt",vec_second_forward_j.Pt(),weight,2000,0,2000);
         FillHist("second_forward_jet_eta",vec_second_forward_j.Eta(),weight,100,-5,5);
