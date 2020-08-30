@@ -976,6 +976,9 @@ void loop(TString infile,TString outfile){
 
 */
 
+      //negative weight in LO events??
+      FillHist("weight",weight,1,3,-1,2);
+
       //photon-related information
       TLorentzVector vec_photon_mother_reco=vec_photon+vec_photon_sister;
       if(IsPhotonFromProton1) FillHist("IsPhotonFromProton",1,1,4,0,4);
