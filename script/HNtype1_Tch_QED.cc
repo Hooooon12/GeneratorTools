@@ -1022,7 +1022,10 @@ void loop(TString infile,TString outfile){
       FillHist("photon_mother_reco_py",vec_photon_mother_reco.Py(),1,2000,-1000,1000);
       FillHist("photon_mother_reco_pz",vec_photon_mother_reco.Pz(),1,13000,-6500,6500);
       FillHist("photon_mother_reco_pz_abs",fabs(vec_photon_mother_reco.Pz()),1,6500,0,6500);
-      FillHist("drDiff",vec_photon_mother.DeltaR(vec_photon_mother_reco),1,50,0,5);
+      double AngularDiff = sqrt(pow(vec_photon_mother.Theta()-vec_photon_mother_reco.Theta(),2)+pow(vec_photon_mother.DeltaPhi(vec_photon_mother_reco),2));
+      FillHist("AngularDiff",AngularDiff,1,50,0,5);
+      FillHist("ThetaDiff",fabs(vec_photon_mother.Theta()-vec_photon_mother_reco.Theta()),1,32,0,3.2);
+      FillHist("PhiDiff",fabs(vec_photon_mother.DeltaPhi(vec_photon_mother_reco)),1,32,0,3.2);
       FillHist("PxDiff",fabs(vec_photon_mother_reco.Px()-vec_photon_mother.Px()),1,1000,0,1000);
       FillHist("PyDiff",fabs(vec_photon_mother_reco.Py()-vec_photon_mother.Py()),1,1000,0,1000);
       FillHist("PzDiff",fabs(vec_photon_mother_reco.Pz()-vec_photon_mother.Pz()),1,1000,0,1000);
