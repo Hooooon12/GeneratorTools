@@ -763,13 +763,13 @@ void loop(TString infile,TString outfile){
       FillHist("last_HN_m",vec_last_HN.M(),weight,2100,0,2100);
       FillHist("last_HN_pt",vec_last_HN.Pt(),weight,2000,0,2000);
       FillHist("last_HN_E",vec_last_HN.E(),weight,3000,0,3000);
-      FillHist("last_HN_eta",vec_last_HN.Eta(),weight,100,-5,5);
+      FillHist("last_HN_eta",vec_last_HN.Eta(),weight,200,-10,10);
 
       //forward parton kinematics
       if(forward_partons.size()>0){
         FillHist("first_forward_parton_pt",vec_forward_parton.Pt(),weight,2000,0,2000);
         FillHist("first_forward_parton_E",vec_forward_parton.E(),weight,2000,0,2000);
-        FillHist("first_forward_parton_eta",vec_forward_parton.Eta(),weight,100,-5,5);
+        FillHist("first_forward_parton_eta",vec_forward_parton.Eta(),weight,200,-10,10);
         //if(forward_partons.at(0)->pdgId()==21){
         //  FillHist("forward_gluon1_m",vec_forward_parton1.M(),weight,2000,0,2000);
         //  FillHist("forward_gluon1_pt",vec_forward_parton1.Pt(),weight,2000,0,2000);
@@ -866,7 +866,7 @@ void loop(TString infile,TString outfile){
       if(first_forward_jet){
         FillHist("first_forward_jet_pt",vec_first_forward_jet.Pt(),weight,2000,0,2000);
         FillHist("first_forward_jet_E",vec_first_forward_jet.E(),weight,2000,0,2000);
-        FillHist("first_forward_jet_eta",vec_first_forward_jet.Eta(),weight,100,-5,5);
+        FillHist("first_forward_jet_eta",vec_first_forward_jet.Eta(),weight,200,-10,10);
         FillHist("first_forward_jet_dRqj",vec_first_forward_jet.DeltaR(vec_forward_parton),1,20,0,0.2);
       }
       //FillHist("(l1+q1)_m",vec_l1_q1.M(),weight,3500,0,3500);
@@ -875,33 +875,33 @@ void loop(TString infile,TString outfile){
       if(hard_l){
         FillHist("hard_l_pt",vec_hard_l.Pt(),weight,2000,0,2000);
         FillHist("hard_l_E",vec_hard_l.E(),weight,2000,0,2000);
-        FillHist("hard_l_eta",vec_hard_l.Eta(),weight,100,-5,5);
+        FillHist("hard_l_eta",vec_hard_l.Eta(),weight,200,-10,10);
         FillHist("hard_l_charge",GetCharge(hard_l),weight,3,-1,2);
         FillHist("LHE_hard_l_pt",vec_LHE_hard_l.Pt(),weight,2000,0,2000);
         FillHist("LHE_hard_l_E",vec_LHE_hard_l.E(),weight,2000,0,2000);
-        FillHist("LHE_hard_l_eta",vec_LHE_hard_l.Eta(),weight,100,-5,5);
+        FillHist("LHE_hard_l_eta",vec_LHE_hard_l.Eta(),weight,200,-10,10);
       }
       if(vec_photon_sister.Pt()>40.){
         FillHist("kick_above40_hard_l_pt",vec_hard_l.Pt(),weight,2000,0,2000);
         FillHist("kick_above40_hard_l_E",vec_hard_l.E(),weight,2000,0,2000);
-        FillHist("kick_above40_hard_l_eta",vec_hard_l.Eta(),weight,100,-5,5);
+        FillHist("kick_above40_hard_l_eta",vec_hard_l.Eta(),weight,200,-10,10);
         FillHist("kick_above40_hard_l_charge",GetCharge(hard_l),weight,3,-1,2);
         FillHist("kick_above40_second_forward_parton_pt",vec_photon_sister.Pt(),1,2000,0,2000);
-        FillHist("kick_above40_second_forward_parton_eta",vec_photon_sister.Eta(),1,100,-5,5);
+        FillHist("kick_above40_second_forward_parton_eta",vec_photon_sister.Eta(),1,200,-10,10);
         FillHist("kick_above40_second_forward_parton_E",vec_photon_sister.E(),1,6500,0,6500);
         FillHist("kick_above40_first_forward_parton_pt",vec_forward_parton.Pt(),weight,2000,0,2000);
         FillHist("kick_above40_first_forward_parton_E",vec_forward_parton.E(),weight,6500,0,6500);
-        FillHist("kick_above40_first_forward_parton_eta",vec_forward_parton.Eta(),weight,100,-5,5);
+        FillHist("kick_above40_first_forward_parton_eta",vec_forward_parton.Eta(),weight,200,-10,10);
         FillHist("kick_above40_HN_m",vec_last_HN.M(),weight,2100,0,2100);
         FillHist("kick_above40_HN_pt",vec_last_HN.Pt(),weight,2000,0,2000);
         FillHist("kick_above40_HN_E",vec_last_HN.E(),weight,3000,0,3000);
-        FillHist("kick_above40_HN_eta",vec_last_HN.Eta(),weight,100,-5,5);
+        FillHist("kick_above40_HN_eta",vec_last_HN.Eta(),weight,200,-10,10);
         FillHist("kick_above40_HNplusl_m",(vec_last_HN+vec_hard_l).M(),weight,2100,0,2100);
         FillHist("kick_above40_HNplusl_pt",(vec_last_HN+vec_hard_l).Pt(),weight,2000,0,2000);
         FillHist("kick_above40_HNplusl_E",(vec_last_HN+vec_hard_l).E(),weight,3000,0,3000);
-        FillHist("kick_above40_HNplusl_eta",(vec_last_HN+vec_hard_l).Eta(),weight,100,-5,5);
+        FillHist("kick_above40_HNplusl_eta",(vec_last_HN+vec_hard_l).Eta(),weight,200,-10,10);
         FillHist("kick_above40_reco_photon_pt",vec_Q.Pt(),1,2000,0,2000);
-        FillHist("kick_above40_reco_photon_eta",vec_Q.Eta(),1,100,-5,5);
+        FillHist("kick_above40_reco_photon_eta",vec_Q.Eta(),1,200,-10,10);
         FillHist("kick_above40_reco_photon_phi",vec_Q.Phi(),1,63,-3.15,3.15);
         FillHist("kick_above40_reco_photon_px",vec_Q.Px(),1,2000,-1000,1000);
         FillHist("kick_above40_reco_photon_py",vec_Q.Py(),1,2000,-1000,1000);
@@ -911,24 +911,24 @@ void loop(TString infile,TString outfile){
       if(vec_photon_sister.Pt()<40.){
         FillHist("kick_below40_hard_l_pt",vec_hard_l.Pt(),weight,2000,0,2000);
         FillHist("kick_below40_hard_l_E",vec_hard_l.E(),weight,2000,0,2000);
-        FillHist("kick_below40_hard_l_eta",vec_hard_l.Eta(),weight,100,-5,5);
+        FillHist("kick_below40_hard_l_eta",vec_hard_l.Eta(),weight,200,-10,10);
         FillHist("kick_below40_hard_l_charge",GetCharge(hard_l),weight,3,-1,2);
         FillHist("kick_below40_second_forward_parton_pt",vec_photon_sister.Pt(),1,2000,0,2000);
-        FillHist("kick_below40_second_forward_parton_eta",vec_photon_sister.Eta(),1,100,-5,5);
+        FillHist("kick_below40_second_forward_parton_eta",vec_photon_sister.Eta(),1,200,-10,10);
         FillHist("kick_below40_second_forward_parton_E",vec_photon_sister.E(),1,6500,0,6500);
         FillHist("kick_below40_first_forward_parton_pt",vec_forward_parton.Pt(),weight,2000,0,2000);
         FillHist("kick_below40_first_forward_parton_E",vec_forward_parton.E(),weight,6500,0,6500);
-        FillHist("kick_below40_first_forward_parton_eta",vec_forward_parton.Eta(),weight,100,-5,5);
+        FillHist("kick_below40_first_forward_parton_eta",vec_forward_parton.Eta(),weight,200,-10,10);
         FillHist("kick_below40_HN_m",vec_last_HN.M(),weight,2100,0,2100);
         FillHist("kick_below40_HN_pt",vec_last_HN.Pt(),weight,2000,0,2000);
         FillHist("kick_below40_HN_E",vec_last_HN.E(),weight,3000,0,3000);
-        FillHist("kick_below40_HN_eta",vec_last_HN.Eta(),weight,100,-5,5);
+        FillHist("kick_below40_HN_eta",vec_last_HN.Eta(),weight,200,-10,10);
         FillHist("kick_below40_HNplusl_m",(vec_last_HN+vec_hard_l).M(),weight,2100,0,2100);
         FillHist("kick_below40_HNplusl_pt",(vec_last_HN+vec_hard_l).Pt(),weight,2000,0,2000);
         FillHist("kick_below40_HNplusl_E",(vec_last_HN+vec_hard_l).E(),weight,3000,0,3000);
-        FillHist("kick_below40_HNplusl_eta",(vec_last_HN+vec_hard_l).Eta(),weight,100,-5,5);
+        FillHist("kick_below40_HNplusl_eta",(vec_last_HN+vec_hard_l).Eta(),weight,200,-10,10);
         FillHist("kick_below40_reco_photon_pt",vec_Q.Pt(),1,2000,0,2000);
-        FillHist("kick_below40_reco_photon_eta",vec_Q.Eta(),1,100,-5,5);
+        FillHist("kick_below40_reco_photon_eta",vec_Q.Eta(),1,200,-10,10);
         FillHist("kick_below40_reco_photon_phi",vec_Q.Phi(),1,63,-3.15,3.15);
         FillHist("kick_below40_reco_photon_px",vec_Q.Px(),1,2000,-1000,1000);
         FillHist("kick_below40_reco_photon_py",vec_Q.Py(),1,2000,-1000,1000);
@@ -1133,41 +1133,41 @@ void loop(TString infile,TString outfile){
       if(vec_forward_parton.Pt()>vec_photon_sister.Pt()){
         FillHist("leading_parton_pt",vec_forward_parton.Pt(),1,2000,0,2000);
         FillHist("leading_parton_E",vec_forward_parton.E(),1,2000,0,2000);
-        FillHist("leading_parton_eta",vec_forward_parton.Eta(),1,100,-5,5);
+        FillHist("leading_parton_eta",vec_forward_parton.Eta(),1,200,-10,10);
         FillHist("subleading_parton_pt",vec_photon_sister.Pt(),1,2000,0,2000);
         FillHist("subleading_parton_E",vec_photon_sister.E(),1,2000,0,2000);
-        FillHist("subleading_parton_eta",vec_photon_sister.Eta(),1,100,-5,5);
+        FillHist("subleading_parton_eta",vec_photon_sister.Eta(),1,200,-10,10);
         if(first_forward_jet){
           FillHist("leading_jet_pt",vec_first_forward_jet.Pt(),weight,2000,0,2000);
           FillHist("leading_jet_E",vec_first_forward_jet.E(),weight,2000,0,2000);
-          FillHist("leading_jet_eta",vec_first_forward_jet.Eta(),weight,100,-5,5);
+          FillHist("leading_jet_eta",vec_first_forward_jet.Eta(),weight,200,-10,10);
         }
         if(second_forward_jet){
           FillHist("subleading_jet_pt",vec_second_forward_jet.Pt(),weight,2000,0,2000);
           FillHist("subleading_jet_E",vec_second_forward_jet.E(),weight,2000,0,2000);
-          FillHist("subleading_jet_eta",vec_second_forward_jet.Eta(),weight,100,-5,5);
+          FillHist("subleading_jet_eta",vec_second_forward_jet.Eta(),weight,200,-10,10);
         }
       }
       else if(vec_forward_parton.Pt()<vec_photon_sister.Pt()){
         FillHist("leading_parton_pt",vec_photon_sister.Pt(),1,2000,0,2000);
         FillHist("leading_parton_E",vec_photon_sister.E(),1,2000,0,2000);
-        FillHist("leading_parton_eta",vec_photon_sister.Eta(),1,100,-5,5);
+        FillHist("leading_parton_eta",vec_photon_sister.Eta(),1,200,-10,10);
         FillHist("subleading_parton_pt",vec_forward_parton.Pt(),1,2000,0,2000);
         FillHist("subleading_parton_E",vec_forward_parton.E(),1,2000,0,2000);
-        FillHist("subleading_parton_eta",vec_forward_parton.Eta(),1,100,-5,5);
+        FillHist("subleading_parton_eta",vec_forward_parton.Eta(),1,200,-10,10);
         if(second_forward_jet){
           FillHist("leading_jet_pt",vec_second_forward_jet.Pt(),weight,2000,0,2000);
           FillHist("leading_jet_E",vec_second_forward_jet.E(),weight,2000,0,2000);
-          FillHist("leading_jet_eta",vec_second_forward_jet.Eta(),weight,100,-5,5);
+          FillHist("leading_jet_eta",vec_second_forward_jet.Eta(),weight,200,-10,10);
         }
         if(first_forward_jet){
           FillHist("subleading_jet_pt",vec_first_forward_jet.Pt(),weight,2000,0,2000);
           FillHist("subleading_jet_E",vec_first_forward_jet.E(),weight,2000,0,2000);
-          FillHist("subleading_jet_eta",vec_first_forward_jet.Eta(),weight,100,-5,5);
+          FillHist("subleading_jet_eta",vec_first_forward_jet.Eta(),weight,200,-10,10);
         }
       }
       FillHist("second_forward_parton_pt",vec_photon_sister.Pt(),1,2000,0,2000);
-      FillHist("second_forward_parton_eta",vec_photon_sister.Eta(),1,100,-5,5);
+      FillHist("second_forward_parton_eta",vec_photon_sister.Eta(),1,200,-10,10);
       FillHist("second_forward_parton_phi",vec_photon_sister.Phi(),1,63,-3.15,3.15);
       FillHist("second_forward_parton_px",vec_photon_sister.Px(),1,2000,-1000,1000);
       FillHist("second_forward_parton_py",vec_photon_sister.Py(),1,2000,-1000,1000);
@@ -1176,14 +1176,14 @@ void loop(TString infile,TString outfile){
       FillHist("second_forward_parton_E",vec_photon_sister.E(),1,6500,0,6500);
       FillHist("second_forward_parton_PID",photon_sister->pdgId(),1,2510,-10,2500);
       FillHist("reco_photon_pt",vec_Q.Pt(),1,2000,0,2000);
-      FillHist("reco_photon_eta",vec_Q.Eta(),1,100,-5,5);
+      FillHist("reco_photon_eta",vec_Q.Eta(),1,200,-10,10);
       FillHist("reco_photon_phi",vec_Q.Phi(),1,63,-3.15,3.15);
       FillHist("reco_photon_px",vec_Q.Px(),1,2000,-1000,1000);
       FillHist("reco_photon_py",vec_Q.Py(),1,2000,-1000,1000);
       FillHist("reco_photon_pz",vec_Q.Pz(),1,13000,-6500,6500);
       FillHist("reco_photon_E",vec_Q.E(),1,6500,0,6500);
       FillHist("photon_mother_pt",vec_photon_mother.Pt(),1,2000,0,2000);
-      FillHist("photon_mother_eta",vec_photon_mother.Eta(),1,100,-5,5);
+      FillHist("photon_mother_eta",vec_photon_mother.Eta(),1,200,-10,10);
       FillHist("photon_mother_phi",vec_photon_mother.Phi(),1,63,-3.15,3.15);
       FillHist("photon_mother_px",vec_photon_mother.Px(),1,2000,-1000,1000);
       FillHist("photon_mother_py",vec_photon_mother.Py(),1,2000,-1000,1000);
@@ -1233,7 +1233,7 @@ void loop(TString infile,TString outfile){
       if(second_forward_jet){
         FillHist("second_forward_jet_pt",vec_second_forward_jet.Pt(),weight,2000,0,2000);
         FillHist("second_forward_jet_E",vec_second_forward_jet.E(),weight,2000,0,2000);
-        FillHist("second_forward_jet_eta",vec_second_forward_jet.Eta(),weight,100,-5,5);
+        FillHist("second_forward_jet_eta",vec_second_forward_jet.Eta(),weight,200,-10,10);
         FillHist("second_forward_jet_dRqj",vec_photon_sister.DeltaR(vec_second_forward_jet),1,20,0,0.2);
       }
 
