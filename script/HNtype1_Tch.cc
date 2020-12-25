@@ -470,7 +470,7 @@ void loop(TString infile,TString outfile){
 
     if(leptons.size()!=2){
       cout << "@@@@@@@@detected lepton number : " << leptons.size() << "@@@@@@@@" << endl;
-      for(int i=0; i<leptons.size(); i++) PrintGen(leptons.at(i));
+      for(int i=0; i<leptons.size(); i++) PrintGen(*leptons.at(i),gens);
       PrintGens(gens);
     }
 
