@@ -90,7 +90,6 @@ bool DiLepFlavorFilter::filter(edm::Event& iEvent, const edm::EventSetup& iSetup
   for( size_t idxParticle = 0; idxParticle < lheParticles.size(); ++idxParticle )
   {
     int id = lheEvent.IDUP[idxParticle];
-    int status = lheEvent.ISTUP[idxParticle];
 
     if (id==11||id==-11) LepFlavor *= -1;
     else if (id==13||id==-13) LepFlavor *= 1;
