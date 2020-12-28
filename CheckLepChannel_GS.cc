@@ -135,7 +135,7 @@ void PrintGens(const vector<reco::GenParticle*>& gens){
   }
 }
 
-void loop(TString infile, TString dummy){
+void loop(TString infile){
   //cout << "Loading FW Lite setup." << endl;
   //gSystem->Load("libFWCoreFWLite.so");
   //FWLiteEnabler::enable();
@@ -152,6 +152,7 @@ void loop(TString infile, TString dummy){
     fwlite::Handle<std::vector<reco::GenParticle>> gens_;
     gens_.getByLabel(ev,"genParticles");
     const vector<reco::GenParticle>& gens=*gens_.ptr();
+    cout << "gens size : " << gens.size() << endl;
 
     fwlite::Handle<std::vector<reco::GenJet>> jets_;
     jets_.getByLabel(ev,"ak4GenJets");
@@ -161,6 +162,7 @@ void loop(TString infile, TString dummy){
       //if(jet.pt()>30) jets.push_back((reco::GenJet*)&jet);
       jets.push_back((reco::GenJet*)&jet); 
     }
+    cout << "jets size : " << jets.size() << endl;
 
     fwlite::Handle<std::vector<reco::GenJet>> fatjets_;
     fatjets_.getByLabel(ev,"ak8GenJets");
@@ -169,6 +171,7 @@ void loop(TString infile, TString dummy){
     for(const auto& fatjet:fatjets_all){
       fatjets.push_back((reco::GenJet*)&fatjet);
     } 
+    cout << "fatjets size : " << fatjets.size() << endl;
  
     fwlite::Handle<std::vector<reco::GenMET>> METs_;
     METs_.getByLabel(ev,"genMetTrue");
@@ -178,10 +181,12 @@ void loop(TString infile, TString dummy){
       METs.push_back((reco::GenMET*)&MET);
     }
     reco::GenMET* MET=METs.at(0);
+    cout << "METs size : " << METs.size() << endl;
 
     fwlite::Handle<GenEventInfoProduct> geninfo;
     geninfo.getByLabel(ev,"generator");
     const vector<double>& weights=geninfo.ptr()->weights();
+    cout << "weights size : " << weights.size() << endl;
 
     for(int i=0;i<weights.size();i++){
       FillHist("sumw",i,weights[i],200,0,200);
@@ -191,158 +196,26 @@ void loop(TString infile, TString dummy){
     if(weights[0]>0) weight = 1;
     else weight = -1;
 
-    const reco::GenParticle *hard_HN=NULL;
-    const reco::GenParticle *last_HN=NULL;
-    const reco::GenParticle *hard_l=NULL,*HN_l=NULL,*W_l=NULL,*forward_parton=NULL;
-    vector<const reco::GenParticle*> leptons,hard_partons,N_partons,hard_Ws;
-    for(int i=0;i<gens.size();i++){
-      //cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << ", isHardProcess : " << gens[i].isHardProcess() << endl;
-      if(gens[i].isHardProcess()){
-        cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << ", px : " << gens[i].px() << ", py : " << gens[i].py() << ", pz : " << gens[i].pz() << ", E : " << gens[i].energy() << ", pt : " << gens[i].pt() << ", eta : " << gens[i].eta() << ", phi : " << gens[i].phi() << endl;
-        if(abs(gens[i].pdgId())==24) hard_Ws.push_back(&gens[i]);
-        else if(abs(gens[i].pdgId())<=4||gens[i].pdgId()==21) hard_partons.push_back(&gens[i]);
-        else if(gens[i].pdgId()==9900012) hard_HN=&gens[i]; 
-      }
-      if(gens[i].pdgId()==9900012) last_HN=&gens[i];
-      if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==hard_partons.at(0))){
-        hard_l=&gens[i]; //JH : XXX If hard_l is just reco::GenParticle* (w/o const), then it doesn't get &gens[i]
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the hard_l : " << endl;
-      }
-      else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(gens[i].mother()==last_HN)){ //NOTE The mother should be last_HN
-        HN_l=&gens[i];
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the HN_l : " << endl;
-      }
-      else if((abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13)&&(abs(gens[i].mother()->pdgId())==24)){
-        W_l=&gens[i];
-        cout << "^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~this is the W_l : " << endl;
-      }
-
-      if(gens[i].isPromptFinalState()){
-        if(abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13) leptons.push_back(&gens[i]);
-      }
-    }
-    
-    for(int i=0;i<hard_partons.size();i++){
-      if(abs((hard_partons.at(i)->mother())->pdgId())==24||(hard_partons.at(i)->mother())->pdgId()==9900012) N_partons.push_back(hard_partons.at(i));
-      for(int j=0;j<hard_partons.size();j++){
-        if(hard_partons.at(j)->mother()==hard_partons.at(i)) forward_parton=hard_partons.at(j);
-      }
-    }
-
-    if(hard_Ws.size()>0){
-      for(int i=0;i<hard_Ws.size();i++) hard_Ws.at(i) = FindLastCopy(gens,hard_Ws.at(i));
-    }
-    if(hard_l) hard_l = FindLastCopy(gens,hard_l);
-    if(W_l) W_l = FindLastCopy(gens,W_l); 
-    HN_l = FindLastCopy(gens,HN_l);  //NOTE No need this for last_HN; The code itself assigns the last HN to last_HN.
-
-    cout << "detected hard_l : " << Ptr2Idx(hard_l,gens) << endl;
-    cout << "detected HN_l : " << Ptr2Idx(HN_l,gens) << endl;
-    cout << "detected W_l : " << Ptr2Idx(W_l,gens) << endl;
-    cout << "!!!!!!!!!!!!!hard_l charge : " << GetCharge(hard_l) << "!!!!!!!!!!!!!" << endl;
-    cout << "!!!!!!!!!!!!!HN_l charge : " << GetCharge(HN_l) << "!!!!!!!!!!!!!" << endl;
-    cout << "!!!!!!!!!!!!!W_l charge : " << GetCharge(W_l) << "!!!!!!!!!!!!!" << endl;
-
-    cout << "detected hard_partons : " << endl;
-    for(int i=0;i<hard_partons.size();i++) cout << Ptr2Idx(hard_partons.at(i),gens) << endl;
-    cout << "detected forward_parton : " << Ptr2Idx(forward_parton,gens) << endl;
-
-    cout << "N of Ws : " << hard_Ws.size() << endl;
-    if(hard_Ws.size()==1){
-      cout << "Which : ";
-        if(Ptr2Idx(hard_Ws.at(0),gens).Atoi()<Ptr2Idx(hard_HN,gens).Atoi()){
-          cout << "W1" << endl;
-        }else cout << "W2" << endl;
-      cout << "W : " << Ptr2Idx(hard_Ws.at(0),gens) << ", HN : " << Ptr2Idx(hard_HN,gens) << endl;
-      cout << "W eta : " << hard_Ws.at(0)->eta() << endl; //NOTE W eta extremely changes from hard_W to last_W
-    }
-
-    cout<<"  Idx  PID  sts mtr1 mtr2  dt1  dt2  hrdp"<<endl;
-    PrintGens(gens);
-
-    //clean the jets
-
-    vector<reco::GenJet*> jets_lepveto;
-    
-    for(int i=0;i<jets.size();i++){
-      bool HasLepton = false;
-      for(int j=0;j<leptons.size();j++){
-        if(deltaR(*jets.at(i),*leptons.at(j))<0.4){
-          HasLepton = true;
-          break;
+    vector<const reco::GenParticle*> hard_leptons;
+    for(int i=2;i<gens.size();i++){
+      if((20<=gens[i].status()&&gens[i].status()<=29)||(gens[i].pdgId()!=9900012&&gens[i].mother()->pdgId()==9900012)){
+        cout << i << "th particle id : " << gens[i].pdgId() << ", status : " << gens[i].status() << ", charge : " << GetCharge(&gens[i]) << ", isHardProcess : " << gens[i].isHardProcess() << endl;
+        if(abs(gens[i].pdgId())==11||abs(gens[i].pdgId())==13){
+          hard_leptons.push_back(&gens[i]);
         }
       }
-      if(HasLepton) continue;
-
-      jets_lepveto.push_back(jets.at(i));
-    }
-
-    cout << "N of jets : " << jets.size() << endl;
-    cout << "N of lepton vetoed jets : " << jets_lepveto.size() << endl;
-
-    vector<reco::GenJet*> fatjets_lepveto;
-    
-    for(int i=0;i<fatjets.size();i++){
-      bool HasLepton = false;
-      for(int j=0;j<leptons.size();j++){
-        if(deltaR(*fatjets.at(i),*leptons.at(j))<1.){
-          HasLepton = true;
-          break;
-        }
-      }
-      if(HasLepton) continue;
-
-      fatjets_lepveto.push_back(fatjets.at(i));
-    }
-
-    cout << "N of fatjets : " << fatjets.size() << endl;
-    cout << "N of lepton vetoed fatjets : " << fatjets_lepveto.size() << endl;
-
-    //pick up the (sub)leading jet : to inspect jet constituents
-    
-    reco::GenJet* leading_jet;
-    reco::GenJet* subleading_jet;
-
-    if(jets_lepveto.size()>0){
-
-      leading_jet = jets_lepveto.at(0);
-  
-      for(int i=0; i<jets_lepveto.size(); i++){
-        if(jets_lepveto.at(i)->pt()>leading_jet->pt()) leading_jet = jets_lepveto.at(i);
-      }
-      
-      subleading_jet = jets_lepveto.at(0);
-  
-      if(jets_lepveto.size()>1){
-        if(subleading_jet->pt()==leading_jet->pt()) subleading_jet = jets_lepveto.at(1);
-        for(int i=0; i<jets_lepveto.size(); i++){
-          if(jets_lepveto.at(i)->pt()>subleading_jet->pt()){
-            if(jets_lepveto.at(i)->pt()==leading_jet->pt()) continue;
-            else subleading_jet = jets_lepveto.at(i);
-          }
-        }
-      }
-
-      cout << "leading jet info" << endl << leading_jet->print() << endl;
-      cout << "subleading jet info" << endl << subleading_jet->print() << endl;
-
-    }
-
-    if(fatjets_lepveto.size()>0) cout << "fatjet info" << endl << fatjets_lepveto.at(0)->print() << endl;
-
-    if(leptons.size()!=2){
-      cout << "@@@@@@@@detected lepton number : " << leptons.size() << "@@@@@@@@" << endl;
-      for(int i=0; i<leptons.size(); i++) PrintGen(*leptons.at(i),gens);
-      PrintGens(gens);
     }
 
     int LepFlavor = 1;
-    for(int i=0; i<leptons.size(); i++){
-      LepFlavor *= abs(leptons.at(i)->pdgId());
+    for(int i=0; i<hard_leptons.size(); i++){
+      LepFlavor *= abs(hard_leptons.at(i)->pdgId());
     }
     if(LepFlavor != 143){
       cout << "This is NOT EMu...?" << endl;
     }
+
+    //cout<<"  Idx  PID  sts mtr1 mtr2  dt1  dt2  hrdp"<<endl;
+    //PrintGens(gens);
 
     ievent++;
   }
