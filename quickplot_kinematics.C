@@ -1,10 +1,10 @@
 void quickplot_kinematics(TString script, TString name1, TString name2, TString var, TString title, int xran1, int xran2, int yran, int rebin, TString SaveAs = "n"){
 
-  TString Pnt_filename = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_"+name1+".root";
+  TString Pnt_filename = "/data9/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_"+name1+".root";
   TFile* Pnt_file = new TFile(Pnt_filename);
   TH1D* Pnt_var = (TH1D*)Pnt_file->Get(var);
   
-  TString Bar_filename = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_"+name2+".root";
+  TString Bar_filename = "/data9/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_"+name2+".root";
   TFile* Bar_file = new TFile(Bar_filename);
   TH1D* Bar_var = (TH1D*)Bar_file->Get(var);
 

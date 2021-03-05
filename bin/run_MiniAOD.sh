@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "I am here:"
 pwd
-pushd /data8/Users/jihkim/GeneratorTools
+pushd /data9/Users/jihkim/GeneratorTools
 echo "cmssw setting..."
 source setup.sh
 if [ -z $CMSSW_VERSION ]

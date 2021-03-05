@@ -1,10 +1,10 @@
 void plot_kinematics(TString script, TString channel, TString var, TString title, int xran1, int xran2, int yran, int rebin, TString SaveAs = "n"){
 
-  TString LO_filename1 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M300_325100.root";
-  TString LO_filename2 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M600_325100.root";
-  TString LO_filename3 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M1000_325100.root";
-  //TString LO_filename4 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M1500_325100.root";
-  //TString LO_filename5 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M2000_325100.root";
+  TString LO_filename1 = "/data9/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M300_325100.root";
+  TString LO_filename2 = "/data9/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M600_325100.root";
+  TString LO_filename3 = "/data9/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M1000_325100.root";
+  //TString LO_filename4 = "/data9/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M1500_325100.root";
+  //TString LO_filename5 = "/data9/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_LO_MuMu_M2000_325100.root";
   TFile* LO_file1 = new TFile(LO_filename1);
   TFile* LO_file2 = new TFile(LO_filename2);
   TFile* LO_file3 = new TFile(LO_filename3);
@@ -16,11 +16,11 @@ void plot_kinematics(TString script, TString channel, TString var, TString title
   //TH1D* LO_var4 = (TH1D*)LO_file4->Get(var);
   //TH1D* LO_var5 = (TH1D*)LO_file5->Get(var);
   
-  TString NLO_filename1 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M300_325100.root";
-  TString NLO_filename2 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M600_325100.root";
-  TString NLO_filename3 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M1000_325100.root";
-  //TString NLO_filename4 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M1500_325100.root";
-  //TString NLO_filename5 = "/data8/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M2000_325100.root";
+  TString NLO_filename1 = "/data9/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M300_325100.root";
+  TString NLO_filename2 = "/data9/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M600_325100.root";
+  TString NLO_filename3 = "/data9/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M1000_325100.root";
+  //TString NLO_filename4 = "/data9/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M1500_325100.root";
+  //TString NLO_filename5 = "/data9/Users/jihkim/GeneratorTools/Hist/HNtype1_"+script+"_MG_HeavyMajoranaNeutrino_SSDiLepton_"+channel+"_NLO_MuMu_M2000_325100.root";
   TFile* NLO_file1 = new TFile(NLO_filename1);
   TFile* NLO_file2 = new TFile(NLO_filename2);
   TFile* NLO_file3 = new TFile(NLO_filename3);
